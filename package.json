@@ -13,6 +13,7 @@
     "@types/node": "^22.15.3",
     "@types/react-router-dom": "^5.3.3",
     "bootstrap": "^5.3.5",
+    "bootstrap-icons": "^1.11.3",
     "dotenv": "^16.5.0",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
