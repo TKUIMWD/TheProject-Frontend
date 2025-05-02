@@ -1,0 +1,16 @@
+.email-verify-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: none;
+}
+
+.email-verify-card {
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 2rem 1.5rem;
+    border: none;
+}
