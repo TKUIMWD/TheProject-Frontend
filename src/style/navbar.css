@@ -1,0 +1,5 @@
+#dropdown-user+.dropdown-menu {
+    min-width: 100px;
+    width: 120px;
+    padding: 0.25rem 0;
+}
