@@ -10,7 +10,7 @@ interface ForgotPasswordModalProps {
     handleShowLogin: () => void;
 }
 
-export default function ForgotPasswordModal({ show, onHide, handleShowLogin }: ForgotPasswordModalProps) {
+export default function ForgotPasswordModal({ show, onHide }: ForgotPasswordModalProps) {
     const [email, setEmail] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
