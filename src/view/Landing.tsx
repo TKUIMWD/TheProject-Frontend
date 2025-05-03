@@ -4,9 +4,8 @@ import { useState } from 'react';
 import LoginModal from '../component/modal/LoginModal';
 import RegisterModal from '../component/modal/RegisterModal';
 import { jwtDecode } from "jwt-decode";
-import { asyncPost } from "../utils/fetch";
-import { auth_api } from "../enum/api";
 import "../style/navbar.css";
+import logout from '../utils/logout';
 
 function LandingNavBar() {
     const [showLogin, setShowLogin] = useState(false);
@@ -28,21 +27,12 @@ function LandingNavBar() {
     const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
 
     const handleLogout = async () => {
-        const token = localStorage.getItem("token");
-        await asyncPost(
-            auth_api.logout,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-        localStorage.removeItem("token");
+        await logout({
+            setToastMessage,
+            setShowToast,
+        });
         setUsername(null);
-        setToastMessage("已成功登出");
         setToastBg("success");
-        setShowToast(true);
     };
 
     return (
