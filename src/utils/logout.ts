@@ -8,14 +8,17 @@ interface LogoutProps {
 
 export default async function logout({ setToastMessage, setShowToast }: LogoutProps) {
     const token = localStorage.getItem('token');
-    const response = await asyncPost(auth_api.logout, {}, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-    });
+    const response = await asyncPost(
+        auth_api.logout,
+        {},
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
 
     if (response.code === 200) {
-        setToastMessage('Logout succeed');
+        setToastMessage('已成功登出');
         localStorage.removeItem('token');
         setTimeout(() => {
             window.location.href = '/';
