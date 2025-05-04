@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { config } from 'dotenv'
-import { parse } from 'path'
 
 // https://vite.dev/config/
 config()

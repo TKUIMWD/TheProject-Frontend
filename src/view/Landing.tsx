@@ -6,6 +6,7 @@ import RegisterModal from '../component/modal/RegisterModal';
 import { jwtDecode } from "jwt-decode";
 import "../style/navbar.css";
 import logout from '../utils/logout';
+import '../style/button/login-register-btn.css';
 
 function LandingNavBar() {
     const [showLogin, setShowLogin] = useState(false);
@@ -57,10 +58,10 @@ function LandingNavBar() {
                             </Dropdown>
                         ) : (
                             <Button
-                                variant="outline-dark"
+                                className="login-register-btn"
                                 onClick={() => setShowLogin(true)}
                             >
-                                登入/註冊
+                                登入 | 註冊
                             </Button>
                         )}
                     </Nav>
