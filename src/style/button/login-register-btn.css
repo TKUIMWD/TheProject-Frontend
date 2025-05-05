@@ -1,30 +1,25 @@
 .login-register-btn {
-    background: #fff;
-    color: #229954 !important;
-    border: 2px solid #229954;
-    border-radius: 0.5rem;
-    font-weight: 400;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    box-shadow: none;
-    transition: background 0.18s, color 0.18s, border 0.18s;
-    outline: none;
+    background: transparent !important;
+    color: #222 !important;
+    border: none !important;
+    border-radius: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 2rem;
+    font-size: 1.08rem;
+    letter-spacing: 0.5px;
+    box-shadow: none !important;
+    transition: background 0.18s, color 0.18s;
+    outline: none !important;
 }
 
-.login-register-btn:hover, .login-register-btn:focus {
-    background: #229954;
-    color: #fff !important;
-    border-color: #229954;
-    box-shadow: none;
+.login-register-btn:hover,
+.login-register-btn:focus,
+.login-register-btn:active {
+    background: transparent !important;
+    color: #229954 !important;
+    border: none !important;
+    box-shadow: none !important;
     text-decoration: none;
     transform: none;
-}
-
-.login-register-btn:active {
-    background: #28b463;
-    color: #fff !important;
-    border-color: #28b463;
-    box-shadow: none;
-    transform: none;
+    outline: none !important;
 }
