@@ -96,3 +96,27 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+@media (max-width: 600px) {
+    .custom-carousel-caption {
+        font-size: 0.95rem;
+        padding: 0.7rem 0.8rem;
+        max-width: 92vw;
+        border-radius: 0.7rem;
+    }
+    .custom-carousel-caption h1 {
+        font-size: 1rem;
+    }
+    .custom-carousel-caption p {
+        font-size: 0.7rem;
+    }
+    /* 讓上下角落的 caption 更靠近中心 */
+    .custom-carousel-caption.bottom-left,
+    .custom-carousel-caption.bottom-right {
+        bottom: 12vh !important;
+    }
+    .custom-carousel-caption.top-left,
+    .custom-carousel-caption.top-right {
+        top: 12vh !important;
+    }
+}
