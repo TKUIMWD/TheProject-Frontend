@@ -2,8 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../style/navbar.css";
 import '../style/button/login-register-btn.css';
-import LandingNavBar from '../component/Landing/LandingNavBar';
-import LandingCarousel from '../component/Landing/LandingCarousel';
+import LandingNavBar from '../component/LandingPage/LandingNavBar';
+import LandingCarousel from '../component/LandingPage/LandingCarousel';
 
 
 export default function Landing() {
