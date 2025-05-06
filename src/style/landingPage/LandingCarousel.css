@@ -1,0 +1,98 @@
+.carousel-img-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    pointer-events: none;
+}
+
+.landing-carousel{
+    padding: 0%;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+/* 讓箭頭顯示在圖片上方 */
+.landing-carousel .carousel-control-prev,
+.landing-carousel .carousel-control-next {
+    z-index: 2;
+    width: 5%;
+}
+
+.landing-carousel .carousel-control-prev-icon,
+.landing-carousel .carousel-control-next-icon {
+    filter: drop-shadow(0 0 4px #0008);
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* 手機端調整比例 */
+@media (max-width: 768px) {
+    .carousel-img-wrapper {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+.custom-carousel-caption {
+    position: absolute;
+    color: #fff;
+    background: rgba(34, 34, 34, 0.3);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    max-width: 80vw;
+    z-index: 10;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 12px 0 #0005;
+}
+
+.custom-carousel-caption h1 {
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+    font-size: 3rem;
+}
+
+.custom-carousel-caption p {
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* 位置樣式 */
+.custom-carousel-caption.bottom-left {
+    left: 4vw;
+    bottom: 4vw;
+    text-align: left;
+}
+.custom-carousel-caption.bottom-right {
+    right: 4vw;
+    bottom: 4vw;
+    text-align: right;
+}
+.custom-carousel-caption.top-left {
+    left: 4vw;
+    top: 4vw;
+    text-align: left;
+}
+.custom-carousel-caption.top-right {
+    right: 4vw;
+    top: 4vw;
+    text-align: right;
+}
+.custom-carousel-caption.center {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
