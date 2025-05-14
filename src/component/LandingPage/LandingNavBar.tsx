@@ -50,6 +50,8 @@ export default function LandingNavBar() {
                                     Hi, {username}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
+                                    <Dropdown.Item >個人資訊</Dropdown.Item>
+                                    <Dropdown.Item >變更密碼</Dropdown.Item>
                                     <Dropdown.Item onClick={handleLogout}>登出</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
