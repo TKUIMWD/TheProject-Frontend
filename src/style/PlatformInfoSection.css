@@ -1,18 +1,16 @@
-/* 主區塊間距與背景 */
-.about-platform-section {
+.platform-info-section {
   padding: 48px 0 32px 0;
   background: #f8fafb;
 }
 
-/* 綠色長方塊區隔主標題 */
-.about-platform-title-bar {
+.platform-info-title-bar {
   width: 10px;
   height: 60px;
   background: #1ecb8b;
   border-radius: 4px;
 }
 
-.about-platform-title {
+.platform-info-title {
   font-size: 2.2rem;
   font-weight: 700;
   color: #222;
@@ -20,8 +18,7 @@
   letter-spacing: 1px;
 }
 
-/* 單一區塊排版（icon 右、描述左） */
-.about-platform-row {
+.platform-info-row {
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 2px 16px 0 rgba(30,203,139,0.08);
@@ -31,12 +28,11 @@
   transition: box-shadow 0.2s;
   flex-direction: row-reverse;
 }
-.about-platform-row:hover {
+.platform-info-row:hover {
   box-shadow: 0 4px 32px 0 rgba(30,203,139,0.16);
 }
 
-/* icon 圖片自適應 */
-.about-platform-img {
+.platform-info-img {
   max-width: 120px;
   width: 100%;
   height: auto;
@@ -45,8 +41,7 @@
   filter: drop-shadow(0 2px 8px rgba(30,203,139,0.10));
 }
 
-/* 標題與內容自適應 */
-.about-platform-block-title {
+.platform-info-block-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: #1ecb8b;
@@ -54,7 +49,7 @@
   letter-spacing: 0.5px;
 }
 
-.about-platform-block-desc {
+.platform-info-block-desc {
   font-size: 1.08rem;
   color: #333;
   line-height: 1.7;
@@ -62,8 +57,7 @@
   font-weight: 600;
 }
 
-/* 綠色長方形區隔（每個 title 左側） */
-.about-platform-block-bar {
+.platform-info-block-bar {
   width: 18px;
   height: 18px;
   background: #1ecb8b;
@@ -71,57 +65,56 @@
   display: inline-block;
 }
 
-/* 響應式設計優化：確保左描述右icon，內容大小可調整 */
 @media (max-width: 991px) {
-  .about-platform-row {
+  .platform-info-row {
     flex-direction: column-reverse !important;
     text-align: center;
     padding: 24px 10px;
   }
-  .about-platform-img {
+  .platform-info-img {
     max-width: 90px;
     margin-bottom: 12px;
   }
-  .about-platform-title {
+  .platform-info-title {
     font-size: 1.5rem;
   }
-  .about-platform-block-title {
+  .platform-info-block-title {
     font-size: 1.1rem;
   }
-  .about-platform-block-desc {
+  .platform-info-block-desc {
     font-size: 0.98rem;
   }
 }
 
 @media (max-width: 767px) {
-  .about-platform-row {
+  .platform-info-row {
     flex-direction: column-reverse !important;
     text-align: center;
     padding: 18px 4px;
   }
-  .about-platform-img {
+  .platform-info-img {
     max-width: 64px;
   }
-  .about-platform-block-title {
+  .platform-info-block-title {
     font-size: 1rem;
   }
-  .about-platform-block-desc {
+  .platform-info-block-desc {
     font-size: 0.92rem;
   }
 }
 
 @media (min-width: 992px) {
-  .about-platform-row {
+  .platform-info-row {
     flex-direction: row-reverse;
     text-align: left;
   }
-  .about-platform-block-title {
+  .platform-info-block-title {
     font-size: 1.5rem;
   }
-  .about-platform-block-desc {
+  .platform-info-block-desc {
     font-size: 1.08rem;
   }
-  .about-platform-img {
+  .platform-info-img {
     max-width: 120px;
   }
 }
