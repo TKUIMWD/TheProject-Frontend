@@ -12,10 +12,10 @@ interface CarouselImage {
 export default function LandingCarousel() {
     const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
 
-    const imgsDatajsonPatge = "/assets/json/LandingPageCarousel_Images.json";
+    const imgsDatajsonPath = "/assets/json/LandingPageCarousel_Images.json";
 
     useEffect(() => {
-        fetch(imgsDatajsonPatge)
+        fetch(imgsDatajsonPath)
             .then(res => res.json())
             .then(data => setCarouselImages(data))
             .catch(() => setCarouselImages([]));
