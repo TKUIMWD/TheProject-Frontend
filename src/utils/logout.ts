@@ -19,12 +19,12 @@ export default async function logout({ setToastMessage, setShowToast }: LogoutPr
 
     if (response.code === 200) {
         setToastMessage('已成功登出');
-        localStorage.removeItem('token');
-        setTimeout(() => {
-            window.location.href = '/';
-        }, 1000);
     } else {
         setToastMessage(response.message);
     }
+    localStorage.removeItem('token');
+    setTimeout(() => {
+        window.location.href = '/';
+    }, 1000);
     setShowToast(true);
 }
