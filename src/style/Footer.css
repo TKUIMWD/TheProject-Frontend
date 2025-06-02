@@ -1,0 +1,25 @@
+.footer-section {
+  background: #f8fafb;
+  color: #222;
+  font-size: 1rem;
+  border-top: 1px solid #1ecb8b33;
+}
+
+.footer-powered {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.footer-section a {
+  color: #1ecb8b;
+  text-decoration: none;
+  border-bottom: .5px solid transparent;
+  transition: color 0.2s, border-bottom 0.2s;
+}
+
+.footer-section a:hover,
+.footer-section a:focus {
+  color: #0e7c5b;
+  border-bottom: 1.5px solid #1ecb8b;
+  text-decoration: none;
+}
