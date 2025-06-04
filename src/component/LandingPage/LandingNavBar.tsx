@@ -4,6 +4,7 @@ import { Navbar, Container, Nav, Dropdown, Button, ToastContainer, Toast } from 
 import logout from "../../utils/logout";
 import LoginModal from "../modal/LoginModal";
 import RegisterModal from "../modal/RegisterModal";
+import { LandingSectionId } from '../../view/Landing';
 
 export default function LandingNavBar() {
     const [showLogin, setShowLogin] = useState(false);
@@ -42,9 +43,9 @@ export default function LandingNavBar() {
                     <Navbar.Collapse id="main-navbar-nav">
                         <div className="w-100 d-flex justify-content-center">
                             <Nav className="my-2 my-lg-0">
-                                <Nav.Link href="#about" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}>關於平台</Nav.Link>
-                                <Nav.Link href="#features" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>平台特色</Nav.Link>
-                                <Nav.Link href="#courses-intro" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('courses-intro')?.scrollIntoView({ behavior: 'smooth' }); }}>課程介紹</Nav.Link>
+                                <Nav.Link href={`#${LandingSectionId.About}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.About)?.scrollIntoView({ behavior: 'smooth' }); }}>關於平台</Nav.Link>
+                                <Nav.Link href={`#${LandingSectionId.Features}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.Features)?.scrollIntoView({ behavior: 'smooth' }); }}>平台特色</Nav.Link>
+                                <Nav.Link href={`#${LandingSectionId.CoursesIntro}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.CoursesIntro)?.scrollIntoView({ behavior: 'smooth' }); }}>課程介紹</Nav.Link>
                             </Nav>
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">

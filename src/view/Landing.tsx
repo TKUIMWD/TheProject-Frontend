@@ -8,6 +8,12 @@ import AboutThePlatform from '../component/LandingPage/AboutThePlatform';
 import ThePlatformFeature from '../component/LandingPage/ThePlatformFeature';
 import Footer from '../component/Footer';
 
+export enum LandingSectionId {
+    About = "about",
+    Features = "features",
+    CoursesIntro = "courses-intro"
+}
+
 export default function Landing() {
     return (
         <Container fluid className="bg-light text-dark">
@@ -15,10 +21,10 @@ export default function Landing() {
                 <Col>
                     <LandingNavBar />
                     <LandingCarousel />
-                    <div id="about">
+                    <div id={LandingSectionId.About}>
                         <AboutThePlatform />
                     </div>
-                    <div id="features">
+                    <div id={LandingSectionId.Features}>
                         <ThePlatformFeature/>
                     </div>
                     <Footer />
