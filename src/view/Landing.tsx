@@ -16,15 +16,15 @@ export enum LandingSectionId {
 
 export default function Landing() {
     return (
-        <Container fluid className="bg-light text-dark">
+        <Container fluid className="bg-light text-dark px-0">
             <Row>
                 <Col>
                     <LandingNavBar />
                     <LandingCarousel />
-                    <div id={LandingSectionId.About}>
+                    <div id={LandingSectionId.About} style={{ scrollMarginTop: 70 }}>
                         <AboutThePlatform />
                     </div>
-                    <div id={LandingSectionId.Features}>
+                    <div id={LandingSectionId.Features} style={{ scrollMarginTop: 70 }}>
                         <ThePlatformFeature/>
                     </div>
                     <Footer />

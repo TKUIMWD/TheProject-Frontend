@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Container} from "react-bootstrap";
 import { useEffect, useState } from "react";
 import "../../style/landingPage/ThePlatformFeature.css";
 

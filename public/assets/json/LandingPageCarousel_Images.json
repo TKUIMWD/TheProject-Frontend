@@ -16,5 +16,14 @@
             "高效學習、練習、測試資訊安全技能"
         ],
         "captionPosition": "bottom-left"
+    },
+    {
+        "src": "src/assets/images/LandingPage/About/img2.jpeg",
+        "title": "虛擬機資源管理",
+        "description": [
+            "提供虛擬機資源的監控與管理功能",
+            "確保資源的有效利用與分配"
+        ],
+        "captionPosition": "top-left"
     }
 ]

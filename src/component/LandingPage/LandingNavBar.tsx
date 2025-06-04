@@ -1,10 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
-import { Navbar, Container, Nav, Dropdown, Button, ToastContainer, Toast } from "react-bootstrap";
+import { Navbar, Container, Nav, Dropdown, Button, ToastContainer, Toast, NavDropdown } from "react-bootstrap";
 import logout from "../../utils/logout";
 import LoginModal from "../modal/LoginModal";
 import RegisterModal from "../modal/RegisterModal";
 import { LandingSectionId } from '../../view/Landing';
+import "../../style/navbar.css";
 
 export default function LandingNavBar() {
     const [showLogin, setShowLogin] = useState(false);
@@ -36,7 +37,7 @@ export default function LandingNavBar() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect>
+            <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect sticky="top">
                 <Container>
                     <Navbar.Brand className="me-auto">The Project</Navbar.Brand>
                     <Navbar.Toggle aria-controls="main-navbar-nav" />
@@ -50,20 +51,16 @@ export default function LandingNavBar() {
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">
                             {username ? (
-                                <Dropdown align="end">
-                                    <Dropdown.Toggle
-                                        variant="link"
-                                        id="dropdown-user"
-                                        className="p-0 fw-bold text-dark border-0 shadow-none user-dropdown-toggle"
-                                    >
-                                        Hi, {username}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item >個人資訊</Dropdown.Item>
-                                        <Dropdown.Item >變更密碼</Dropdown.Item>
-                                        <Dropdown.Item onClick={handleLogout}>登出</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                <NavDropdown
+                                    title={`Hi, ${username}`}
+                                    id="nav-dropdown-user"
+                                    align="end"
+                                    className="user-dropdown-toggle fw-bold text-dark"
+                                >
+                                    <NavDropdown.Item>個人資訊</NavDropdown.Item>
+                                    <NavDropdown.Item>變更密碼</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
+                                </NavDropdown>
                             ) : (
                                 <div className="login-register-btn-group">
                                     <Button
