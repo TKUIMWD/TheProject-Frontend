@@ -14,7 +14,9 @@ export default function Landing() {
                 <Col>
                     <LandingNavBar />
                     <LandingCarousel />
-                    <AboutThePlatform />
+                    <div id="about">
+                        <AboutThePlatform />
+                    </div>
                     <Footer />
                 </Col>
             </Row>

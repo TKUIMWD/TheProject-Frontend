@@ -1,25 +1,50 @@
+.login-register-btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
 .login-register-btn {
-    background: transparent !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff !important;
     color: #222 !important;
     border: none !important;
-    border-radius: 1rem;
     font-weight: 600;
-    padding: 0.5rem 2rem;
-    font-size: 1.08rem;
+    font-size: 1rem;
     letter-spacing: 0.5px;
-    box-shadow: none !important;
-    transition: background 0.18s, color 0.18s;
+    box-shadow: 2px 4px 10px 2px rgba(60, 60, 60, 0.10) !important;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
     outline: none !important;
+    min-width: 90px;
 }
 
 .login-register-btn:hover,
 .login-register-btn:focus,
 .login-register-btn:active {
-    background: transparent !important;
+    background: #f8fafb !important;
     color: #229954 !important;
-    border: none !important;
-    box-shadow: none !important;
+    box-shadow: 2px 4px 16px 2px rgba(60, 60, 60, 0.18) !important;
     text-decoration: none;
-    transform: none;
     outline: none !important;
+}
+
+.login-register-btn.register {
+    background: #28A745 !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 2px 4px 10px 2px rgba(60, 60, 60, 0.10) !important;
+}
+
+.login-register-btn.register:hover,
+.login-register-btn.register:focus,
+.login-register-btn.register:active {
+    background: #229954 !important;
+    color: #fff !important;
+    box-shadow: 2px 4px 16px 2px rgba(60, 60, 60, 0.18) !important;
 }

@@ -35,35 +35,52 @@ export default function LandingNavBar() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect>
                 <Container>
-                    <Navbar.Brand>The Project</Navbar.Brand>
-                    <Nav className="ms-auto">
-                        {username ? (
-                            <Dropdown align="end">
-                                <Dropdown.Toggle
-                                    variant="link"
-                                    id="dropdown-user"
-                                    className="p-0 fw-bold text-dark border-0 shadow-none"
-                                    style={{ boxShadow: "none", fontSize: "1rem" }}
-                                >
-                                    Hi, {username}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item >個人資訊</Dropdown.Item>
-                                    <Dropdown.Item >變更密碼</Dropdown.Item>
-                                    <Dropdown.Item onClick={handleLogout}>登出</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        ) : (
-                            <Button
-                                className="login-register-btn"
-                                onClick={() => setShowLogin(true)}
-                            >
-                                登入 | 註冊
-                            </Button>
-                        )}
-                    </Nav>
+                    <Navbar.Brand className="me-auto">The Project</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="main-navbar-nav" />
+                    <Navbar.Collapse id="main-navbar-nav">
+                        <div className="w-100 d-flex justify-content-center">
+                            <Nav className="my-2 my-lg-0">
+                                <Nav.Link href="#about" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}>關於平台</Nav.Link>
+                                <Nav.Link href="#features" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>平台特色</Nav.Link>
+                                <Nav.Link href="#courses-intro" className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById('courses-intro')?.scrollIntoView({ behavior: 'smooth' }); }}>課程介紹</Nav.Link>
+                            </Nav>
+                        </div>
+                        <Nav className="ms-lg-auto mt-2 mt-lg-0">
+                            {username ? (
+                                <Dropdown align="end">
+                                    <Dropdown.Toggle
+                                        variant="link"
+                                        id="dropdown-user"
+                                        className="p-0 fw-bold text-dark border-0 shadow-none user-dropdown-toggle"
+                                    >
+                                        Hi, {username}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item >個人資訊</Dropdown.Item>
+                                        <Dropdown.Item >變更密碼</Dropdown.Item>
+                                        <Dropdown.Item onClick={handleLogout}>登出</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            ) : (
+                                <div className="login-register-btn-group">
+                                    <Button
+                                        className="login-register-btn me-2"
+                                        onClick={() => setShowLogin(true)}
+                                    >
+                                        登入
+                                    </Button>
+                                    <Button
+                                        className="login-register-btn register"
+                                        onClick={() => setShowRegister(true)}
+                                    >
+                                        註冊
+                                    </Button>
+                                </div>
+                            )}
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
             <LoginModal
