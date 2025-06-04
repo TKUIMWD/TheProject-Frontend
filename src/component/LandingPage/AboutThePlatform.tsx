@@ -20,7 +20,7 @@ export default function AboutThePlatform() {
     }, []);
 
     return (
-        <Container className="my-5 platform-info-container">
+        <Container id="about" className="my-5 platform-info-container">
             <div className="platform-info-title-row d-flex align-items-center mb-5">
                 <div className="platform-info-title-bar me-3"></div>
                 <h1 className="platform-info-title mb-0">關於平台</h1>
