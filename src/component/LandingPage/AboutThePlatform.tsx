@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import "../../style/PlatformInfoSection.css";
+import "../../style/landingPage/PlatformInfoSection.css";
 
 interface AboutThePlatformImage {
     src: string;
