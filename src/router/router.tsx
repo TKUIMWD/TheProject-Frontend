@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import Landing from "../view/Landing";
 import EmailVerify from "../view/EmailVerify";
 import UpdateForgotPassword from "../view/UpdateForgotPassword";
+import Dashboard from "../view/Dashboard";
 
 
 export const router = createBrowserRouter([
@@ -17,4 +18,8 @@ export const router = createBrowserRouter([
         path: 'forgotPassword',
         element: <UpdateForgotPassword />,
     },
+    {
+        path: '/dashboard',
+        element: <Dashboard />
+    }
 ]);

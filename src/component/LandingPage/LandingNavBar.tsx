@@ -1,11 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
-import { Navbar, Container, Nav, Dropdown, Button, ToastContainer, Toast, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, Button, ToastContainer, Toast, NavDropdown } from "react-bootstrap";
 import logout from "../../utils/logout";
 import LoginModal from "../modal/LoginModal";
 import RegisterModal from "../modal/RegisterModal";
 import { LandingSectionId } from '../../view/Landing';
 import "../../style/navbar.css";
+import { NavLink } from "react-router-dom";
 
 export default function LandingNavBar() {
     const [showLogin, setShowLogin] = useState(false);
@@ -51,16 +52,21 @@ export default function LandingNavBar() {
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">
                             {username ? (
-                                <NavDropdown
-                                    title={`Hi, ${username}`}
+                                // <NavDropdown
+                                //     title={`Hi, ${username}`}
+                                //     id="nav-dropdown-user"
+                                //     align="end"
+                                //     className="user-dropdown-toggle fw-bold text-dark"
+                                // >
+                                //     <NavDropdown.Item>個人資訊</NavDropdown.Item>
+                                //     <NavDropdown.Item>變更密碼</NavDropdown.Item>
+                                //     <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
+                                // </NavDropdown>
+                                <NavLink to="/dashboard" end
                                     id="nav-dropdown-user"
-                                    align="end"
-                                    className="user-dropdown-toggle fw-bold text-dark"
                                 >
-                                    <NavDropdown.Item>個人資訊</NavDropdown.Item>
-                                    <NavDropdown.Item>變更密碼</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
-                                </NavDropdown>
+                                    {`Hi, ${username}`}
+                                </NavLink>
                             ) : (
                                 <div className="login-register-btn-group">
                                     <Button

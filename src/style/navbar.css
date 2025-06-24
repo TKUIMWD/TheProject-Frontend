@@ -4,10 +4,19 @@
     padding: 0.25rem 0;
 }
 
-#nav-dropdown-user.dropdown-toggle:hover,
-#nav-dropdown-user.dropdown-toggle:focus {
-    color: #65B57B;
+#nav-dropdown-user{
+    color: #1ecb8b;
+    text-decoration: none;
+    font-weight: bold;
+    width: 100px;
 }
+
+#nav-dropdown-user:hover,
+#nav-dropdown-user:focus{
+    color: rgba(101, 181, 124, 0.574)
+}
+
+
 
 
 .navbar-nav .nav-link:hover,

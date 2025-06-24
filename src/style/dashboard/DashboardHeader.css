@@ -1,0 +1,19 @@
+.dashboard-container{
+    padding: 3rem;
+}
+
+.dashboard-green-area {
+    background-color: green;
+    height: 2rem;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.dashboard-header{
+    padding: 1rem;
+    background-color: #B5B2B2;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
