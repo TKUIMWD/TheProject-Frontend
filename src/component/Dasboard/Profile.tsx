@@ -38,7 +38,6 @@ export default function Profile() {
 
             if (response.code === 400) {
                 if (response.message === "invalid token") {
-                    // token expired or invalid, redirect to login
                     handleToast("登入已過期，請重新登入", "danger");
                     return;
                 } else if (response.message.startsWith("missing required fields:")) {

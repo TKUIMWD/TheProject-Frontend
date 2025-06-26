@@ -1,8 +1,8 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import '../../style/dashboard/DashboardHeader.css';
 import { useEffect, useRef, useState } from 'react';
 import { user_api } from '../../enum/api';
 import { asyncGet } from '../../utils/fetch';
+import '../../style/dashboard/DashboardHeader.css';
 
 
 export default function DashboardHeader() {
