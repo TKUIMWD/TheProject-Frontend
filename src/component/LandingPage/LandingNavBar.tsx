@@ -52,21 +52,20 @@ export default function LandingNavBar() {
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">
                             {username ? (
-                                // <NavDropdown
-                                //     title={`Hi, ${username}`}
-                                //     id="nav-dropdown-user"
-                                //     align="end"
-                                //     className="user-dropdown-toggle fw-bold text-dark"
-                                // >
-                                //     <NavDropdown.Item>個人資訊</NavDropdown.Item>
-                                //     <NavDropdown.Item>變更密碼</NavDropdown.Item>
-                                //     <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
-                                // </NavDropdown>
-                                <NavLink to="/dashboard" end
+                                <NavDropdown
+                                    title={`Hi, ${username}`}
                                     id="nav-dropdown-user"
+                                    align="end"
+                                    className="user-dropdown-toggle fw-bold text-dark"
                                 >
-                                    {`Hi, ${username}`}
-                                </NavLink>
+                                    <NavDropdown.Item >
+                                        <NavLink className="nav-dropdown-item" to="/dashboard" end>
+                                            Dashboard
+                                        </NavLink>
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
+                                </NavDropdown>
+
                             ) : (
                                 <div className="login-register-btn-group">
                                     <Button

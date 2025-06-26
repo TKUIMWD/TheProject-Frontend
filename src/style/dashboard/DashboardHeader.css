@@ -1,5 +1,11 @@
 .dashboard-container{
-    padding: 3rem;
+    padding: 2rem;
+    padding-bottom: 1.5rem;
+    gap: 2rem;
+}
+
+.dashboard-container > .row + .row {
+    margin-top: 1.5rem;
 }
 
 .dashboard-green-area {
@@ -11,7 +17,7 @@
 }
 
 .dashboard-header{
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #B5B2B2;
     border-radius: 10px;
     border-top-left-radius: 0px;
