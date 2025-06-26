@@ -40,7 +40,7 @@ export default function LandingNavBar() {
         <>
             <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect sticky="top">
                 <Container>
-                    <Navbar.Brand className="me-auto">The Project</Navbar.Brand>
+                    <Navbar.Brand as={NavLink} to="/" className="me-auto">The Project</Navbar.Brand>
                     <Navbar.Toggle aria-controls="main-navbar-nav" />
                     <Navbar.Collapse id="main-navbar-nav">
                         <div className="w-100 d-flex justify-content-center">

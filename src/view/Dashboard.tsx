@@ -11,9 +11,9 @@ export default function Dashboard() {
     const [activeKey, setActiveKey] = useState("Profile");
 
     return (
-        <>
+        <div className="d-flex flex-column min-vh-100">
             <LandingNavBar />
-            <Container className="dashboard-container">
+            <Container className="dashboard-container flex-grow-1">
                 <Row>
                     <Col lg={12}>
                         <DashboardHeader />
@@ -33,7 +33,6 @@ export default function Dashboard() {
                 </Row>
             </Container>
             <Footer />
-        </>
+        </div>
     );
-
 }
