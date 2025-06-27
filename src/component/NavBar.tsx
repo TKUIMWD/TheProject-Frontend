@@ -1,14 +1,13 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { Navbar, Container, Nav, Button, ToastContainer, Toast, NavDropdown } from "react-bootstrap";
-import logout from "../../utils/logout";
-import LoginModal from "../modal/LoginModal";
-import RegisterModal from "../modal/RegisterModal";
-import { LandingSectionId } from '../../view/Landing';
-import "../../style/navbar.css";
+import logout from "../utils/logout";
+import LoginModal from "./modal/LoginModal";
+import RegisterModal from "./modal/RegisterModal";
+import "../style/navbar.css";
 import { NavLink } from "react-router-dom";
 
-export default function LandingNavBar() {
+export default function NavBar() {
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [username, setUsername] = useState<string | null>(() => {
@@ -40,14 +39,14 @@ export default function LandingNavBar() {
         <>
             <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect sticky="top">
                 <Container>
-                    <Navbar.Brand className="me-auto">The Project</Navbar.Brand>
+                    <Navbar.Brand className="me-auto brand-text"><span className="brand-text-primary">The</span> Project</Navbar.Brand>
                     <Navbar.Toggle aria-controls="main-navbar-nav" />
                     <Navbar.Collapse id="main-navbar-nav">
                         <div className="w-100 d-flex justify-content-center">
                             <Nav className="my-2 my-lg-0">
-                                <Nav.Link href={`#${LandingSectionId.About}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.About)?.scrollIntoView({ behavior: 'smooth' }); }}>關於平台</Nav.Link>
-                                <Nav.Link href={`#${LandingSectionId.Features}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.Features)?.scrollIntoView({ behavior: 'smooth' }); }}>平台特色</Nav.Link>
-                                <Nav.Link href={`#${LandingSectionId.CoursesIntro}`} className="fw-bold" onClick={e => { e.preventDefault(); document.getElementById(LandingSectionId.CoursesIntro)?.scrollIntoView({ behavior: 'smooth' }); }}>課程介紹</Nav.Link>
+                                <Nav.Link href="/" className="fw-bold">平台首頁</Nav.Link>
+                                <Nav.Link href="/" className="fw-bold">機器範本</Nav.Link>
+                                <Nav.Link href="/" className="fw-bold">課程資源</Nav.Link>
                             </Nav>
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">

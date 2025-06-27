@@ -5,17 +5,25 @@
 }
 
 #nav-dropdown-user {
-    color: #1ecb8b;
     font-weight: bold;
-
 }
 
-#nav-dropdown-user:hover {
-    color: rgba(101, 181, 124, 0.574)
+#nav-dropdown-user:hover,
+#nav-dropdown-user:focus {
+    color: green;
 }
 
 .nav-dropdown-item {
     color: black !important;
     text-decoration: none;
     font-weight: 500;
+}
+
+.brand-text-primary {
+    color: green;
+}
+
+.brand-text {
+    font-size: x-large;
+    font-weight: bold;
 }

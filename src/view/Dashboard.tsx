@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import LandingNavBar from "../component/LandingPage/LandingNavBar";
+import NavBar from "../component/NavBar";
 import DashboardHeader from "../component/Dasboard/DashboardHeader";
 import DashboardMenu from "../component/Dasboard/DashboardMenu";
 import Profile from "../component/Dasboard/Profile";
@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <LandingNavBar />
+            <NavBar />
             <Container className="dashboard-container">
                 <Row>
                     <Col lg={12}>

@@ -2,7 +2,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../style/navbar.css";
 import '../style/button/login-register-btn.css';
-import LandingNavBar from '../component/LandingPage/LandingNavBar';
+import NavBar from '../component/NavBar';
 import LandingCarousel from '../component/LandingPage/LandingCarousel';
 import AboutThePlatform from '../component/LandingPage/AboutThePlatform';
 import ThePlatformFeature from '../component/LandingPage/ThePlatformFeature';
@@ -19,7 +19,7 @@ export default function Landing() {
         <Container fluid className="bg-light text-dark px-0">
             <Row>
                 <Col>
-                    <LandingNavBar />
+                    <NavBar />
                     <LandingCarousel />
                     <div id={LandingSectionId.About} style={{ scrollMarginTop: 70 }}>
                         <AboutThePlatform />
