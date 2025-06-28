@@ -10,4 +10,6 @@ export interface UserApiEndpoints {
     getProfile: string;
     updateProfile: string;
     changePassword: string;
+    uploadAvatar: string;
+    deleteAvatar: string;
 }
