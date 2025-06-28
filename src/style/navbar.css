@@ -3,3 +3,19 @@
     width: 120px;
     padding: 0.25rem 0;
 }
+
+#nav-dropdown-user {
+    color: #1ecb8b;
+    font-weight: bold;
+
+}
+
+#nav-dropdown-user:hover {
+    color: rgba(101, 181, 124, 0.574)
+}
+
+.nav-dropdown-item {
+    color: black !important;
+    text-decoration: none;
+    font-weight: 500;
+}

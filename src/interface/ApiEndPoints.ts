@@ -5,3 +5,9 @@ export interface AuthApiEndpoints {
     verify: string;
     forgotPassword: string;
 }
+
+export interface UserApiEndpoints {
+    getProfile: string;
+    updateProfile: string;
+    changePassword: string;
+}

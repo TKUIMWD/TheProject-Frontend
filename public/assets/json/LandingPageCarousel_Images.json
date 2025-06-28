@@ -1,6 +1,6 @@
 [
     {
-        "src": "src/assets/images/LandingPage/img0.jpeg",
+        "src": "src/assets/images/LandingPage/About/img0.jpeg",
         "title": "虛擬機管理與建置",
         "description": [
             "提供易於管理的虛擬機建置與管理介面",
@@ -9,12 +9,21 @@
         "captionPosition": "top-left"
     },
     {
-        "src": "src/assets/images/LandingPage/img1.jpeg",
+        "src": "src/assets/images/LandingPage/About/img1.jpeg",
         "title": "資訊安全課程資源",
         "description": [
             "支援客製化使用者所需的課程和演練虛擬機",
             "高效學習、練習、測試資訊安全技能"
         ],
         "captionPosition": "bottom-left"
+    },
+    {
+        "src": "src/assets/images/LandingPage/About/img2.jpeg",
+        "title": "虛擬機資源管理",
+        "description": [
+            "提供虛擬機資源的監控與管理功能",
+            "確保資源的有效利用與分配"
+        ],
+        "captionPosition": "top-left"
     }
 ]

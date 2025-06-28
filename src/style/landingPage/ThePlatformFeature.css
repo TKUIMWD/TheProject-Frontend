@@ -1,0 +1,49 @@
+.platform-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    justify-items: center;
+    align-items: stretch;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 2rem auto;
+}
+
+.platform-feature-card {
+    width: 100%;
+    max-width: 24rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 32px 0 rgba(30,203,139,0.08);
+}
+
+.platform-feature-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.platform-feature-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.platform-feature-description {
+    font-size: 1rem;
+    color: #666;
+    margin-left: 0.5rem;
+    line-height: 1.5;
+}
+
+.platform-feature-card:hover {
+    box-shadow: 0 4px 32px 0 rgba(30,203,139,0.16);
+}
+
+@media (max-width: 768px) {
+    .platform-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
