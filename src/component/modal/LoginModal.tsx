@@ -49,7 +49,6 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
             setTimeout(() => {
                 setShowToast(false);
                 onHide();
-                navigate('/dashboard');
             }, 1000);
         } else {
             setToastMessage(response.message || '登入失敗');
