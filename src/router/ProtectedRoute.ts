@@ -5,7 +5,7 @@ import AuthStatus from '../type/AuthStatus';
 
 interface ProtectedRouteProps {
     children: ReactElement;
-    allowedRoles: AuthStatus
+    allowedRoles: AuthStatus[]
 }
 
 export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
