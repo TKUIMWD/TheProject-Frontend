@@ -34,7 +34,6 @@ export default function Dashboard() {
                 </Row>
             </Container>
             <Footer />
-        </>
+        </div>
     );
-
 }

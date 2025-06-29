@@ -16,4 +16,6 @@ export const user_api: UserApiEndpoints = {
     getProfile: `${user_api_base}/getProfile`,
     updateProfile: `${user_api_base}/updateProfile`,
     changePassword: `${user_api_base}/changePassword`,
+    uploadAvatar: `${user_api_base}/uploadAvatar`,
+    deleteAvatar: `${user_api_base}/deleteAvatar`,
 };

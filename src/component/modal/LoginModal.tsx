@@ -1,6 +1,7 @@
 import { Modal, Button, Form, Toast, ToastContainer, InputGroup } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth_api } from "../../enum/api";
 import { asyncPost } from "../../utils/fetch";
 import { jwtDecode } from "jwt-decode";
@@ -10,11 +11,12 @@ interface LoginModalProps {
     show: boolean;
     onHide: () => void;
     handleShowRegister: () => void;
-    onLoginSuccess?: (username: string) => void;
+    onLoginSuccess?: (user: string) => void;
 }
 
 export default function LoginModal({ show, onHide, handleShowRegister, onLoginSuccess }: LoginModalProps) {
-    const [username, setUsername] = useState('');
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -26,7 +28,7 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
         e.preventDefault();
 
         const response = await asyncPost(auth_api.login, {
-            username,
+            email,
             password,
         });
 
@@ -40,7 +42,7 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
             setToastMessage('登入成功');
             setToastBg('success');
             setShowToast(true);
-            setUsername('');
+            setEmail('');
             setPassword('');
             setShowPassword(false);
             if (onLoginSuccess) onLoginSuccess(uname);
@@ -67,14 +69,14 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
                 <Modal.Body>
                     <Form onSubmit={handleLogin}>
                         <Form.Group className="mb-5" controlId="loginEmail">
-                            <i className="bi bi-person me-2"></i>
-                            <Form.Label>用戶名稱</Form.Label>
+                            <i className="bi bi-envelope me-2"></i>
+                            <Form.Label>電子郵件</Form.Label>
                             <Form.Control
-                                type="text"
-                                placeholder="請輸入用戶名稱"
+                                type="email"
+                                placeholder="請輸入電子郵件"
                                 autoFocus
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
                                 required
                             />
                         </Form.Group>
