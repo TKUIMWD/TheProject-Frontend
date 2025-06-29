@@ -32,8 +32,8 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                 <ListGroup.Item
                     className="dashboard-menu-item"
                     action
-                    active={activeKey === "Courses"}
-                    onClick={() => setActiveKey("Courses")}
+                    active={activeKey === "MyCourses"}
+                    onClick={() => setActiveKey("MyCourses")}
                 >
                     我的課程
                 </ListGroup.Item>
@@ -41,8 +41,8 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                 <ListGroup.Item
                     className="dashboard-menu-item"
                     action
-                    active={activeKey === "Machines"}
-                    onClick={() => setActiveKey("Machines")}
+                    active={activeKey === "MyMachines"}
+                    onClick={() => setActiveKey("MyMachines")}
                 >
                     我的機器
                 </ListGroup.Item>
@@ -50,8 +50,8 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                 <ListGroup.Item
                     className="dashboard-menu-item"
                     action
-                    active={activeKey === "Subscription"}
-                    onClick={() => setActiveKey("Subscription")}
+                    active={activeKey === "MySubscriptions"}
+                    onClick={() => setActiveKey("MySubscriptions")}
                 >
                     訂閱資訊
                 </ListGroup.Item>
