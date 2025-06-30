@@ -12,4 +12,5 @@ export interface UserApiEndpoints {
     changePassword: string;
     uploadAvatar: string;
     deleteAvatar: string;
+    getUserCourses: string;
 }

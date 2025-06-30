@@ -18,4 +18,5 @@ export const user_api: UserApiEndpoints = {
     changePassword: `${user_api_base}/changePassword`,
     uploadAvatar: `${user_api_base}/uploadAvatar`,
     deleteAvatar: `${user_api_base}/deleteAvatar`,
+    getUserCourses: `${user_api_base}/getUserCourses`
 };

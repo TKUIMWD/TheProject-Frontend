@@ -2,3 +2,65 @@
     width: 100px;
     border-radius: 10px;
 }
+
+.my-courses-container {
+    position: relative;
+    min-height: 80vh; 
+    padding-bottom: 80px;
+}
+
+.pagination-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #45a049 !important;
+    border-color: #45a049 !important;
+    color: white !important;
+}
+
+.pagination .page-item .page-link:focus {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25) !important;
+}
+
+.my-courses-container .pagination .page-item.active .page-link,
+.my-courses-container .pagination .page-item.active .page-link:focus,
+.my-courses-container .pagination .page-item.active .page-link:hover {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.my-courses-container .pagination .page-item:not(.active) .page-link {
+    color: #4CAF50 !important;
+    border-color: #dee2e6 !important;
+    background-color: white !important;
+}
+
+.my-courses-container .pagination .page-item:not(.active) .page-link:hover {
+    background-color: #f8f9fa !important;
+    border-color: #4CAF50 !important;
+    color: #45a049 !important;
+}
+
+.my-courses-container .pagination .page-item.disabled .page-link {
+    color: #6c757d !important;
+    background-color: white !important;
+    border-color: #dee2e6 !important;
+}
