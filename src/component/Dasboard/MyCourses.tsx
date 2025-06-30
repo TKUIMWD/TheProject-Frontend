@@ -155,9 +155,9 @@ export default function MyCourses() {
                         <th>教師</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {currentItems.map(course => (
-                        <tr>
+                <tbody >
+                    {currentItems.map((course) => (
+                        <tr className="align-middle">
                             <td className="text-start">
                                 <Container className="course-info">
                                     <Row>
