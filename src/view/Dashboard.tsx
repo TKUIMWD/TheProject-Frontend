@@ -34,6 +34,6 @@ export default function Dashboard() {
                 </Row>
             </Container>
             <Footer />
-q         </>
+        </>
     );
 }
