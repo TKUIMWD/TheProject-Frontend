@@ -1,0 +1,15 @@
+.submitter-info {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 響應式設計 */
+@media (max-width: 991.98px) {
+    .submitter-info {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+}

@@ -1,4 +1,5 @@
 export interface CourseInfo {
+    _id: string,
     course_name: string,
     duration_in_minutes: number,
     difficulty: string,

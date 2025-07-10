@@ -1,0 +1,35 @@
+.course-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.course-main-section {
+    padding: 2rem 1rem;
+    margin: 0;
+}
+
+.course-left-section {
+    padding-right: 2rem;
+}
+
+.course-right-section {
+    padding-left: 1rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 991.98px) {
+    .course-left-section,
+    .course-right-section {
+        padding: 0 1rem;
+    }
+    
+    .course-main-section {
+        padding: 1rem;
+    }
+    
+    .sticky-sidebar {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+    }
+}

@@ -14,3 +14,7 @@ export interface UserApiEndpoints {
     deleteAvatar: string;
     getUserCourses: string;
 }
+
+export interface CourseApiEndpoints {
+    getCoursePage: string;
+}

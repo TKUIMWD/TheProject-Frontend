@@ -1,3 +1,9 @@
+.course-info {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
 .course-image {
     width: 100px;
     border-radius: 10px;
@@ -63,4 +69,14 @@
     color: #6c757d !important;
     background-color: white !important;
     border-color: #dee2e6 !important;
+}
+
+/* 讓課程列看起來可以點擊 */
+.course-row {
+    cursor: pointer;
+    align-items: center;
+}
+
+.course-row:hover {
+    background-color: #f8f9fa !important; /* 使用 !important 確保覆蓋 Bootstrap 的樣式 */
 }

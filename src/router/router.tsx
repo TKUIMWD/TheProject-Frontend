@@ -4,6 +4,7 @@ import EmailVerify from "../view/EmailVerify";
 import UpdateForgotPassword from "../view/UpdateForgotPassword";
 import Dashboard from "../view/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
+import Course from "../view/Course";
 
 
 export const router = createBrowserRouter([
@@ -24,6 +25,14 @@ export const router = createBrowserRouter([
         element: (
             <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
                 <Dashboard />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path:'/course',
+        element: (
+            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                <Course />
             </ProtectedRoute>
         )
     }

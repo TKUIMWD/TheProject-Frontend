@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 import NavBar from "../component/NavBar";
 import DashboardHeader from "../component/Dasboard/DashboardHeader";
 import DashboardMenu from "../component/Dasboard/DashboardMenu";
@@ -9,7 +10,9 @@ import Footer from "../component/Footer";
 import MyCourses from "../component/Dasboard/MyCourses";
 
 export default function Dashboard() {
-    const [activeKey, setActiveKey] = useState("Profile");
+    const [searchParams] = useSearchParams();
+    const initialTab = searchParams.get('tab') || 'Profile';
+    const [activeKey, setActiveKey] = useState(initialTab);
 
     return (
         <>

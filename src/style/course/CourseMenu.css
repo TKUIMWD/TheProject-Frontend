@@ -1,0 +1,133 @@
+.course-menu {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem; /* 與下方 SubmitterInfo 的間距 */
+}
+
+.course-menu-header h4 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Class Card 樣式 */
+.class-card {
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease-in-out;
+}
+
+.class-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Class Header 樣式 */
+.class-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.class-header:hover {
+    background-color: #e9ecef;
+}
+
+.class-title {
+    font-weight: 500;
+    color: #495057;
+}
+
+.expand-icon {
+    color: #6c757d;
+    transition: transform 0.2s ease;
+}
+
+.class-header:hover .expand-icon {
+    color: #495057;
+}
+
+/* Chapter Item 樣式 */
+.chapter-item {
+    padding: 0.75rem 1rem;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.chapter-item:hover {
+    background-color: #f8f9fa;
+    padding-left: 1.25rem;
+}
+
+.chapter-content {
+    display: flex;
+    align-items: center;
+}
+
+.chapter-number {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.chapter-name {
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.chapter-status {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.chapter-item:hover .chapter-status {
+    opacity: 1;
+}
+
+/* Badge 樣式 */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Collapse 動畫優化 */
+.collapse {
+    transition: height 0.3s ease;
+}
+
+/* 響應式設計 */
+@media (max-width: 991.98px) {
+    .course-menu {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+    }
+    
+    .class-header {
+        padding: 0.75rem;
+    }
+    
+    .chapter-item {
+        padding: 0.6rem 0.75rem;
+    }
+}
+
+/* 完成狀態的章節樣式 */
+.chapter-item.completed {
+    background-color: #d4edda;
+}
+
+.chapter-item.completed .chapter-name {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+/* 當前章節樣式 */
+.chapter-item.active {
+    background-color: #cce5ff;
+    border-left: 4px solid #007bff;
+}
+
+.chapter-item.active .chapter-name {
+    font-weight: 600;
+    color: #007bff;
+}

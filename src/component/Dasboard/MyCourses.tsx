@@ -3,9 +3,11 @@ import { Col, Container, Dropdown, DropdownButton, Form, InputGroup, Pagination,
 import '../../style/dashboard/MyCourses.css';
 import { asyncGet } from "../../utils/fetch";
 import { user_api } from "../../enum/api";
-import { CourseInfo } from "../../interface/Course";
+import { CourseInfo } from "../../interface/course/Course";
+import { useNavigate } from "react-router-dom";
 
 export default function MyCourses() {
+    const navigate = useNavigate();
     const COURSE_IMAGE_URL = "src/assets/images/Dashboard/course_image.jpg";
     const [dropdownTitle, setDropdownTitle] = useState("更新時間（由新到舊）");
     const [searchQuery, setSearchQuery] = useState("");
@@ -17,15 +19,15 @@ export default function MyCourses() {
             try {
                 setLoading(true);
                 console.log("開始載入課程資料...");
-                
+
                 const response = await asyncGet(user_api.getUserCourses, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                
+
                 console.log("API 回應:", response);
-                
+
                 if (response && response.code === 200) {
                     setCourses(response.body);
                     console.log("課程資料載入成功:", response.body);
@@ -157,8 +159,11 @@ export default function MyCourses() {
                 </thead>
                 <tbody >
                     {currentItems.map((course) => (
-                        <tr className="align-middle">
-                            <td className="text-start">
+                        <tr
+                            className="align-middle course-row"
+                            onClick={() => { navigate(`../course?course_id=${course._id}`) }}
+                        >
+                            <td>
                                 <Container className="course-info">
                                     <Row>
                                         <Col lg={3}>

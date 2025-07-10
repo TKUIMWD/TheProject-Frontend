@@ -1,6 +1,7 @@
 import { ListGroup } from 'react-bootstrap';
 import { Dispatch, SetStateAction } from 'react';
 import '../../style/dashboard/DashboardMenu.css';
+import { useNavigate } from 'react-router-dom';
 
 interface DashboardMenuProps {
     activeKey: string;
@@ -8,6 +9,7 @@ interface DashboardMenuProps {
 }
 
 export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenuProps) {
+    const navigate = useNavigate();
     return (
         <div className="dashboard-menu">
             <ListGroup>
@@ -16,7 +18,10 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                     className="dashboard-menu-item"
                     action
                     active={activeKey === "Profile"}
-                    onClick={() => setActiveKey("Profile")}
+                    onClick={() => {
+                        setActiveKey("Profile");
+                        navigate("?tab=Profile");
+                    }}
                 >
                     個人資訊
                 </ListGroup.Item>
@@ -24,7 +29,10 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                     className="dashboard-menu-item"
                     action
                     active={activeKey === "ChangePassword"}
-                    onClick={() => setActiveKey("ChangePassword")}
+                    onClick={() => {
+                        setActiveKey("ChangePassword");
+                        navigate("?tab=ChangePassword");
+                    }}
                 >
                     變更密碼
                 </ListGroup.Item>
@@ -33,7 +41,10 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                     className="dashboard-menu-item"
                     action
                     active={activeKey === "MyCourses"}
-                    onClick={() => setActiveKey("MyCourses")}
+                    onClick={() => {
+                        setActiveKey("MyCourses");
+                        navigate("?tab=MyCourses");
+                    }}
                 >
                     我的課程
                 </ListGroup.Item>
@@ -42,7 +53,10 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                     className="dashboard-menu-item"
                     action
                     active={activeKey === "MyMachines"}
-                    onClick={() => setActiveKey("MyMachines")}
+                    onClick={() => {
+                        setActiveKey("MyMachines");
+                        navigate("?tab=MyMachines");
+                    }}
                 >
                     我的機器
                 </ListGroup.Item>
@@ -51,7 +65,10 @@ export default function DashboardMenu({ activeKey, setActiveKey }: DashboardMenu
                     className="dashboard-menu-item"
                     action
                     active={activeKey === "MySubscriptions"}
-                    onClick={() => setActiveKey("MySubscriptions")}
+                    onClick={() => {
+                        setActiveKey("MySubscriptions");
+                        navigate("?tab=MySubscriptions");
+                    }}
                 >
                     訂閱資訊
                 </ListGroup.Item>
