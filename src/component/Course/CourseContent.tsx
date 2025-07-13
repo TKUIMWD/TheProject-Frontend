@@ -1,11 +1,11 @@
 import { Container, Row, Col, Tabs, Tab } from "react-bootstrap";
 import { CoursePageDTO } from "../../interface/Course/CoursePageDTO";
-import { CourseContentProps } from "../../interface/Course/CourseContentProps";
+import { CourseContentProps } from "../../interface/course/CourseContentProps";
 import '../../style/course/CourseContent.css';
 
 export default function CourseContent(courseData: CoursePageDTO) {
 
-    const CourseContentPorps: CourseContentProps = {
+    const CourseContentProps: CourseContentProps = {
         description: courseData.course_description,
         review: courseData.course_reviews  
     }
@@ -21,8 +21,8 @@ export default function CourseContent(courseData: CoursePageDTO) {
                             <Row>
                                 <Col lg={10}>
                                     <h2>課程概述</h2>
-                                    <p>{CourseContentPorps && CourseContentPorps.description.length > 0? (
-                                        CourseContentPorps.description
+                                    <p>{CourseContentProps && CourseContentProps.description.length > 0? (
+                                        CourseContentProps.description
                                     ) : (
                                         "這個課程目前沒有描述。"                                     
                                     )}</p>
@@ -35,9 +35,9 @@ export default function CourseContent(courseData: CoursePageDTO) {
                             <Row>
                                 <Col lg={10}>
                                     <h2>評論</h2>
-                                    {CourseContentPorps && CourseContentPorps.review.length > 0 ? (
+                                    {CourseContentProps && CourseContentProps.review.length > 0 ? (
                                         <ul className="course-review-list">
-                                            {CourseContentPorps.review.map((review, index) => (
+                                            {CourseContentProps.review.map((review, index) => (
                                                 <li key={index} className="course-review-item">
                                                     <p>{review}</p>
                                                 </li>

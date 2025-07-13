@@ -1,4 +1,4 @@
-import { SubmitterInfo } from "./SubmitterInfo";
+import { SubmitterInfo } from "../../interface/course/SubmitterInfo.ts";
 
 export interface CoursePageDTO {
     course_name: string;
