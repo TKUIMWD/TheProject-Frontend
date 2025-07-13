@@ -5,6 +5,7 @@ import UpdateForgotPassword from "../view/UpdateForgotPassword";
 import Dashboard from "../view/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Course from "../view/Course";
+import Chapter from "../view/Chapter";
 
 
 export const router = createBrowserRouter([
@@ -29,10 +30,18 @@ export const router = createBrowserRouter([
         )
     },
     {
-        path:'/course',
+        path:'/courses/:courseId',
         element: (
             <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
                 <Course />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/chapters/:chapterId',
+        element: (
+            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                <Chapter />
             </ProtectedRoute>
         )
     }

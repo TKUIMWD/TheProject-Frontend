@@ -1,7 +1,7 @@
 import { Container, Row, Col, Tabs, Tab } from "react-bootstrap";
+import { CoursePageDTO } from "../../interface/Course/CoursePageDTO";
+import { CourseContentProps } from "../../interface/Course/CourseContentProps";
 import '../../style/course/CourseContent.css';
-import { CoursePageDTO } from "../../interface/course/CoursePageDTO";
-import { CourseContentProps } from "../../interface/course/CourseContentProps";
 
 export default function CourseContent(courseData: CoursePageDTO) {
 

@@ -24,8 +24,13 @@
 }
 
 .course-path {
-    color:white;
+    color: lightgray;
     text-decoration: none;
+}
+
+.course-path-arrow {
+    color: lightgray;
+    margin: 0 0.5rem;
 }
 
 .course-path:hover {

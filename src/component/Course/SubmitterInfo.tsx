@@ -1,7 +1,7 @@
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import defaultAvatarImg from '../../assets/images/Dashboard/default-avatar.jpg';
 import '../../style/course/SubmitterInfo.css';
-import { CoursePageDTO } from "../../interface/course/CoursePageDTO";
+import { CoursePageDTO } from "../../interface/Course/CoursePageDTO";
 import { useEffect, useState } from "react";
 
 export default function SubmitterInfo(courseData: CoursePageDTO) {
@@ -25,10 +25,10 @@ export default function SubmitterInfo(courseData: CoursePageDTO) {
     }
 
     const submitterInfoProps = {
-        username: courseData.course_submitter_username,
-        email: courseData.course_submitter_email,
-        avatarPath: defaultAvatarImg
-    }
+        username: courseData.submitterInfo.username,
+        email: courseData.submitterInfo.email,
+        avatarPath: courseData.submitterInfo.avatar_path
+    };
 
     useEffect(() => {
         setAvatarUrl(processAvatarPath(submitterInfoProps.avatarPath));

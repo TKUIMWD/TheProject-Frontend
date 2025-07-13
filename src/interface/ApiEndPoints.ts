@@ -16,5 +16,9 @@ export interface UserApiEndpoints {
 }
 
 export interface CourseApiEndpoints {
-    getCoursePage: string;
+    getCourseById: string;
+}
+
+export interface ChapterApiEndpoints {
+    getChapterById: string;
 }

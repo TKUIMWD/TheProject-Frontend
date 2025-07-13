@@ -1,11 +1,13 @@
-import { AuthApiEndpoints} from "../interface/ApiEndPoints";
+import { AuthApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
+import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
 
-    
+
 const auth_api_base = import.meta.env.VITE_API_BASE_URL + "/auth";
 const user_api_base = import.meta.env.VITE_API_BASE_URL + "/user";
-const course_api_base = import.meta.env.VITE_API_BASE_URL + "/course";
+const course_api_base = import.meta.env.VITE_API_BASE_URL + "/courses";
+const chapter_api_base = import.meta.env.VITE_API_BASE_URL + "/chapters";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -25,5 +27,9 @@ export const user_api: UserApiEndpoints = {
 };
 
 export const course_api: CourseApiEndpoints = {
-    getCoursePage: `${course_api_base}/getCoursePageDTO`
+    getCourseById: course_api_base
+};
+
+export const chapter_api: ChapterApiEndpoints = {
+    getChapterById: chapter_api_base
 };

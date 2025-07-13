@@ -6,23 +6,24 @@ import CourseHeader from "../component/Course/CourseHeader";
 import CourseContent from "../component/Course/CourseContent";
 import CourseMenu from "../component/Course/CourseMenu";
 import SubmitterInfo from "../component/Course/SubmitterInfo";
-import '../style/course/Course.css';
 import { asyncGet } from "../utils/fetch";
 import { course_api } from "../enum/api";
-import { useSearchParams } from "react-router-dom";
-import { CoursePageDTO } from "../interface/course/CoursePageDTO";
+import { CoursePageDTO } from "../interface/Course/CoursePageDTO";
+import { CourseMenuProps } from "../interface/Course/CourseMenuProps"
+import { useParams } from "react-router-dom";
+import '../style/course/Course.css';
 
 export default function Course() {
     const cache = useRef<boolean>(false);
     const [courseData, setCourseData] = useState<CoursePageDTO | null>(null);
+    const [courseMenu, setCourseMenu] = useState<CourseMenuProps | null>(null);
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
     const [loading, setLoading] = useState(true);
 
-    const [searchParams] = useSearchParams();
-    const course_id = searchParams.get('course_id');
-    const apiUrl = `${course_api.getCoursePage}?course_id=${course_id}`;
+    const { courseId } = useParams();
+    const apiUrl = `${course_api.getCourseById}/${courseId}`;
 
     const setToast = (message: string, bg: "success" | "danger" | "secondary") => {
         setToastMessage(message);
@@ -36,8 +37,9 @@ export default function Course() {
     useEffect(() => {
         if (!cache.current) {
             cache.current = true;
+            setLoading(true);
 
-            if (!course_id) {
+            if (!courseId) {
                 setToast("無效的課程 ID", "danger");
                 setLoading(false);
                 return;
@@ -50,29 +52,53 @@ export default function Course() {
                 return;
             }
 
-
-            asyncGet(apiUrl, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+            const fetchCourseData = async () => {
+                try {
+                    asyncGet(apiUrl, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then((res) => {
+                        if (res.code === 200) {
+                            setCourseData(res.body);
+                        } else {
+                            setToast("載入課程失敗", "danger");
+                        }
+                    })
+                } catch (error) {
+                    console.error("載入課程時發生錯誤:", error);
+                    setToast("載入課程時發生錯誤", "danger");
                 }
-            }).then((res) => {
-                if (res.code === 200) {
-                    setCourseData(res.body);
-                } else {
-                    setToast("載入課程失敗", "danger");
-                }
-            }).catch((error) => {
-                console.error("載入課程時發生錯誤:", error);
-                setToast("載入課程時發生錯誤", "danger");
-            });
+            }
 
+            const fetchCourseMenu = async () => {
+                try {
+                    asyncGet(`${apiUrl}/menu`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then((res) => {
+                        if (res.code === 200) {
+                            setCourseMenu(res.body);
+                        } else {
+                            setToast("載入課程目錄失敗", "danger");
+                        }
+                    })
+                } catch (error) {
+                    console.error("載入課程目錄時發生錯誤:", error);
+                    setToast("載入課程目錄時發生錯誤", "danger");
+                }
+            }
+
+            fetchCourseData();
+            fetchCourseMenu();
             setLoading(false);
         }
-    }, [course_id]);
+    }, [courseId]);
 
     return (
         <>
-            {courseData && (
+            {courseData && courseMenu && (
                 <>
                     <NavBar />
                     <Container fluid className="course-container">
@@ -84,13 +110,11 @@ export default function Course() {
 
                         <Row className="course-main-section">
                             <Col lg={8} md={12} className="course-left-section">
-                                <CourseContent {...courseData}/>
+                                <CourseContent {...courseData} />
                             </Col>
                             <Col lg={4} md={12} className="course-right-section">
-                                <div className="sticky-sidebar">
-                                    <CourseMenu {...courseData}/>
-                                    <SubmitterInfo {...courseData}/>
-                                </div>
+                                <CourseMenu {...courseMenu} />
+                                <SubmitterInfo {...courseData} />
                             </Col>
                         </Row>
                     </Container>
