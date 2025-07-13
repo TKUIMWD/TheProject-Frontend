@@ -1,13 +1,15 @@
 import { Container, Row, Col, Tabs, Tab } from "react-bootstrap";
 import { CoursePageDTO } from "../../interface/Course/CoursePageDTO";
-import { CourseContentProps } from "../../interface/course/CourseContentProps";
+import { CourseContentProps } from "../../interface/Course/CourseContentProps";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import '../../style/course/CourseContent.css';
 
 export default function CourseContent(courseData: CoursePageDTO) {
 
     const CourseContentProps: CourseContentProps = {
         description: courseData.course_description,
-        review: courseData.course_reviews  
+        review: courseData.course_reviews
     }
 
     return (
@@ -19,12 +21,13 @@ export default function CourseContent(courseData: CoursePageDTO) {
                     <Tab eventKey="course-description" title="課程概述">
                         <Container className="course-description-content">
                             <Row>
+                                <h2>課程概述</h2>
+                                <hr />
                                 <Col lg={10}>
-                                    <h2>課程概述</h2>
-                                    <p>{CourseContentProps && CourseContentProps.description.length > 0? (
-                                        CourseContentProps.description
+                                    <p>{CourseContentProps && CourseContentProps.description.length > 0 ? (
+                                        <Markdown remarkPlugins={[remarkGfm]}>{CourseContentProps.description}</Markdown>
                                     ) : (
-                                        "這個課程目前沒有描述。"                                     
+                                        "這個課程目前沒有描述。"
                                     )}</p>
                                 </Col>
                             </Row>
@@ -33,8 +36,9 @@ export default function CourseContent(courseData: CoursePageDTO) {
                     <Tab eventKey="course-review" title="評論">
                         <Container className="course-review-content">
                             <Row>
+                                <h2>評論</h2>
+                                <hr />
                                 <Col lg={10}>
-                                    <h2>評論</h2>
                                     {CourseContentProps && CourseContentProps.review.length > 0 ? (
                                         <ul className="course-review-list">
                                             {CourseContentProps.review.map((review, index) => (

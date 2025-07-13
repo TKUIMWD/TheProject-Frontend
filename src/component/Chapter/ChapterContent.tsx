@@ -10,9 +10,9 @@ export default function ChapterContent(chapter: ChapterPageDTO) {
     return (
         <Container className="course-content">
             <Row>
-                <Col lg={10}>
-                    <h2>課程內容</h2>
-                    <hr />
+                <h2>課程內容</h2>
+                <hr />
+                <Col className="chapter-content-container" lg={12}>
                     <p>{chapter && content ? (
                         <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
                     ) : (

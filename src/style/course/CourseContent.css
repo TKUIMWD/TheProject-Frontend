@@ -7,9 +7,9 @@
 }
 
 .course-description-content,
-.course-review-content {
-    padding: 1rem 0;
-    padding: 1rem
+.course-review-content,
+.chapter-content-container {
+    padding: 1.5rem;
 }
 
 @media (max-width: 991.98px) {
