@@ -120,7 +120,7 @@ export default function Course() {
                     </Container>
                     <Footer />
                 </>
-            )};
+            )}
 
             {loading && (
                 <div className="loading-overlay">
