@@ -2,15 +2,22 @@
     background-color: #d8d8d8;
     border-radius: 10px;
     padding: 1.5rem;
-    padding-left: 3rem;
 }
 
 .dashboard-menu-item {
     background-color: #d8d8d8;
     border-color: #d8d8d8;
     transition: background 0.2s, color 0.2s;
-    padding-left: 2.5rem;
-    border-radius: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.menu-group-title {
+    margin-bottom: 0;
+}
+
+.menu-group-header {
+    margin-bottom: 0.5rem;
 }
 
 .dashboard-menu-item.active,

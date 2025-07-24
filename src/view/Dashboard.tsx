@@ -65,6 +65,11 @@ export default function Dashboard() {
 
     let initialTab = searchParams.get('tab') || 'Profile';
     const [activeKey, setActiveKey] = useState(initialTab);
+    
+    const [collapse, setColapse] = useState(false);
+    const handleMenuCollapse = () => {
+        setColapse(!collapse);
+    };
 
 
     return (
@@ -77,15 +82,17 @@ export default function Dashboard() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={3} >
+                    <Col lg={!collapse ? 3 : 1} >
                         <DashboardMenu
                             menuConfig={menuConfig}
                             activeKey={activeKey}
                             setActiveKey={setActiveKey}
                             role={role}
+                            collapse={collapse}
+                            handleMenuCollapse={handleMenuCollapse}
                         />
                     </Col>
-                    <Col lg={9}>
+                    <Col lg={!collapse ? 9 : 11}>
                         {availableTabs[activeKey]}
                     </Col>
                 </Row>
