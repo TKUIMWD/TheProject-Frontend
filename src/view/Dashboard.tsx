@@ -10,6 +10,7 @@ import ChangePassword from "../component/Dasboard/ChangePassword";
 import Footer from "../component/Footer";
 import MyCourses from "../component/Dasboard/MyCourses";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
+import AddCourse from "../component/Dasboard/AddCourse";
 
 const menuConfig: MenuGroup[] = [
     {
@@ -23,7 +24,7 @@ const menuConfig: MenuGroup[] = [
         title: "課程管理",
         items: [
             { key: "MyCourses", label: "我的課程", component: <MyCourses />, roles: ["user", "admin", "superadmin"] },
-            { key: "AddCourses", label: "新增課程", component: <MyCourses />, roles: ["admin", "superadmin"] },
+            { key: "AddCourses", label: "新增課程", component: <AddCourse />, roles: ["admin", "superadmin"] },
         ]
     },
     {
@@ -86,11 +87,6 @@ export default function Dashboard() {
                     </Col>
                     <Col lg={9}>
                         {availableTabs[activeKey]}
-                        {/* {activeKey === "Profile" && <Profile />}
-                        {activeKey === "ChangePassword" && <ChangePassword />}
-                        {activeKey === "MyCourses" && <MyCourses />}}
-                        {{activeKey === "MyMachines" && <MyMachines />}
-                        {activeKey === "MySubscriptions" && <MySubscriptions />} */}
                     </Col>
                 </Row>
             </Container>

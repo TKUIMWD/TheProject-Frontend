@@ -1,0 +1,29 @@
+.sidebar-nav {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-right: 1px solid #dee2e6;
+    height: calc(100vh - 150px); /* 根據你的 Header/Footer 高度調整 */
+    overflow-y: auto;
+}
+
+.edit-pane {
+    padding: 1.5rem;
+}
+
+.chapter-item {
+    padding-left: 2.5rem !important;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.add-chapter-btn {
+    padding-left: 2.5rem !important;
+    font-size: 0.9rem;
+    color: #0d6efd;
+    font-style: italic;
+    border-style: dashed !important;
+}
+
+.list-group-item.active .bi-x-circle {
+    color: white !important;
+}
