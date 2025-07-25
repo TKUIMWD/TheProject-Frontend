@@ -6,6 +6,7 @@ import Dashboard from "../view/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Course from "../view/Course";
 import Chapter from "../view/Chapter";
+import SuperAdminDashboard from "../view/SuperAdminDashboard";
 
 
 export const router = createBrowserRouter([
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
         element: (
             <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
                 <Chapter />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/superAdminDashboard',
+        element: (
+            <ProtectedRoute allowedRoles={['superadmin']}>
+                <SuperAdminDashboard />
             </ProtectedRoute>
         )
     }

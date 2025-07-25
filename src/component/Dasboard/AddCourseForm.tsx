@@ -29,8 +29,7 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
 
     return (
         <>
-            <h3>新增課程</h3>
-            <hr />
+           
             <Container className="add-course-container">
                 <Row>
                     <h5>課程資訊</h5>

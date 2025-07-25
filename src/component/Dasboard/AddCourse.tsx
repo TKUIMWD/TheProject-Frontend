@@ -22,6 +22,8 @@ export default function AddCourse() {
     ];
     return (
         <>
+            <h3>新增課程</h3>
+            <hr />
             {tabs.find(tab => tab.key === activeKey)?.component}
         </>
     );
