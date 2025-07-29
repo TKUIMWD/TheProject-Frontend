@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Button, Col, Container, Dropdown, DropdownButton, Row, Tab, Tabs } from "react-bootstrap";
 import { Course } from "../../interface/Course/Course";
+import { useToast } from "../../context/ToastProvider";
 import Markdown from "react-markdown";
 import '../../style/dashboard/AddCourse.css';
 
@@ -10,10 +11,15 @@ interface AddCourseFormProps {
 
 export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
     const [course, setCourse] = useState<Course | null>();
-    const [difficulty, setDifficulty] = useState<"Easy" | "Medium" | "Hard">("Easy");
+    const [title, setTitle] = useState<string>("");
+    const [subtitle, setSubtitle] = useState<string>("");
     const [hours, setHours] = useState<string>("0 小時");
     const [minutes, setMinutes] = useState<string>("0 分鐘");
+    const [difficulty, setDifficulty] = useState<"Easy" | "Medium" | "Hard">("Easy");
     const [descriptionText, setDescirptionText] = useState<string>("");
+    const [save, setSave] = useState<boolean>(false);
+
+    const { showToast } = useToast();
 
     const difficultyOptions = ["Easy", "Medium", "Hard"];
     const hoursOptions = [];
@@ -27,9 +33,57 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
         minutesOptions.push(`${i} 分鐘`);
     }
 
+    function totalTimeInMinutes(hours: string): number {
+        if (hours.includes("小時以上")) {
+            return parseInt(hours.split(" ")[0]);
+        } else {
+            const hourValue = parseInt(hours.split(" ")[0]);
+            return hourValue * 60 + parseInt(minutes.split(" ")[0]);
+        }
+    }
+
+    function handleSave(e: MouseEvent<HTMLButtonElement>): void {
+        e.preventDefault();
+
+        if (title.trim() === "" || subtitle.trim() === "" || descriptionText.trim() === "") {
+            showToast("請填寫所有必填欄位", "danger");
+            return;
+        }
+
+        if (hours === "0 小時" && minutes === "0 分鐘") {
+            showToast("請選擇課程進行時間", "danger");
+            return;
+        }
+
+        setCourse(
+            {
+                course_name: title,
+                course_subtitle: subtitle,
+                course_description: escape(descriptionText),
+                duration_in_minutes: totalTimeInMinutes(hours),
+                difficulty: difficulty,
+            } as Course
+        )
+
+        // todo save course to backend
+
+        setSave(true);
+
+    }
+
+
+    function handleNextPage(e: MouseEvent<HTMLButtonElement>): void {
+        e.preventDefault();
+        if (!save) {
+            showToast("請先儲存課程資訊", "danger");
+            return;
+        }
+        handleTabChange("next");
+    }
+
     return (
         <>
-           
+
             <Container className="add-course-container">
                 <Row>
                     <h5>課程資訊</h5>
@@ -39,7 +93,7 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                         <p className="font-weight-bold">標題</p>
                     </Col>
                     <Col lg={9}>
-                        <input type="text" className="form-control" placeholder="請輸入課程標題" />
+                        <input type="text" className="form-control" placeholder="請輸入課程標題" onChange={(e) => setTitle(e.target.value)} />
                     </Col>
                 </Row>
                 <Row>
@@ -47,7 +101,7 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                         <p className="font-weight-bold">副標題</p>
                     </Col>
                     <Col lg={9}>
-                        <input type="text" className="form-control" placeholder="請輸入課程副標題" />
+                        <input type="text" className="form-control" placeholder="請輸入課程副標題" onChange={(e) => setSubtitle(e.target.value)} />
                     </Col>
                 </Row>
                 <Row>
@@ -129,12 +183,12 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                 </Row>
                 <Row className="mt-3">
                     <Col lg={5} className="d-flex gap-3">
-                        <Button variant="success">儲存</Button>
-                        <Button variant="secondary" onClick={() => handleTabChange("next")}>下頁</Button>
+                        <Button variant="success" onClick={(e) => handleSave(e)}>儲存</Button>
+                        <Button variant="secondary" onClick={(e) => handleNextPage(e)}>下頁</Button>
+                        <Button variant="secondary" onClick={(e) => handleTabChange("next")}>下頁</Button>
                     </Col>
                 </Row>
             </Container>
-
         </>
     );
 }

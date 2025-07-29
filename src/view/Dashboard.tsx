@@ -11,35 +11,36 @@ import Footer from "../component/Footer";
 import MyCourses from "../component/Dasboard/MyCourses";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/AddCourse";
-
-const menuConfig: MenuGroup[] = [
-    {
-        title: "帳號管理",
-        items: [
-            { key: "Profile", label: "個人資訊", component: <Profile />, roles: ["user", "admin", "superadmin"] },
-            { key: "ChangePassword", label: "變更密碼", component: <ChangePassword />, roles: ["user", "admin", "superadmin"] },
-        ]
-    },
-    {
-        title: "課程管理",
-        items: [
-            { key: "MyCourses", label: "我的課程", component: <MyCourses />, roles: ["user", "admin", "superadmin"] },
-            { key: "AddCourses", label: "新增課程", component: <AddCourse />, roles: ["admin", "superadmin"] },
-        ]
-    },
-    {
-        title: "機器管理",
-        items: []
-    },
-    {
-        title: "訂閱資訊",
-        items: []
-    }
-];
+import AdminMyCourse from "../component/Dasboard/AdminMyCourse";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
     const role = getAuthStatus();
+    const menuConfig: MenuGroup[] = [
+        {
+            title: "帳號管理",
+            items: [
+                { key: "Profile", label: "個人資訊", component: <Profile />, roles: ["user", "admin", "superadmin"] },
+                { key: "ChangePassword", label: "變更密碼", component: <ChangePassword />, roles: ["user", "admin", "superadmin"] },
+            ]
+        },
+        {
+            title: "課程管理",
+            items: [
+                { key: "MyCourses", label: "我的課程", component: role === "user" ? <MyCourses /> : <AdminMyCourse />, roles: ["user", "admin", "superadmin"] },
+                { key: "AddCourses", label: "新增課程", component: <AddCourse />, roles: ["admin", "superadmin"] },
+            ]
+        },
+        {
+            title: "機器管理",
+            items: []
+        },
+        {
+            title: "訂閱資訊",
+            items: []
+        }
+    ];
+    
     if (role === 'notLogon') {
         return (
             <>
@@ -65,7 +66,7 @@ export default function Dashboard() {
 
     let initialTab = searchParams.get('tab') || 'Profile';
     const [activeKey, setActiveKey] = useState(initialTab);
-    
+
     const [collapse, setColapse] = useState(false);
     const handleMenuCollapse = () => {
         setColapse(!collapse);

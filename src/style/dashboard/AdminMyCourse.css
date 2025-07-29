@@ -1,0 +1,15 @@
+.course-dropdown::after {
+    display: none;
+}
+
+.course-dropdown:hover {
+    background-color: lightgray;
+}
+
+.toast-container-fixed {
+    z-index: 1050;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}

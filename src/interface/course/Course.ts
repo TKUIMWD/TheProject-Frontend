@@ -16,4 +16,5 @@ export interface CourseInfo {
     rating: number,
     teacher_name: string,
     update_date: string,
+    status: string
 }
