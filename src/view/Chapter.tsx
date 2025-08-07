@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChapterPageDTO } from "../interface/Chpater/ChapterPageDTO";
+import { ChapterPageDTO } from "../interface/Chapter/ChapterPageDTO";
 import { Col, Container, Row, Toast, ToastContainer } from "react-bootstrap";
 import NavBar from "../component/NavBar";
 import Footer from "../component/Footer";
@@ -51,7 +51,7 @@ export default function Chapter() {
                 }
 
                 try {
-                    const chapterApiUrl = `${chapter_api.getChapterById}/${chapterId}`;
+                    const chapterApiUrl = chapter_api.getChapterById(chapterId);
                     const chapterRes = await asyncGet(chapterApiUrl, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });

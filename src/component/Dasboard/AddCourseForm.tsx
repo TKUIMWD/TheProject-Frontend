@@ -1,89 +1,52 @@
-import { MouseEvent, useState } from "react";
-import { Button, Col, Container, Dropdown, DropdownButton, Row, Tab, Tabs } from "react-bootstrap";
+import { MouseEvent } from "react";
+import { Container, Row, Col, Button, DropdownButton, Tabs, Tab, Dropdown, Form } from "react-bootstrap";
 import { Course } from "../../interface/Course/Course";
-import { useToast } from "../../context/ToastProvider";
-import Markdown from "react-markdown";
-import '../../style/dashboard/AddCourse.css';
+import "../../style/dashboard/AddCourse.css";
 
 interface AddCourseFormProps {
-    handleTabChange: (key: "prev" | "next") => void;
+    courseData?: Course;
+    onCourseChange: (courseData: Course) => void;
+    handleTabChange: ( key: "prev" | "next") => void;
+    onTemporarySave: () => void;
 }
 
-export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
-    const [course, setCourse] = useState<Course | null>();
-    const [title, setTitle] = useState<string>("");
-    const [subtitle, setSubtitle] = useState<string>("");
-    const [hours, setHours] = useState<string>("0 小時");
-    const [minutes, setMinutes] = useState<string>("0 分鐘");
-    const [difficulty, setDifficulty] = useState<"Easy" | "Medium" | "Hard">("Easy");
-    const [descriptionText, setDescirptionText] = useState<string>("");
-    const [save, setSave] = useState<boolean>(false);
-
-    const { showToast } = useToast();
-
+export default function AddCourseForm({ courseData, handleTabChange, onTemporarySave, onCourseChange }: AddCourseFormProps) {
     const difficultyOptions = ["Easy", "Medium", "Hard"];
-    const hoursOptions = [];
-    const minutesOptions = [];
-    for (let i = 0; i <= 6; i++) {
-        hoursOptions.push(i === 6 ? `${i - 1} 小時以上` : `${i} 小時`);
+    const daysOptions: number[] = [0, 1, 2, 3, 4, 5, 10, 20];
+    const hoursOptions: number[] = [0, 1, 2, 3, 4, 5, 10, 20];
+    const minutesOptions: number[] = [0, 10, 20, 30, 40, 50];
+
+    function totalTimeInMinutes(d: number, h: number, m: number): number {
+        return d * 24 * 60 + h * 60 + m;
     }
 
-    minutesOptions.push("0 分鐘");
-    for (let i = 10; i <= 50; i += 10) {
-        minutesOptions.push(`${i} 分鐘`);
-    }
-
-    function totalTimeInMinutes(hours: string): number {
-        if (hours.includes("小時以上")) {
-            return parseInt(hours.split(" ")[0]);
-        } else {
-            const hourValue = parseInt(hours.split(" ")[0]);
-            return hourValue * 60 + parseInt(minutes.split(" ")[0]);
-        }
-    }
-
-    function handleSave(e: MouseEvent<HTMLButtonElement>): void {
+    function handleSave(e: MouseEvent<HTMLButtonElement>): Promise<void> {
         e.preventDefault();
-
-        if (title.trim() === "" || subtitle.trim() === "" || descriptionText.trim() === "") {
-            showToast("請填寫所有必填欄位", "danger");
-            return;
-        }
-
-        if (hours === "0 小時" && minutes === "0 分鐘") {
-            showToast("請選擇課程進行時間", "danger");
-            return;
-        }
-
-        setCourse(
-            {
-                course_name: title,
-                course_subtitle: subtitle,
-                course_description: escape(descriptionText),
-                duration_in_minutes: totalTimeInMinutes(hours),
-                difficulty: difficulty,
-            } as Course
-        )
-
-        // todo save course to backend
-
-        setSave(true);
-
+        onTemporarySave();
+        return Promise.resolve();
     }
 
+    const handleFieldChange = (field: keyof Course, value: any) => {
+        const currentData = courseData || { course_name: '', course_subtitle: '', course_description: '', duration_in_minutes: 0, difficulty: 'Easy', class_ids: [] };
+        onCourseChange({
+            ...currentData,
+            [field]: value,
+        });
+    };
 
-    function handleNextPage(e: MouseEvent<HTMLButtonElement>): void {
-        e.preventDefault();
-        if (!save) {
-            showToast("請先儲存課程資訊", "danger");
-            return;
-        }
-        handleTabChange("next");
-    }
+    const handleTimeChange = (type: 'days' | 'hours' | 'minutes', value: number) => {
+        const d = type === 'days' ? value : Math.floor((courseData?.duration_in_minutes || 0) / 1440);
+        const h = type === 'hours' ? value : Math.floor(((courseData?.duration_in_minutes || 0) % 1440) / 60);
+        const m = type === 'minutes' ? value : (courseData?.duration_in_minutes || 0) % 60;
+        handleFieldChange('duration_in_minutes', totalTimeInMinutes(d, h, m));
+    };
+
+    const currentDays = Math.floor((courseData?.duration_in_minutes || 0) / 1440);
+    const currentHours = Math.floor(((courseData?.duration_in_minutes || 0) % 1440) / 60);
+    const currentMinutes = (courseData?.duration_in_minutes || 0) % 60;
 
     return (
         <>
-
             <Container className="add-course-container">
                 <Row>
                     <h5>課程資訊</h5>
@@ -93,7 +56,12 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                         <p className="font-weight-bold">標題</p>
                     </Col>
                     <Col lg={9}>
-                        <input type="text" className="form-control" placeholder="請輸入課程標題" onChange={(e) => setTitle(e.target.value)} />
+                        <input type="text"
+                            className="form-control"
+                            placeholder="請輸入課程標題"
+                            value={courseData?.course_name || ''}
+                            onChange={(e) => handleFieldChange('course_name', e.target.value)}
+                        />
                     </Col>
                 </Row>
                 <Row>
@@ -101,40 +69,55 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                         <p className="font-weight-bold">副標題</p>
                     </Col>
                     <Col lg={9}>
-                        <input type="text" className="form-control" placeholder="請輸入課程副標題" onChange={(e) => setSubtitle(e.target.value)} />
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="請輸入課程副標題"
+                            value={courseData?.course_subtitle || ''}
+                            onChange={(e) => handleFieldChange('course_subtitle', e.target.value)}
+                        />
                     </Col>
                 </Row>
-                <Row>
+                <Row className="mb-3 align-items-center">
                     <Col lg={2}>
-                        <p className="font-weight-bold">進行時間</p>
+                        <p className="font-weight-bold mb-0">進行時間</p>
                     </Col>
-                    <Col lg={2}>
-                        <DropdownButton
-                            id="hours-dropdown"
-                            variant="light"
-                            title={hours}
-                            onSelect={(eventKey) => eventKey && setHours(eventKey)}
-                        >
-                            {hoursOptions.map((option, index) => (
-                                <Dropdown.Item key={index} eventKey={option}>
-                                    {option}
-                                </Dropdown.Item>
-                            ))}
-                        </DropdownButton>
-                    </Col>
-                    <Col lg={2}>
-                        <DropdownButton
-                            id="minutes-dropdown"
-                            variant="light"
-                            title={minutes}
-                            onSelect={(eventKey) => eventKey && setMinutes(eventKey)}
-                        >
-                            {minutesOptions.map((option, index) => (
-                                <Dropdown.Item key={index} eventKey={option}>
-                                    {option}
-                                </Dropdown.Item>
-                            ))}
-                        </DropdownButton>
+                    <Col lg={10}>
+                        <Row className="align-items-center">
+                            <Col md={1}>
+                                <DropdownButton
+                                    id="days-dropdown"
+                                    variant="outline-secondary"
+                                    title={currentDays}
+                                    onSelect={(key) => handleTimeChange('days', Number(key))}
+                                >
+                                    {daysOptions.map((option) => <Dropdown.Item key={option} eventKey={option}>{option}</Dropdown.Item>)}
+                                </DropdownButton>
+                            </Col>
+                            <Col md={1} className="text-center p-0">天</Col>
+                            <Col md={1}>
+                                <DropdownButton
+                                    id="hours-dropdown"
+                                    variant="outline-secondary"
+                                    title={currentHours}
+                                    onSelect={(key) => handleTimeChange('hours', Number(key))}
+                                >
+                                    {hoursOptions.map((option) => <Dropdown.Item key={option} eventKey={option}>{option}</Dropdown.Item>)}
+                                </DropdownButton>
+                            </Col>
+                            <Col md={1} className="text-center p-0">小時</Col>
+                            <Col md={1}>
+                                <DropdownButton
+                                    id="minutes-dropdown"
+                                    variant="outline-secondary"
+                                    title={currentMinutes}
+                                    onSelect={(key) => handleTimeChange('minutes', Number(key))}
+                                >
+                                    {minutesOptions.map((option) => <Dropdown.Item key={option} eventKey={option}>{option}</Dropdown.Item>)}
+                                </DropdownButton>
+                            </Col>
+                            <Col md={1} className="text-center p-0">分鐘</Col>
+                        </Row>
                     </Col>
                 </Row>
                 <Row>
@@ -143,16 +126,12 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                     </Col>
                     <Col lg={9}>
                         <DropdownButton
-                            id="difficutly-dropdown"
+                            id="difficulty-dropdown"
                             variant="light"
-                            title={difficulty}
-                            onSelect={(eventKey) => eventKey && setDifficulty(eventKey as "Easy" | "Medium" | "Hard")}
+                            title={courseData?.difficulty || 'Easy'}
+                            onSelect={(key) => handleFieldChange('difficulty', key)}
                         >
-                            {difficultyOptions.map((option, index) => (
-                                <Dropdown.Item key={index} eventKey={option}>
-                                    {option}
-                                </Dropdown.Item>
-                            ))}
+                            {difficultyOptions.map((option) => <Dropdown.Item key={option} eventKey={option}>{option}</Dropdown.Item>)}
                         </DropdownButton>
                     </Col>
                 </Row>
@@ -161,31 +140,26 @@ export default function AddCourseForm({ handleTabChange }: AddCourseFormProps) {
                         <p className="font-weight-bold">簡介</p>
                     </Col>
                     <Col lg={9}>
-                        <Tabs
-                            defaultActiveKey="edit"
-                        >
+                        <Tabs defaultActiveKey="edit">
                             <Tab eventKey="edit" title="編輯">
-                                <textarea
-                                    className="form-control"
-                                    rows={10}
-                                    placeholder="請輸入課程簡介 支援 Markdown 形式編輯"
-                                    onChange={(e) => setDescirptionText(e.target.value)}
-                                >
-                                </textarea>
+                                <Form.Control
+                                    as="textarea"
+                                    rows={5}
+                                    placeholder="請輸入課程簡介"
+                                    value={courseData?.course_description || ''}
+                                    onChange={(e) => handleFieldChange('course_description', e.target.value)}
+                                />
                             </Tab>
                             <Tab eventKey="preview" title="預覽">
-                                <div className="form-control preview-area">
-                                    <Markdown>{descriptionText ? descriptionText : "預覽畫面"}</Markdown>
-                                </div>
+                                <div dangerouslySetInnerHTML={{ __html: courseData?.course_description || '' }} />
                             </Tab>
                         </Tabs>
                     </Col>
                 </Row>
                 <Row className="mt-3">
                     <Col lg={5} className="d-flex gap-3">
-                        <Button variant="success" onClick={(e) => handleSave(e)}>儲存</Button>
-                        <Button variant="secondary" onClick={(e) => handleNextPage(e)}>下頁</Button>
-                        <Button variant="secondary" onClick={(e) => handleTabChange("next")}>下頁</Button>
+                        <Button variant="success" onClick={handleSave}>儲存課程資訊</Button>
+                        <Button variant="secondary" onClick={() => handleTabChange("next")}>下一步</Button>
                     </Col>
                 </Row>
             </Container>

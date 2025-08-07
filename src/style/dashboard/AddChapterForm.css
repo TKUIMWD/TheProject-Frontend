@@ -8,7 +8,11 @@
 
 .edit-pane {
     padding: 1.5rem;
+    /* 移除 display: flex 和 flex-direction，因為已改用 Bootstrap class */
+    height: calc(100vh - 150px); /* 保留高度計算，使其與側邊欄等高 */
 }
+
+/* 移除 .edit-pane-content 規則，因為已改用 Bootstrap class */
 
 /* 定義 active (選中) 狀態的樣式 (綠色系) */
 .list-group-item.active {

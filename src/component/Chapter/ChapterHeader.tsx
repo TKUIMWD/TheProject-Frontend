@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { ChapterPageDTO } from "../../interface/Chpater/ChapterPageDTO";
+import { ChapterPageDTO } from "../../interface/Chapter/ChapterPageDTO";
 import { useNavigate } from "react-router-dom";
 import '../../style/course/CourseHeader.css';
 

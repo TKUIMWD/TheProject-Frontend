@@ -89,19 +89,37 @@ export async function asyncDelete(api: string, body: {} | FormData, options: Req
     }
 }
 
-export async function asyncPatch(api: string, body: {} | FormData) {
+export async function asyncPatch(api: string, body: {} | FormData, options?: { headers?: Record<string, string> }) {
+    const requestHeaders = new Headers({
+        'Access-Control-Allow-Origin': api_base,
+    });
+
+    if (!(body instanceof FormData)) {
+        requestHeaders.set('Content-Type', 'application/json');
+    }
+
+    if (options?.headers) {
+        for (const [key, value] of Object.entries(options.headers)) {
+            requestHeaders.set(key, value);
+        }
+    }
+
     const res: Response = await fetch(api, {
         method: 'PATCH',
-        headers:new Headers({
-            'Access-Control-Allow-Origin':api_base,
-        }),
-        body: body instanceof FormData?body:JSON.stringify(body),
-        mode:"cors"
-    })
+        headers: requestHeaders,
+        body: body instanceof FormData ? body : JSON.stringify(body),
+        mode: "cors"
+    });
+
     try {
-        let data = res.json()
-        return data
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: res.statusText }));
+            throw new Error(errorData.message || `請求失敗，狀態碼：${res.status}`);
+        }
+        let data = res.json();
+        return data;
     } catch (error) {
-        console.error(error)
+        console.error("Fetch Patch Error:", error);
+        throw error;
     }
 }

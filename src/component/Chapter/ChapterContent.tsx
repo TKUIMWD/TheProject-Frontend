@@ -1,7 +1,7 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ChapterPageDTO } from '../../interface/Chpater/ChapterPageDTO';
+import { ChapterPageDTO } from '../../interface/Chapter/ChapterPageDTO';
 import '../../style/course/CourseContent.css';
 
 
