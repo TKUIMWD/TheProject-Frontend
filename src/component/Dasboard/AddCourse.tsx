@@ -11,7 +11,6 @@ import { Chapter } from "../../interface/Chapter/Chapter";
 export default function AddCourse() {
     const { showToast } = useToast();
 
-    // --- State for Add-Only Mode ---
     const [courseId, setCourseId] = useState<string | undefined>(undefined);
     const [courseData, setCourseData] = useState<Course | undefined>(undefined);
     const [isCourseInfoSaved, setIsCourseInfoSaved] = useState<boolean>(false);
@@ -92,7 +91,6 @@ export default function AddCourse() {
         setChapterData(prevChapters => {
             const chaptersInThisClass = prevChapters.filter(chap => chap.class_id === classId);
             const maxOrder = chaptersInThisClass.reduce((max, chap) => (chap.chapter_order > max ? chap.chapter_order : max), 0);
-            // 【核心修正】使用後端期望的欄位名稱
             const newChapter: Chapter = {
                 _id: `new_chapter_${Date.now()}`,
                 chapter_name: "",
@@ -155,26 +153,19 @@ export default function AddCourse() {
         const headers = { "Authorization": `Bearer ${token}` };
 
         try {
-            // --- 步驟 1: 儲存 Course 並獲取真實 ID ---
-            console.log("--- 步驟 1: 開始儲存 Course ---");
-            console.log("即將傳送的 Course Data:", JSON.stringify(courseData, null, 2));
             const createdCourseResponse = await asyncPost(course_api.addCourse, courseData, { headers });
             if (createdCourseResponse.code !== 200) {
                 throw new Error(`儲存課程失敗：${createdCourseResponse.message}`);
             }
 
             const finalCourse = createdCourseResponse.body;
-            console.log("後端 addCourse API 回應:", JSON.stringify(createdCourseResponse, null, 2));
             if (!finalCourse || !finalCourse.course_id) {
                 throw new Error("儲存課程失敗：後端未回傳課程 ID");
             }
+
             const finalCourseId = finalCourse.course_id;
             setCourseId(finalCourseId);
-            console.log(`Course 儲存成功，ID: ${finalCourseId}`);
 
-            // --- 步驟 2: 儲存所有 Class 並獲取真實 ID ---
-            console.log("--- 步驟 2: 開始儲存 Class ---");
-            console.log("即將傳送的 Class Data:", JSON.stringify(classData, null, 2));
             const tempIdToRealIdMap = new Map<string, string>();
             const finalClasses: Class[] = [];
 
@@ -194,15 +185,8 @@ export default function AddCourse() {
                     throw new Error(`建立 Class "${payload.class_name}" 失敗`);
                 }
             }
-            console.log("後端 addClassToCourse API 回應:", JSON.stringify(finalClasses, null, 2));
 
-            // 【核心修正】用包含真實 ID 的陣列，一次性更新 classData 狀態
             setClassData(finalClasses);
-            console.log("Class 儲存完成，前端狀態已更新。");
-
-            // --- 步驟 3: 儲存所有 Chapter ---
-            console.log("--- 步驟 3: 開始儲存 Chapter ---");
-            console.log("即將傳送的 Chapter Data:", JSON.stringify(chapterData, null, 2));
             for (const chapterItem of chapterData) {
                 const realClassId = tempIdToRealIdMap.get(chapterItem.class_id);
 
@@ -210,10 +194,8 @@ export default function AddCourse() {
                     throw new Error(`資料不一致：找不到 Chapter "${chapterItem.chapter_name}" 對應的 Class ID！`);
                 }
 
-                // 【核心修正】確保解構後的 payload 包含正確的欄位
                 const { _id, class_id, course_id, ...payload } = chapterItem;
 
-                // 傳送給後端的 payload 現在是 { chapter_name, chapter_subtitle, ... }
                 const res = await asyncPost(
                     chapter_api.addChapterToClass(realClassId),
                     {

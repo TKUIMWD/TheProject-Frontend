@@ -23,7 +23,6 @@ export default function Course() {
     const [loading, setLoading] = useState(true);
 
     const { courseId } = useParams();
-    const apiUrl = `${course_api.getCourseById}/${courseId}`;
 
     const setToast = (message: string, bg: "success" | "danger" | "secondary") => {
         setToastMessage(message);
@@ -54,7 +53,7 @@ export default function Course() {
 
             const fetchCourseData = async () => {
                 try {
-                    asyncGet(apiUrl, {
+                    asyncGet(course_api.getCourseById(courseId), {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -73,7 +72,7 @@ export default function Course() {
 
             const fetchCourseMenu = async () => {
                 try {
-                    asyncGet(`${apiUrl}/menu`, {
+                    asyncGet(course_api.getCourseMenu(courseId), {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }

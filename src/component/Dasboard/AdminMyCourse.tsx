@@ -6,6 +6,7 @@ import { CourseInfo } from "../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
 import '../../style/dashboard/MyCourses.css';
 import '../../style/dashboard/AdminMyCourse.css';
+import { useToast } from "../../context/ToastProvider";
 
 const COURSE_IMAGE_URL = "/src/assets/images/Dashboard/course_image.jpg";
 
@@ -46,41 +47,47 @@ export default function AdminMyCourses() {
     const navigate = useNavigate();
     const [courses, setCourses] = useState<CourseInfo[]>([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
     const [dropdownTitle, setDropdownTitle] = useState("更新時間（由新到舊）");
     const [searchQuery, setSearchQuery] = useState("");
     const [activeTab, setActiveTab] = useState('all');
     const [activePage, setActivePage] = useState(1);
+    const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
+    const { showToast } = useToast();
 
     useEffect(() => {
-        const fetchCourses = async () => {
+        const fetchUserCourses = async () => {
             setLoading(true);
-            setError(null);
+            const token = localStorage.getItem('token');;
+
+            if (!token) {
+                showToast("請先登入", "danger");
+                setLoading(false);
+                return;
+            }
+
             try {
-                // --- 模擬資料 ---
-                setTimeout(() => {
-                    setCourses([
-                        { _id: "1", course_name: "React 入門到精通", teacher_name: "王老師", rating: 4.8, update_date: "2025-07-25T12:00:00Z", duration_in_minutes: 180, difficulty: "中等", status: "公開" },
-                        { _id: "2", course_name: "Vue.js 實戰", teacher_name: "李老師", rating: 4.5, update_date: "2025-06-10T12:00:00Z", duration_in_minutes: 120, difficulty: "初級", status: "審核中" },
-                        { _id: "3", course_name: "資料庫設計", teacher_name: "陳老師", rating: 4.9, update_date: "2025-07-20T12:00:00Z", duration_in_minutes: 240, difficulty: "高級", status: "未公開" },
-                        { _id: "4", course_name: "UI/UX 設計原則", teacher_name: "林老師", rating: 4.2, update_date: "2024-11-01T12:00:00Z", duration_in_minutes: 90, difficulty: "初級", status: "審核未通過" },
-                        { _id: "5", course_name: "專案管理實務", teacher_name: "張老師", rating: 4.6, update_date: "2025-05-15T12:00:00Z", duration_in_minutes: 150, difficulty: "中等", status: "編輯中" },
-                    ]);
-                    setLoading(false);
-                }, 500);
-                // --- 模擬資料結束 ---
-            } catch (err) {
-                setError("無法載入課程資料，請稍後再試。");
+                const headers = { "Authorization": `Bearer ${token}` };
+                const response = await asyncGet(user_api.getUserCourses, { headers });
+
+                if (response.code === 200 && response.body) {
+                    setCourses(response.body);
+                    console.log("收到的課程物件:", response.body);
+                } else {
+                    showToast(response.message || "無法獲取課程資料", "danger");
+                    throw new Error(response.message || "無法獲取課程資料");
+                }
+            } catch (error: any) {
+                console.error("AdminMyCourse: 獲取課程時發生錯誤", error);
+                showToast(error.message || "獲取課程失敗", "danger");
+            } finally {
                 setLoading(false);
             }
         };
-        fetchCourses();
-    }, []);
+
+        fetchUserCourses();
+    }, [showToast]);
 
     // 處理篩選條件變更時，重置回第一頁
     useEffect(() => {
@@ -150,17 +157,7 @@ export default function AdminMyCourses() {
         );
     }
 
-    if (error) {
-        return (
-            <Container className="my-courses-container">
-                <div className="text-center p-5">
-                    <h4>{error}</h4>
-                </div>
-            </Container>
-        );
-    }
-
-    function handlePublicCourse (e: MouseEvent<HTMLElement>): void {
+    function handlePublicCourse(e: MouseEvent<HTMLElement>): void {
         e.stopPropagation();
         const row = (e.currentTarget as HTMLElement).closest('tr');
         const courseId = row?.getAttribute('id');
@@ -186,15 +183,15 @@ export default function AdminMyCourses() {
             console.log("刪除課程 ID:", courseId);
 
             if (!courseId) return;
-            setShowToast(true);
-            setToastMessage("課程已刪除");
-            setToastBg("success");
-            setTimeout(() => {
-                setShowToast(false);
-            }, 3000);
+            showToast("課程已刪除", "danger");
 
             // todo
         };
+    }
+
+    function handleAuditCourse(e: MouseEvent<HTMLElement>): void {
+        e.stopPropagation();
+        // todo
     }
 
     return (
@@ -271,17 +268,26 @@ export default function AdminMyCourses() {
                                 </td>
                                 <td>{course.rating.toFixed(1)} <i className="bi bi-star-fill text-warning"></i></td>
                                 <td>{formatDate(course.update_date)}</td>
-                                <td><span><i className="bi bi-record-fill" style={{ color: STATUS_CONFIG[course.status]?.color }}></i> </span>{course.status}</td>
+                                <td><span><i className="bi bi-record-fill" style={{ color: STATUS_CONFIG[course.status as "公開" | "未公開" | "編輯中" | "審核中" | "審核未通過"]?.color }}></i> </span>{course.status}</td>
                                 <td>
-                                    <Dropdown onClick={(e) => e.stopPropagation()}>
+                                    <Dropdown
+                                        onClick={(e) => e.stopPropagation()}
+                                        show={openDropdownId === course._id}
+                                        onToggle={(isOpen) => {
+                                            setOpenDropdownId(isOpen ? course._id : null);
+                                        }}
+                                    >
                                         <Dropdown.Toggle variant="none" className="course-dropdown">
                                             <i className="bi bi-three-dots-vertical"></i>
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => navigate(`../edit-course/${course._id}`)}>編輯</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => { }}>編輯</Dropdown.Item>
                                             {course.status === "公開" || course.status === "未公開" ?
                                                 <Dropdown.Item onClick={(e) => handlePublicCourse(e)}>{course.status === "公開" ? "不公開" : "公開"}</Dropdown.Item>
+                                                : null}
+                                            {course.status === "編輯中" ?
+                                                <Dropdown.Item onClick={(e) => handleAuditCourse(e)}>送出審核</Dropdown.Item>
                                                 : null}
                                             <Dropdown.Item className="text-danger" onClick={(e) => handleDeleteCourse(e)}>刪除</Dropdown.Item>
                                         </Dropdown.Menu>
@@ -306,14 +312,6 @@ export default function AdminMyCourses() {
                 </div>
 
             </Container>
-            <ToastContainer 
-                position="top-center" 
-                className="p-3 toast-container-fixed" 
-            >
-                <Toast onClose={() => setShowToast(false)} show={showToast} delay={2000} autohide bg={toastBg}>
-                    <Toast.Body className="text-white">{toastMessage}</Toast.Body>
-                </Toast>
-            </ToastContainer>
         </>
     );
 }

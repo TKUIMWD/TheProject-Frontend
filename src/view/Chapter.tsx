@@ -68,7 +68,7 @@ export default function Chapter() {
                         throw new Error(chapterData.message || "從章節資料中找不到 course_id");
                     }
 
-                    const courseMenuApiUrl = `${course_api.getCourseById}/${courseId}/menu`;
+                    const courseMenuApiUrl = course_api.getCourseMenu(courseId);
                     const courseMenuRes = await asyncGet(courseMenuApiUrl, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });

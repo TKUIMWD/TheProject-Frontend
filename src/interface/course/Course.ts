@@ -6,6 +6,7 @@ export interface Course {
     duration_in_minutes: number,
     difficulty: string,
     class_ids: Array<string>,
+    status?: "公開" | "未公開" | "編輯中" | "審核中" | "審核未通過"
 }
 
 export interface CourseInfo {
@@ -16,5 +17,5 @@ export interface CourseInfo {
     rating: number,
     teacher_name: string,
     update_date: string,
-    status: string
+    status?: "公開" | "未公開" | "編輯中" | "審核中" | "審核未通過"
 }
