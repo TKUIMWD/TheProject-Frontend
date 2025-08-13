@@ -4,7 +4,7 @@ import '../../style/course/CourseMenu.css';
 import { CourseMenuProps } from "../../interface/Course/CourseMenuProps";
 import { useNavigate } from "react-router-dom";
 
-export default function CourseMenu(courseMenu: CourseMenuProps) {
+export default function CourseMenu({ showJoinCourseModal, class_titles,isEnrolled }: CourseMenuProps) {
     const navigate = useNavigate();
     const [expandedClasses, setExpandedClasses] = useState<Set<number>>(new Set([1])); // 預設第一個展開
 
@@ -19,9 +19,17 @@ export default function CourseMenu(courseMenu: CourseMenuProps) {
         setExpandedClasses(newExpanded);
     };
 
+    const handleChapterClick = async (chapterId: string) => {
+        if (isEnrolled) {
+            navigate(`/chapters/${chapterId}`);
+        } else {
+            showJoinCourseModal();
+        }
+    };
+
     return (
         <>
-            {!courseMenu || !courseMenu.class_titles && (
+            {!class_titles || class_titles.length === 0 && (
                 <Container className="course-menu">
                     <div className="course-menu-header">
                         <h4 className="mb-3">目錄</h4>
@@ -35,7 +43,7 @@ export default function CourseMenu(courseMenu: CourseMenuProps) {
                     <h4 className="mb-3">目錄</h4>
                 </div>
 
-                {courseMenu.class_titles.map((classItem) => (
+                {class_titles.map((classItem) => (
                     <Card key={classItem.class_order} className="mb-3 class-card">
                         <Card.Header
                             className="class-header"
@@ -63,7 +71,7 @@ export default function CourseMenu(courseMenu: CourseMenuProps) {
                                             action
                                             className="chapter-item d-flex justify-content-between align-items-center"
                                             onClick={() => {
-                                                navigate(`/chapters/${chapterItem.chapter_id}`)
+                                                handleChapterClick(chapterItem.chapter_id);
                                             }}
                                         >
                                             <div className="chapter-content">

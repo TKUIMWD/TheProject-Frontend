@@ -1,37 +1,30 @@
-import { Container, Row, Col, ToastContainer, Toast } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import NavBar from "../component/NavBar";
 import Footer from "../component/Footer";
 import CourseHeader from "../component/Course/CourseHeader";
 import CourseContent from "../component/Course/CourseContent";
 import CourseMenu from "../component/Course/CourseMenu";
 import SubmitterInfo from "../component/Course/SubmitterInfo";
+import JoinCourseModal from "../component/modal/JoinCourseModal";
 import { asyncGet } from "../utils/fetch";
 import { course_api } from "../enum/api";
 import { CoursePageDTO } from "../interface/Course/CoursePageDTO";
 import { CourseMenuProps } from "../interface/Course/CourseMenuProps"
-import { useParams } from "react-router-dom";
+import { useToast } from "../context/ToastProvider";
 import '../style/course/Course.css';
 
 export default function Course() {
     const cache = useRef<boolean>(false);
     const [courseData, setCourseData] = useState<CoursePageDTO | null>(null);
     const [courseMenu, setCourseMenu] = useState<CourseMenuProps | null>(null);
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
+    const [isEnrolled, setIsEnrolled] = useState(false); // 使用者是否加入課程的狀態
+    const [showJoinCourseModal, setShowJoinCourseModal] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { showToast } = useToast();
 
     const { courseId } = useParams();
-
-    const setToast = (message: string, bg: "success" | "danger" | "secondary") => {
-        setToastMessage(message);
-        setToastBg(bg);
-        setShowToast(true);
-        setTimeout(() => {
-            setShowToast(false);
-        }, 2000);
-    };
 
     useEffect(() => {
         if (!cache.current) {
@@ -39,14 +32,14 @@ export default function Course() {
             setLoading(true);
 
             if (!courseId) {
-                setToast("無效的課程 ID", "danger");
+                showToast("無效的課程 ID", "danger");
                 setLoading(false);
                 return;
             }
 
             const token = localStorage.getItem('token');
             if (!token) {
-                setToast("請先登入", "danger");
+                showToast("請先登入", "danger");
                 setLoading(false);
                 return;
             }
@@ -60,13 +53,17 @@ export default function Course() {
                     }).then((res) => {
                         if (res.code === 200) {
                             setCourseData(res.body);
+                            setIsEnrolled(true);
+                        } else if (res.code === 403) {
+                            setCourseData(res.body);
+                            setIsEnrolled(false);
                         } else {
-                            setToast("載入課程失敗", "danger");
+                            showToast("載入課程失敗", "danger");
                         }
                     })
                 } catch (error) {
                     console.error("載入課程時發生錯誤:", error);
-                    setToast("載入課程時發生錯誤", "danger");
+                    showToast("載入課程時發生錯誤", "danger");
                 }
             }
 
@@ -79,61 +76,67 @@ export default function Course() {
                     }).then((res) => {
                         if (res.code === 200) {
                             setCourseMenu(res.body);
+                            setIsEnrolled(true);
+                        } else if (res.code === 403) {
+                            setCourseMenu(res.body);
+                            setIsEnrolled(false);
                         } else {
-                            setToast("載入課程目錄失敗", "danger");
+                            showToast("載入課程目錄失敗", "danger");
                         }
                     })
                 } catch (error) {
                     console.error("載入課程目錄時發生錯誤:", error);
-                    setToast("載入課程目錄時發生錯誤", "danger");
+                    showToast("載入課程目錄時發生錯誤", "danger");
                 }
             }
 
-            fetchCourseData();
-            fetchCourseMenu();
-            setLoading(false);
+            Promise.all([fetchCourseData(), fetchCourseMenu()]).finally(() => {
+                setLoading(false);
+            });
         }
     }, [courseId]);
 
     return (
-        <>
-            {courseData && courseMenu && (
                 <>
-                    <NavBar />
-                    <Container fluid className="course-container">
+            <NavBar />
+            <Container fluid className="course-container">
+                {loading ? (
+                    <div className="loading-overlay">
+                       <Spinner animation="border" />
+                    </div>
+                ) : courseData ? (
+                    <>
                         <Row>
                             <Col>
                                 <CourseHeader {...courseData} />
                             </Col>
                         </Row>
-
                         <Row className="course-main-section">
                             <Col lg={8} md={12} className="course-left-section">
                                 <CourseContent {...courseData} />
                             </Col>
                             <Col lg={4} md={12} className="course-right-section">
-                                <CourseMenu {...courseMenu} />
+                                <CourseMenu
+                                    // 確保即使 menu 為 null 也不會出錯
+                                    class_titles={courseMenu?.class_titles || []}
+                                    isEnrolled={isEnrolled}
+                                    showJoinCourseModal={() => setShowJoinCourseModal(true)}
+                                />
                                 <SubmitterInfo {...courseData} />
                             </Col>
                         </Row>
-                    </Container>
-                    <Footer />
-                </>
-            )}
+                    </>
+                ) : (
+                    <div className="text-center my-5">無法載入課程資訊。</div>
+                )}
+            </Container>
+            <Footer />
 
-            {loading && (
-                <div className="loading-overlay">
-                    <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">載入中...</span>
-                    </div>
-                </div>
-            )}
-
-            <ToastContainer position="top-center" className="p-3 profile-toast">
-                <Toast bg={toastBg} show={showToast} onClose={() => setShowToast(false)} delay={2000} autohide>
-                    <Toast.Body className="text-center text-white">{toastMessage}</Toast.Body>
-                </Toast>
-            </ToastContainer>
+            <JoinCourseModal
+                courseId={courseId || ""}
+                show={showJoinCourseModal}
+                setShow={() => setShowJoinCourseModal(false)}
+            />
         </>
     );
 }

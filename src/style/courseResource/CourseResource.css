@@ -1,0 +1,25 @@
+.course-resources-container .card-body {
+    line-height: 2rem;
+}
+
+.course-resources-container .card {
+    display: inline-flex; 
+    margin: 10px;
+}
+
+/* 讓 card-body 成為一個垂直的 flex 容器 */
+.course-resources-container .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 確保內容分散對齊 */
+    line-height: 2rem;
+}
+
+.card {
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}

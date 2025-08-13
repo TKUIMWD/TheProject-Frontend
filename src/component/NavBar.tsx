@@ -46,7 +46,7 @@ export default function NavBar() {
                             <Nav className="my-2 my-lg-0">
                                 <Nav.Link href="/" className="fw-bold">平台首頁</Nav.Link>
                                 <Nav.Link href="/" className="fw-bold">機器範本</Nav.Link>
-                                <Nav.Link href="/" className="fw-bold">課程資源</Nav.Link>
+                                <Nav.Link href="/courseResources" className="fw-bold">課程資源</Nav.Link>
                             </Nav>
                         </div>
                         <Nav className="ms-lg-auto mt-2 mt-lg-0">

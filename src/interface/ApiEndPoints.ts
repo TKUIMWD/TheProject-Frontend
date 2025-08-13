@@ -17,10 +17,12 @@ export interface UserApiEndpoints {
 
 export interface CourseApiEndpoints {
     addCourse: string;
+    getAllPublicCourses: string;
     getCourseById: (course_id: string) => string;
     getCourseMenu: (course_id: string) => string;
     updateCourseById: (course_id: string) => string;
     deleteCourseById: (course_id: string) => string;
+    joinCourseById: (course_id: string) => string;
 }
 
 export interface ClassApiEndpoints {

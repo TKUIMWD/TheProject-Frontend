@@ -12,6 +12,7 @@ export interface Course {
 export interface CourseInfo {
     _id: string,
     course_name: string,
+    course_subtitle: string,
     duration_in_minutes: number,
     difficulty: string,
     rating: number,

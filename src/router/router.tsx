@@ -7,6 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Course from "../view/Course";
 import Chapter from "../view/Chapter";
 import SuperAdminDashboard from "../view/SuperAdminDashboard";
+import CourseResources from "../view/CourseResources";
 
 
 export const router = createBrowserRouter([
@@ -53,5 +54,9 @@ export const router = createBrowserRouter([
                 <SuperAdminDashboard />
             </ProtectedRoute>
         )
+    },
+    {
+        path: '/CourseResources',
+        element: <CourseResources />,
     }
 ]);
