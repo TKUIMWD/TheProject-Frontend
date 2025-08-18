@@ -1,4 +1,4 @@
-import { Modal, Button, Form, Toast, ToastContainer, InputGroup } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { auth_api } from "../../enum/api";
 import { asyncPost } from "../../utils/fetch";
 import { jwtDecode } from "jwt-decode";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import { useToast } from "../../context/ToastProvider";
+import { getAuthStatus } from "../../utils/token";
 
 interface LoginModalProps {
     show: boolean;
@@ -19,10 +21,8 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
     const [showForgot, setShowForgot] = useState(false);
+    const { showToast } = useToast();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,26 +34,29 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
 
         if (response.code === 200) {
             localStorage.setItem('token', response.body.token);
+            const role = getAuthStatus();
             let uname = "";
             try {
                 const decoded: any = jwtDecode(response.body.token);
                 uname = decoded.username || decoded.name || "";
-            } catch {}
-            setToastMessage('登入成功');
-            setToastBg('success');
-            setShowToast(true);
+            } catch {
+                console.error("Token decode error");
+                showToast("登入失敗", "danger");
+            }
+            showToast("登入成功", "success");
             setEmail('');
             setPassword('');
             setShowPassword(false);
-            if (onLoginSuccess) onLoginSuccess(uname);
-            setTimeout(() => {
-                setShowToast(false);
-                onHide();
-            }, 1000);
+            if (onLoginSuccess) {
+                if (role === "superadmin") {
+                    navigate("/dashboard");
+                } else {
+                    onLoginSuccess(uname);
+                }
+            }
+
         } else {
-            setToastMessage(response.message || '登入失敗');
-            setToastBg('danger');
-            setShowToast(true);
+            showToast("登入失敗", "danger");
         }
     };
 
@@ -138,11 +141,6 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
                     show || onHide();
                 }}
             />
-            <ToastContainer position="top-center" className="p-3">
-                <Toast bg={toastBg} show={showToast} onClose={() => setShowToast(false)} delay={2000} autohide>
-                    <Toast.Body className="text-center text-white">{toastMessage}</Toast.Body>
-                </Toast>
-            </ToastContainer>
         </>
     );
 }

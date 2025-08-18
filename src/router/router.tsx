@@ -48,14 +48,6 @@ export const router = createBrowserRouter([
         )
     },
     {
-        path: '/superAdminDashboard',
-        element: (
-            <ProtectedRoute allowedRoles={['superadmin']}>
-                <SuperAdminDashboard />
-            </ProtectedRoute>
-        )
-    },
-    {
         path: '/CourseResources',
         element: <CourseResources />,
     }

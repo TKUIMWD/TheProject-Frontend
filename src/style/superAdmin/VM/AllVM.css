@@ -1,0 +1,5 @@
+.all-vm-container .row .col {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}

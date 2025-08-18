@@ -12,6 +12,7 @@ import MyCourses from "../component/Dasboard/MyCourses";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/AddCourse";
 import AdminMyCourse from "../component/Dasboard/AdminMyCourse";
+import SuperAdminDashboard from "./SuperAdminDashboard";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -40,7 +41,7 @@ export default function Dashboard() {
             items: []
         }
     ];
-    
+
     if (role === 'notLogon') {
         return (
             <>
@@ -50,6 +51,10 @@ export default function Dashboard() {
                 </div>
             </>
         );
+    }
+
+    if (role === "superadmin") {
+        return <SuperAdminDashboard />
     }
 
     const availableTabs = useMemo(() => {

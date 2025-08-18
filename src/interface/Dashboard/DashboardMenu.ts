@@ -5,7 +5,7 @@ export interface MenuItem {
     roles: string[];
 }
 
-// 2. 定義選單群組的類型
+// 定義選單群組的類型
 export interface MenuGroup {
     title: string;
     items: MenuItem[];

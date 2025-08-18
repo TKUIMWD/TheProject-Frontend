@@ -38,3 +38,10 @@ export interface ChapterApiEndpoints {
     updateChapterById: (chapter_id: string) => string;
     deleteChapterById: (chapter_id: string) => string;
 }
+
+export interface VMApiEndpoints {
+    getUsersOwnedVMs: string;
+    getAllMachines: string;
+    getVMStatus: string;
+    getVMNetworkInfo: string;
+}

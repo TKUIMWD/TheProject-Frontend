@@ -1,0 +1,36 @@
+/* 卡片邊框和間距 */
+.vm-status-area {
+    line-height: 2; /* 調整行高 */
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0; /* 統一的邊框 */
+    border-radius: 0.25rem;
+}
+
+/* 狀態行的樣式 - 左右對齊 */
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+/* 進度條容器的樣式 */
+.progress-container {
+    margin-bottom: 1rem;
+}
+
+/* 每一行的間距 */
+.vm-status-area .row {
+    margin-bottom: 0.75rem;
+}
+
+/* 最後一行不要有底部間距 */
+.vm-status-area .row:last-child {
+    margin-bottom: 0;
+}
+
+/* 網路區域樣式 */
+.vm-network-area {
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}

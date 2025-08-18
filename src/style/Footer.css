@@ -1,3 +1,9 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .footer-section {
   background: #f8fafb;
   color: #222;
@@ -5,6 +11,7 @@
   border-top: 1px solid #1ecb8b33;
   margin-top: auto;
   padding-top: 32px;
+  margin-top: auto;
 }
 
 .footer-powered {

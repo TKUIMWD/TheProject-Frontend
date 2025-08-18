@@ -1,0 +1,59 @@
+.super-admin-dashboard {
+    margin: 0;
+    padding: 0;
+}
+
+.super-admin-nav {
+    background-color: lightgray;
+    height: 100vh;
+    padding: 1rem;
+    margin-left: 0;
+}
+
+.brand-text {
+    text-align: left;
+    padding: 1rem;
+}
+
+.menu-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 可點擊的標題樣式 */
+.menu-group-toggle {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    border-radius: 0.25rem;
+    display: flex; /* 使用 flexbox 排版 */
+    justify-content: space-between; /* 讓標題和箭頭分開 */
+    align-items: center; /* 垂直置中 */
+}
+
+.menu-group-toggle:hover {
+    color: gray;
+}
+
+/* 新增箭頭樣式 */
+.arrow {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.arrow.open {
+    transform: rotate(180deg); /* 展開時旋轉180度 */
+}
+
+/* 摺疊選單中的項目樣式 */
+.menu-item {
+    background-color: lightgray !important; /* 覆蓋 react-bootstrap 預設樣式 */
+    padding-left: 2rem !important; /* 增加縮排 */
+    color: #333;
+    border: none !important; /* 移除邊框 */
+}
+
+.menu-item:hover {
+    color: gray !important;
+}
