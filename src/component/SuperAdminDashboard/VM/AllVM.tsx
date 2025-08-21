@@ -6,12 +6,14 @@ import { asyncGet } from "../../../utils/fetch";
 import { vm_api } from "../../../enum/api";
 import "../../../style/superAdmin/VM/AllVM.css";
 import VMInfo from "./VMInfo";
+import { useNavigate } from "react-router-dom";
 
 export default function AllMechine() {
     const [VMs, setVMs] = useState<VMDetailWithBasicConfig[] | null>(null);
     const [showCarousels, setShowCarousels] = useState<boolean>(true);
-    const { showToast } = useToast();
     const [activeIndex, setActiveIndex] = useState(0); // 新增 state 來控制輪播索引
+    const { showToast } = useToast();
+    const navigator = useNavigate();
 
     // 輪播切換時更新索引的函式
     const handleSelect = (selectedIndex: number) => {
@@ -72,15 +74,15 @@ export default function AllMechine() {
 
     // 輔助函式：渲染網格/輪播視圖
     const renderCarouselView = () => {
-        // 1. 過濾出狀態為 'running' 的機器
+        // 過濾出狀態為 'running' 的機器
         const runningVMs = VMs?.filter(vm => vm.status?.current_status === 'running');
 
-        // 2. 如果沒有正在運行的機器，顯示提示訊息
+        // 沒有正在運行的機器，顯示提示訊息
         if (!runningVMs || runningVMs.length === 0) {
             return <p className="text-center">目前沒有正在運行的機器。</p>;
         }
 
-        // 3. 映射陣列，為每台運行的機器渲染一個 VMInfo 元件
+        // 為每台運行的機器渲染一個 VMInfo 元件
         return (
             <Carousel
                 activeIndex={activeIndex}
@@ -97,7 +99,6 @@ export default function AllMechine() {
                                     VM_id={vm._id}
                                     VM_name={vm.pve_vmid.toString()}
                                     VM_pve_node={vm.pve_node}
-                                    showBreadcrumb={false}
                                 />
                             </Col>
                         </Row>
@@ -147,7 +148,7 @@ export default function AllMechine() {
                         {VMs?.map((mechine) => {
                             const time = uptimeFormat(mechine.status?.uptime);
                             return (
-                                <tr key={mechine._id}>
+                                <tr key={mechine._id} onClick={e => navigator(`/vmDetail/${mechine._id}`)}>
                                     <td>{mechine._id}</td>
                                     <td>{mechine.pve_vmid}</td>
                                     <td>{mechine.pve_node}</td>

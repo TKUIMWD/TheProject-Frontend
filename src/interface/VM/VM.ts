@@ -114,3 +114,27 @@ export interface SimplifiedNetworkInterface {
     macAddress: string;
     ipAddresses: string[];
 }
+
+export interface VMInfoProps {
+    VM_id?: string;
+    VM_name: string;
+    VM_pve_node: string;
+    isActive?: boolean;
+}
+
+export interface VMStatus {
+    status: string;
+    uptime: string;
+    resourceUsage: {
+        cpu: number;
+        memory: number;
+    }
+}
+
+export interface VMNetwork {
+    interfaces: {
+        ipAddresses: string[];
+        macAddress: string;
+        name: string;
+    }[];
+}

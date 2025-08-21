@@ -1,12 +1,9 @@
 import { auth_api } from "../enum/api";
 import { asyncPost } from "./fetch";
 
-interface LogoutProps {
-    setToastMessage: (message: string) => void;
-    setShowToast: (show: boolean) => void;
-}
+type ShowToastFunction = (message: string, variant?: 'success' | 'danger' | 'secondary' | 'warning' | 'info') => void;
 
-export default async function logout({ setToastMessage, setShowToast }: LogoutProps) {
+export default async function logout(showToast: ShowToastFunction) {
     const token = localStorage.getItem('token');
     const response = await asyncPost(
         auth_api.logout,
@@ -18,13 +15,12 @@ export default async function logout({ setToastMessage, setShowToast }: LogoutPr
         });
 
     if (response.code === 200) {
-        setToastMessage('已成功登出');
+        showToast("登出成功", "success")
     } else {
-        setToastMessage(response.message);
+        showToast(response.message, "danger");
     }
     localStorage.removeItem('token');
     setTimeout(() => {
         window.location.href = '/';
     }, 1000);
-    setShowToast(true);
 }

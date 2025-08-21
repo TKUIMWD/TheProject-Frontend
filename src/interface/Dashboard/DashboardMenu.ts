@@ -3,6 +3,7 @@ export interface MenuItem {
     label: string;
     component: JSX.Element;
     roles: string[];
+    show?:boolean;
 }
 
 // 定義選單群組的類型

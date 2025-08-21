@@ -6,8 +6,8 @@ import Dashboard from "../view/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Course from "../view/Course";
 import Chapter from "../view/Chapter";
-import SuperAdminDashboard from "../view/SuperAdminDashboard";
 import CourseResources from "../view/CourseResources";
+import VMDetailPage from "../component/SuperAdminDashboard/VM/VMDetailPage";
 
 
 export const router = createBrowserRouter([
@@ -50,5 +50,13 @@ export const router = createBrowserRouter([
     {
         path: '/CourseResources',
         element: <CourseResources />,
-    }
+    },
+    {
+        path: '/vmDetail/:vmId',
+        element: (
+            <ProtectedRoute allowedRoles={['superadmin']}>
+                <VMDetailPage />
+            </ProtectedRoute>
+        )
+    },
 ]);

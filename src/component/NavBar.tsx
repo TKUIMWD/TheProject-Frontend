@@ -1,13 +1,15 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
-import { Navbar, Container, Nav, Button, ToastContainer, Toast, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, Button, NavDropdown } from "react-bootstrap";
 import logout from "../utils/logout";
 import LoginModal from "./modal/LoginModal";
 import RegisterModal from "./modal/RegisterModal";
 import "../style/navbar.css";
 import { NavLink } from "react-router-dom";
+import { useToast } from "../context/ToastProvider";
 
 export default function NavBar() {
+    const { showToast } = useToast();
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [username, setUsername] = useState<string | null>(() => {
@@ -22,17 +24,9 @@ export default function NavBar() {
         }
         return null;
     });
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastBg, setToastBg] = useState<"success" | "danger" | "secondary">("secondary");
 
     const handleLogout = async () => {
-        await logout({
-            setToastMessage,
-            setShowToast,
-        });
-        setUsername(null);
-        setToastBg("success");
+        await logout(showToast);
     };
 
     return (
@@ -105,11 +99,6 @@ export default function NavBar() {
                     setShowLogin(true);
                 }}
             />
-            <ToastContainer position="top-center" className="p-3">
-                <Toast bg={toastBg} show={showToast} onClose={() => setShowToast(false)} delay={2000} autohide>
-                    <Toast.Body className="text-center text-white">{toastMessage}</Toast.Body>
-                </Toast>
-            </ToastContainer>
         </>
     );
 }

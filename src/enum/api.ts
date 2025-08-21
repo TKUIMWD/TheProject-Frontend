@@ -1,4 +1,4 @@
-import { AuthApiEndpoints, ClassApiEndpoints, VMApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
@@ -10,6 +10,8 @@ const course_api_base = import.meta.env.VITE_API_BASE_URL + "/courses";
 const class_api_base = import.meta.env.VITE_API_BASE_URL + "/classes";
 const chapter_api_base = import.meta.env.VITE_API_BASE_URL + "/chapters";
 const vm_api_base = import.meta.env.VITE_API_BASE_URL + "/vm";
+const pve_api_base = import.meta.env.VITE_API_BASE_URL + "/pve";
+const guacamole_api_base = import.meta.env.VITE_API_BASE_URL + "/guacamole";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -57,4 +59,14 @@ export const vm_api: VMApiEndpoints = {
     getAllMachines: `${vm_api_base}/getAll`,
     getVMStatus: `${vm_api_base}/status`,
     getVMNetworkInfo: `${vm_api_base}/network`,
+};
+
+export const pve_api: PVEApiEndpoints = {
+    getQemuConfig: `${pve_api_base}/getQemuConfig`
+};
+
+export const guacamole_api: GuacamoleApiEndpoints = {
+    sshConnection: `${guacamole_api_base}/ssh`,
+    rdpConnection: `${guacamole_api_base}/rdp`,
+    vncConnection: `${guacamole_api_base}/vnc`
 };

@@ -1,33 +1,12 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Table, ProgressBar, Button, Container, Row, Col } from "react-bootstrap";
+import { Table, ProgressBar, Button, Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncGet } from "../../../utils/fetch";
-import { vm_api } from "../../../enum/api";
-import "../../../style/superAdmin/VM/VMInfo.css"
-
-interface VMInfoProps {
-    VM_id?: string;
-    VM_name: string;
-    VM_pve_node: string;
-    showBreadcrumb: boolean;
-}
-
-interface VMStatus {
-    status: string;
-    uptime: string;
-    resourceUsage: {
-        cpu: number;
-        memory: number;
-    }
-}
-
-interface VMNetwork {
-    interfaces: {
-        ipAddresses: string[];
-        macAddress: string;
-        name: string;
-    }[];
-}
+import { pve_api, vm_api } from "../../../enum/api";
+import { VMInfoProps, VMStatus, VMNetwork } from "../../../interface/VM/VM";
+import { useVMDetail } from "../../../context/VMDetailContext"; // 引入自訂 Hook
+import "../../../style/superAdmin/VM/VMInfo.css";
 
 const progressBarColor: { min: number; max: number; variant: string }[] = [
     { min: 0, max: 59, variant: "success" },
@@ -35,19 +14,41 @@ const progressBarColor: { min: number; max: number; variant: string }[] = [
     { min: 80, max: 100, variant: "danger" }
 ];
 
-export default function VMInfo({ VM_name, VM_id, VM_pve_node, showBreadcrumb }: VMInfoProps) {
-    const SUPERADMIN_DASHBOARD_URL = "./dashboard?tab=MachineManagement"
-    const [status, setStatus] = useState<VMStatus | null>(null);
-    const [network, setNetwork] = useState<VMNetwork | null>(null);
-    const { showToast } = useToast();
-
-    const getProgressBarVariant = (value: number): string => {
-        const found = progressBarColor.find((range) => value >= range.min && value <= range.max);
-        return found ? found.variant : "success";
-    };
+export default function VMInfo(props: VMInfoProps) {
+    // 嘗試從 Context 獲取資料
+    const contextData = useVMDetail();
+    const { subscribe, unsubscribe } = contextData || {};
 
     useEffect(() => {
-        if (!VM_id) return; // 如果沒有 VM_id，就不要執行
+        // 只有當此分頁為作用中，且 subscribe 函式存在時，才訂閱
+        if (props.isActive && subscribe) {
+            subscribe();
+        }
+        // 清理函式會在 isActive 變為 false 或元件卸載時執行
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
+    }, [props.isActive, subscribe, unsubscribe]);
+
+    // 如果 contextData 存在，使用 Context 的資料；否則，使用 props 的資料。
+    const isContextMode = !!contextData;
+    const vmId = isContextMode ? contextData.vmDetail?._id : props.VM_id;
+    const vmName = isContextMode ? contextData.vmDetail?.pve_vmid.toString() : props.VM_name;
+    const vmNode = isContextMode ? contextData.vmDetail?.pve_node : props.VM_pve_node;
+
+    // 狀態管理：只有在非 Context 模式下才需要自己管理狀態
+    const [status, setStatus] = useState<VMStatus | null>(null);
+    const [network, setNetwork] = useState<VMNetwork | null>(null);
+    const [cpuMax, setCpuMax] = useState<number | null>(1);
+    const [memoryMax, setMemoryMax] = useState<number | null>(1);
+    const { showToast } = useToast();
+
+    // 資料獲取：只有在非 Context 模式下才需要自己獲取資料
+    useEffect(() => {
+        // 如果是 Context 模式，或沒有 vmId，就直接返回
+        if (isContextMode || !vmId) return;
 
         const token = localStorage.getItem("token");
         if (!token) {
@@ -56,66 +57,74 @@ export default function VMInfo({ VM_name, VM_id, VM_pve_node, showBreadcrumb }: 
         }
         const headers = { Authorization: `Bearer ${token}` };
 
-        const fetchStatusData = () => {
-            asyncGet(`${vm_api.getVMStatus}?vm_id=${VM_id}`, { headers })
-                .then((data) => {
-                    if (data.code === 200) setStatus(data.body);
-                    else console.error("無法獲取虛擬機狀態");
-                })
-                .catch((error) => console.error("Error fetching VM status:", error));
-        };
+        // 獲取cpu, memory 最大用量
+        asyncGet(`${pve_api.getQemuConfig}?id=${vmId}`, { headers })
+            .then(data => {
+                if (data.code === 200) {
+                    const { cores, memory } = data.body;
+                    const memoryInGB = memory / 1024;
+                    setCpuMax(cores);
+                    setMemoryMax(memoryInGB);
+                }
+            });
 
+        const fetchStatusData = () => {
+            asyncGet(`${vm_api.getVMStatus}?vm_id=${vmId}`, { headers })
+                .then((data) => data.code === 200 && setStatus(data.body));
+        };
         const fetchNetworkData = () => {
-            asyncGet(`${vm_api.getVMNetworkInfo}?vm_id=${VM_id}`, { headers })
-                .then((data) => {
-                    if (data.code === 200) setNetwork(data.body);
-                    else console.error("無法獲取虛擬機網路資訊");
-                })
-                .catch((error) => console.error("Error fetching VM network info:", error));
+            asyncGet(`${vm_api.getVMNetworkInfo}?vm_id=${vmId}`, { headers })
+                .then((data) => data.code === 200 && setNetwork(data.body));
         };
 
         fetchStatusData();
         fetchNetworkData();
         const intervalId = setInterval(fetchStatusData, 5000);
         return () => clearInterval(intervalId);
-    }, [VM_id, showToast]);
+    }, [vmId, isContextMode, showToast]);
 
-    const cpuUsage = status?.resourceUsage?.cpu ?? 0;
-    const cpuSize = 2; //! temp 
+    // 決定最終要顯示的狀態資料
+    const finalStatus = isContextMode ? contextData.status : status;
+    const finalNetwork = isContextMode ? contextData.network : network;
+
+    const getProgressBarVariant = (value: number): string => {
+        const found = progressBarColor.find((range) => value >= range.min && value <= range.max);
+        return found ? found.variant : "success";
+    };
+
+    const cpuUsage = finalStatus?.resourceUsage?.cpu ?? 0;
+    const cpuSize = isContextMode ? contextData.cpuMax : cpuMax ?? 1; // 預設為 1 避免除以 0
     const cpuVariant = getProgressBarVariant(cpuUsage);
 
-    const memoryUsage = status?.resourceUsage?.memory ?? 0;
-    const memorySize = 4; //! temp
+    const memoryUsage = finalStatus?.resourceUsage?.memory ?? 0;
+    const memorySize = (isContextMode ? contextData.memoryMax : memoryMax) ?? 1; // 預設為 1 避免除以 0
     const memoryVariant = getProgressBarVariant((memoryUsage / memorySize) * 100);
 
     return (
         <div className="vm-info-card">
-            {showBreadcrumb && (
-                <Breadcrumb>
-                    <Breadcrumb.Item href={SUPERADMIN_DASHBOARD_URL}>機器總覽</Breadcrumb.Item>
-                    <Breadcrumb.Item active>虛擬機資訊（{VM_name}）</Breadcrumb.Item>
-                </Breadcrumb>
-            )}
             <Container>
                 <Row>
                     <Col lg={10}>
-                        <h3>虛擬機資訊（{VM_name}）</h3>
+                        <h3>虛擬機資訊（{vmName}）</h3>
                     </Col>
-                    <Col lg={2}>
-                        <Button variant="outline-success">詳細資訊</Button>
-                    </Col>
+                    {!isContextMode && (
+                        <Col lg={2} className="text-end">
+                            <Link to={`/vmDetail/${vmId}`}>
+                                <Button variant="outline-success">詳細資訊</Button>
+                            </Link>
+                        </Col>
+                    )}
                 </Row>
             </Container>
             <hr />
-
             <div className="vm-status-area">
                 <div className="status-row">
                     <span>狀態</span>
-                    <span>{status?.status ?? '...'}</span>
+                    <span>{finalStatus?.status ?? '...'}</span>
                 </div>
                 <div className="status-row">
                     <span>Node</span>
-                    <span>{VM_pve_node}</span>
+                    <span>{vmNode ?? '...'}</span>
                 </div>
                 <div className="status-row">
                     <span>CPU 狀態</span>
@@ -132,7 +141,6 @@ export default function VMInfo({ VM_name, VM_id, VM_pve_node, showBreadcrumb }: 
                     <ProgressBar variant={memoryVariant} min={0} max={memorySize} now={memoryUsage} />
                 </div>
             </div>
-
             <div className="vm-network-area">
                 <h5>網路資訊</h5>
                 <Table striped bordered hover responsive>
@@ -145,7 +153,7 @@ export default function VMInfo({ VM_name, VM_id, VM_pve_node, showBreadcrumb }: 
                         </tr>
                     </thead>
                     <tbody>
-                        {network?.interfaces?.map((iface, index) => (
+                        {finalNetwork?.interfaces?.map((iface, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{iface.name}</td>

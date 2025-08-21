@@ -45,3 +45,14 @@ export interface VMApiEndpoints {
     getVMStatus: string;
     getVMNetworkInfo: string;
 }
+
+export interface PVEApiEndpoints {
+    getQemuConfig: string;
+}
+
+export interface GuacamoleApiEndpoints {
+    sshConnection: string;
+    rdpConnection: string;
+    vncConnection: string;
+    
+}
