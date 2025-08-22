@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Button, ButtonGroup, Dropdown, Spinner } from "react-bootstrap";
-import { asyncPost } from "../../../utils/fetch";
+import { asyncGet, asyncPost } from "../../../utils/fetch";
 import { useToast } from "../../../context/ToastProvider";
-import { guacamole_api } from "../../../enum/api";
+import { guacamole_api, vm_api, vm_operate_api } from "../../../enum/api";
 import StartVMModal from "../../modal/StartVMModal";
 import { useParams } from "react-router-dom";
 
@@ -13,50 +13,153 @@ const consoleTypeMap: Record<"SSH" | "RDP" | "VNC", string> = {
 };
 
 export default function VMConsole() {
-    const [start, setStart] = useState(false);
+    const [connect, setConnect] = useState(false);
+    const [connectionId, setConnectionId] = useState<string | null>(null);
+    const [isBoot, setIsBoot] = useState<boolean>(false);
     const [showStartModal, setShowStartModal] = useState<boolean>(false);
     const [consoleLoading, setConsoleLoading] = useState(false);
+    const [consoleUrl, setConsoleUrl] = useState<string>("");
     const [consoleType, setConsoleType] = useState<"SSH" | "RDP" | "VNC">("SSH");
     const { showToast } = useToast();
-
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const { vmId } = useParams();
-    if (!vmId) {
-        showToast("無法獲取 VM ID", "danger");
-        setConsoleLoading(false);
-        setStart(false);
-        return;
-    }
 
     const token = localStorage.getItem("token");
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = useMemo(() => ({ Authorization: `Bearer ${token}` }), [token]);
 
+    // 建立狀態輪詢，作為 isBoot 的唯一事實來源
+    useEffect(() => {
+        if (!vmId || !token) return;
+
+        const checkStatus = async () => {
+            try {
+                const res = await asyncGet(`${vm_api.getVMStatus}?vm_id=${vmId}`, { headers });
+                if (res.code === 200) {
+                    const isCurrentlyRunning = res.body.status === "running";
+                    setIsBoot(isCurrentlyRunning);
+
+                    // 如果 VM 狀態不是 running，強制更新 connect 狀態
+                    if (!isCurrentlyRunning && connect) {
+                        setConnect(false);
+                        setConnectionId(null);
+                        setConsoleUrl("");
+                    }
+                } else {
+                    setIsBoot(false); // 查詢失敗也當作未開機
+                }
+            } catch (error) {
+                console.error("Error polling VM status:", error);
+                setIsBoot(false);
+            }
+        };
+
+        checkStatus();
+        const intervalId = setInterval(checkStatus, 5000); // 每 5 秒檢查一次
+
+        return () => clearInterval(intervalId); // 元件卸載時清除計時器
+    }, [vmId, token, headers, connect]); // 當 connect 狀態改變時也重新評估
+
+    // 處理 iframe 的焦點問題
+    useEffect(() => {
+        // 當 iframe 可見時，才需要監聽
+        if (!connect || consoleLoading) {
+            return;
+        }
+
+        const handleWindowBlur = () => {
+            // 當主視窗失焦時，檢查焦點是否轉移到了 iframe 上
+            if (document.activeElement === iframeRef.current) {
+                // 如果是，我們可以執行一些操作，例如記錄日誌
+                // 但實際上，瀏覽器已經自動完成了聚焦，我們無需再手動呼叫 focus()
+                console.log("Iframe has been focused by user click.");
+            }
+        };
+
+        // 新增事件監聽
+        window.addEventListener('blur', handleWindowBlur);
+
+        // 元件卸載或依賴項改變時，清除監聽
+        return () => {
+            window.removeEventListener('blur', handleWindowBlur);
+        };
+    }, [connect, consoleLoading]);
+
+    // 輔助函式：重新聚焦 iframe
     const refocusIframe = () => {
-        // 使用 setTimeout 確保在瀏覽器完成其他操作 (如關閉下拉選單) 後再執行聚焦
         setTimeout(() => {
-            // 檢查 ref 是否存在且 iframe 是否已連線 (有 src)
             if (iframeRef.current && iframeRef.current.src) {
                 iframeRef.current.focus();
             }
         }, 0);
     };
 
-    const handleStart = () => {
-        
+    // VM操作函式
+    const sendVMOperation = async (operation: string, api: string) => {
+        try {
+            showToast(`正在發送 ${operation} 指令...`, "info");
+            const response = await asyncPost(api, { vm_id: vmId }, { headers });
+            if (response.code === 200) {
+                showToast(`${operation} 指令已成功發送`, "success");
+            } else {
+                throw new Error(response.message || `無法發送 ${operation} 指令`);
+            }
+        } catch (error: any) {
+            showToast(`${operation} 失敗: ${error.message}`, "danger");
+            console.error(`Error during ${operation}:`, error);
+        }
+    };
+
+    const handleStart = () => sendVMOperation("啟動", vm_operate_api.boot);
+    const handleShutdown = () => sendVMOperation("關機 (Shutdown)", vm_operate_api.shutdown);
+    const handlePoweroff = () => sendVMOperation("關機 (Poweroff)", vm_operate_api.poweroff);
+    const handleReboot = () => sendVMOperation("重啟 (Reboot)", vm_operate_api.reboot);
+    const handleReset = () => sendVMOperation("重啟 (Reset)", vm_operate_api.reset);
+
+    const handleConnect = () => {
+        if (!isBoot) {
+            showToast("請先啟動虛擬機", "danger");
+            return;
+        }
         setConsoleLoading(true);
         setShowStartModal(true);
     };
 
-    const handleReboot = () => {
+    // 確認連線
+    const onConfirmConnect = async (username: string, password: string) => {
+        const api = consoleTypeMap[consoleType];
+        const body = { "vm_id": vmId, "username": username, "password": password };
+        try {
+            const response = await asyncPost(api, body, { headers });
+            if (response.code !== 200) throw new Error(response.message);
 
+            const { direct_url, connection_id } = response.body;
+            if (!direct_url || !connection_id) throw new Error("後端未回傳完整連線資訊");
+            setConnect(true);
+            setConnectionId(connection_id);
+            setConsoleUrl(direct_url);
+            setConsoleLoading(false);
+            showToast("連線成功", "success");
+        } catch (error: any) {
+            showToast(`連線失敗: ${error}`, "danger");
+            setConnect(false);
+            setConsoleLoading(false);
+        } finally {
+            setShowStartModal(false);
+        }
     };
 
-    const handleShutdown = () => {
-
+    const handleDisconnect = async () => {
+        if (!connectionId) return;
+        try {
+            await asyncPost(guacamole_api.disConnect, { connection_id: connectionId }, { headers });
+            showToast("已斷開連線", "success");
+        } catch (error: any) {
+            showToast(`斷線失敗: ${error.message}`, "danger");
+        } finally {
+            setConnect(false);
+            setConnectionId(null);
+            setConsoleUrl("");
+        }
     };
 
     const handleFullScreen = () => {
@@ -80,46 +183,12 @@ export default function VMConsole() {
 
     const onHideStartModal = () => {
         setShowStartModal(false);
-    }
-
-    const onConfirmStart = async (username: string, password: string) => {
-        setStart(true);
-        setConsoleLoading(true);
-        const api = consoleTypeMap[consoleType];
-        const body = {
-            "vm_id": vmId,
-            "username": username,
-            "password": password
-        };
-        try {
-            asyncPost(api, body, { headers })
-                .then(response => {
-                    if (response.code !== 200) {
-                        showToast(`無法獲取連線資訊: ${response.message}`, "danger");
-                        console.error(`Error fetching VM console: ${response.message}`);
-                        return;
-                    }
-
-                    if (iframeRef.current) {
-                        iframeRef.current.src = response.body.direct_url;
-                        iframeRef.current.onload = () => {
-                            refocusIframe();
-                        };
-                    }
-                    showToast("連線成功，正在載入終端...", "success");
-                    setConsoleLoading(false);
-                })
-                .catch(error => {
-                    throw new Error(error || "無法獲取連線資訊");
-                });
-        } catch (error) {
-            showToast(`Error: ${error}`, "danger");
-            setConsoleLoading(false);
-            setStart(false);
-        } finally {
+        // 如果使用者是直接關閉 Modal，則重設畫面狀態
+        if (consoleLoading) {
+            setConnect(false);
             setConsoleLoading(false);
         }
-    }
+    };
 
     const handleConsoleTypeChange = (eventKey: string | null) => {
         if (eventKey && (eventKey === "SSH" || eventKey === "RDP" || eventKey === "VNC")) {
@@ -133,16 +202,20 @@ export default function VMConsole() {
                 <StartVMModal
                     show={showStartModal}
                     onHide={onHideStartModal}
-                    onConfirm={onConfirmStart}
+                    onConfirm={onConfirmConnect}
                 />
             )}
             <div className="d-flex justify-content-between mb-2">
                 <ButtonGroup>
-                    <Button variant="outline-secondary" onClick={handleStart} disabled={start}><i className="bi bi-play-circle" /> Start</Button>
-                    <Button variant="outline-secondary"><i className="bi bi-repeat" /> Reboot</Button>
-                    <Button variant="outline-secondary"><i className="bi bi-power" /> Shutdown</Button>
+                    <Button variant="outline-secondary" onClick={handleStart} disabled={isBoot}><i className="bi bi-play-circle" /> Start</Button>
+                    <Button variant="outline-secondary" onClick={handleShutdown} disabled={!isBoot}><i className="bi bi-power" /> Shutdown</Button>
+                    <Button variant="outline-secondary" onClick={handlePoweroff} disabled={!isBoot}><i className="bi bi-power" /> Poweroff</Button>
+                    <Button variant="outline-secondary" onClick={handleReboot} disabled={!isBoot}><i className="bi bi-repeat" /> Reboot</Button>
+                    <Button variant="outline-secondary" onClick={handleReset} disabled={!isBoot}> <i className="bi bi-repeat" /> Reset</Button>
                 </ButtonGroup>
                 <div className="d-flex align-items-center gap-2">
+                    <Button variant="outline-secondary" onClick={handleConnect} disabled={!isBoot || connect}><i className="bi bi-play-circle" /> Connect</Button>
+                    <Button variant="outline-secondary" onClick={handleDisconnect} disabled={!connect}><i className="bi bi-x-circle" /> Disconnect</Button>
                     <Button variant="outline-secondary" onClick={handleFullScreen}><i className="bi bi-fullscreen" /> Full Screen</Button>
                     <Dropdown onSelect={handleConsoleTypeChange}>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -157,41 +230,44 @@ export default function VMConsole() {
                     </Dropdown>
                 </div>
             </div>
-            {start ? (
+            {connect ? (
                 consoleLoading ? (
                     <div style={{ width: "100%", height: "600px", border: "solid 1px #ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Connecting...</span>
-                        </Spinner>
+                        <Spinner animation="border" role="status" />
                     </div>
                 ) : (
                     <div style={{ position: 'relative', width: '100%', height: '600px' }}>
                         <iframe
                             ref={iframeRef}
+                            src={consoleUrl}
+                            onLoad={refocusIframe} // 在 iframe 載入完成後聚焦
                             title="VM Console"
                             width="100%"
                             height="100%"
                             style={{ border: "solid 1px #ccc" }}
                             allowFullScreen
                         />
-                        {/* 作用：讓 iframe 可以重新focus */}
-                        <div
-                            onClick={refocusIframe}
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                zIndex: 10,
-                                backgroundColor: 'transparent',
-                            }}
-                        />
+                        {/* 讓 SSH 連線的 iframe 可點擊以聚焦的透明div */}
+                        {consoleType === 'SSH' && (
+                            <div
+                                onClick={refocusIframe}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    zIndex: 10,
+                                    backgroundColor: 'transparent'
+                                }}
+                            />
+                        )}
                     </div>
                 )
             ) : (
                 <div style={{ width: "100%", height: "600px", border: "solid 1px #ccc", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <span>VM is not running</span>
+                    {!isBoot && <span>VM is not running</span>}
+                    {isBoot && <span>VM is running, but not connected</span>}
                 </div>
             )}
         </div>

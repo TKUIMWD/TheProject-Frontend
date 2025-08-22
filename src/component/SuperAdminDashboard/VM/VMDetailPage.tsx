@@ -1,7 +1,7 @@
 import { Breadcrumb, Container, Spinner, Tab, Tabs } from "react-bootstrap";
 import VMInfo from "./VMInfo";
 import { VMDetailProvider, useVMDetail } from "../../../context/VMDetailContext"; // 引入 Provider
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import VMConsole from "./VMConsole";
 
 function VMDetailContent() {

@@ -148,7 +148,7 @@ export default function AllMechine() {
                         {VMs?.map((mechine) => {
                             const time = uptimeFormat(mechine.status?.uptime);
                             return (
-                                <tr key={mechine._id} onClick={e => navigator(`/vmDetail/${mechine._id}`)}>
+                                <tr key={mechine._id} onClick={e => { e.stopPropagation(); navigator(`/vmDetail/${mechine._id}`); }}>
                                     <td>{mechine._id}</td>
                                     <td>{mechine.pve_vmid}</td>
                                     <td>{mechine.pve_node}</td>

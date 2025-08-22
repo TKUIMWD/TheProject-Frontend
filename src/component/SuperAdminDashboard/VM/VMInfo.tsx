@@ -104,11 +104,11 @@ export default function VMInfo(props: VMInfoProps) {
         <div className="vm-info-card">
             <Container>
                 <Row>
-                    <Col lg={10}>
+                    <Col lg={6}>
                         <h3>虛擬機資訊（{vmName}）</h3>
                     </Col>
                     {!isContextMode && (
-                        <Col lg={2} className="text-end">
+                        <Col lg={6} className="text-end">
                             <Link to={`/vmDetail/${vmId}`}>
                                 <Button variant="outline-success">詳細資訊</Button>
                             </Link>

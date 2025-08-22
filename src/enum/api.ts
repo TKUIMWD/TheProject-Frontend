@@ -1,4 +1,4 @@
-import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMOperateApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
@@ -12,6 +12,7 @@ const chapter_api_base = import.meta.env.VITE_API_BASE_URL + "/chapters";
 const vm_api_base = import.meta.env.VITE_API_BASE_URL + "/vm";
 const pve_api_base = import.meta.env.VITE_API_BASE_URL + "/pve";
 const guacamole_api_base = import.meta.env.VITE_API_BASE_URL + "/guacamole";
+const vm_operate_api_base = import.meta.env.VITE_API_BASE_URL + "/vm/operate";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -68,5 +69,14 @@ export const pve_api: PVEApiEndpoints = {
 export const guacamole_api: GuacamoleApiEndpoints = {
     sshConnection: `${guacamole_api_base}/ssh`,
     rdpConnection: `${guacamole_api_base}/rdp`,
-    vncConnection: `${guacamole_api_base}/vnc`
+    vncConnection: `${guacamole_api_base}/vnc`,
+    disConnect: `${guacamole_api_base}/disconnect`
 };
+
+export const vm_operate_api:VMOperateApiEndpoints = {
+    boot: `${vm_operate_api_base}/boot`,
+    shutdown: `${vm_operate_api_base}/shutdown`,
+    poweroff: `${vm_operate_api_base}/poweroff`,
+    reboot: `${vm_operate_api_base}/reboot`,
+    reset: `${vm_operate_api_base}/reset`,
+}

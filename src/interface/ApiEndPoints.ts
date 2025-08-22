@@ -54,5 +54,13 @@ export interface GuacamoleApiEndpoints {
     sshConnection: string;
     rdpConnection: string;
     vncConnection: string;
-    
+    disConnect: string
+}
+
+export interface VMOperateApiEndpoints {
+    boot: string,
+    shutdown: string,
+    poweroff: string,
+    reboot: string,
+    reset: string
 }
