@@ -13,6 +13,10 @@ import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/AddCourse";
 import AdminMyCourse from "../component/Dasboard/AdminMyCourse";
 import SuperAdminDashboard from "./SuperAdminDashboard";
+import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateList";
+import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTemplate";
+import VMList from "../component/Dasboard/VM/VMList";
+import CreateVM from "../component/Dasboard/VM/CreateVM";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -34,7 +38,17 @@ export default function Dashboard() {
         },
         {
             title: "機器管理",
-            items: []
+            items: [
+                { key: "VMList", label: "我的機器", component: <VMList />, roles: ["user", "admin", "superadmin"] },
+                { key: "CreateVM", label: "新增機器", component: <CreateVM />, roles: ["admin", "superadmin"] }
+            ]
+        },
+        {
+            title: "範本管理",
+            items: [
+                { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false}/>, roles: ["admin", "superadmin"] },
+                { key: "AddTemplate", label: "新增範本", component: <CreateTemplate />, roles: ["admin", "superadmin"] },
+            ]
         },
         {
             title: "訂閱資訊",

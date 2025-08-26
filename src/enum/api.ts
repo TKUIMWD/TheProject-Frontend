@@ -1,8 +1,7 @@
-import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMOperateApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
-
 
 const auth_api_base = import.meta.env.VITE_API_BASE_URL + "/auth";
 const user_api_base = import.meta.env.VITE_API_BASE_URL + "/user";
@@ -10,9 +9,11 @@ const course_api_base = import.meta.env.VITE_API_BASE_URL + "/courses";
 const class_api_base = import.meta.env.VITE_API_BASE_URL + "/classes";
 const chapter_api_base = import.meta.env.VITE_API_BASE_URL + "/chapters";
 const vm_api_base = import.meta.env.VITE_API_BASE_URL + "/vm";
+const vm_manage_api_base = import.meta.env.VITE_API_BASE_URL + "/vm/manage";
+const vm_operate_api_base = import.meta.env.VITE_API_BASE_URL + "/vm/operate";
 const pve_api_base = import.meta.env.VITE_API_BASE_URL + "/pve";
 const guacamole_api_base = import.meta.env.VITE_API_BASE_URL + "/guacamole";
-const vm_operate_api_base = import.meta.env.VITE_API_BASE_URL + "/vm/operate";
+const vm_template_api_base = import.meta.env.VITE_API_BASE_URL + "/template";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -28,7 +29,8 @@ export const user_api: UserApiEndpoints = {
     changePassword: `${user_api_base}/changePassword`,
     uploadAvatar: `${user_api_base}/uploadAvatar`,
     deleteAvatar: `${user_api_base}/deleteAvatar`,
-    getUserCourses: `${user_api_base}/getUserCourses`
+    getUserCourses: `${user_api_base}/getUserCourses`,
+    getUserCRP: `${user_api_base}/getUserCRP`
 };
 
 export const course_api: CourseApiEndpoints = {
@@ -62,8 +64,21 @@ export const vm_api: VMApiEndpoints = {
     getVMNetworkInfo: `${vm_api_base}/network`,
 };
 
+export const vm_operate_api:VMOperateApiEndpoints = {
+    boot: `${vm_operate_api_base}/boot`,
+    shutdown: `${vm_operate_api_base}/shutdown`,
+    poweroff: `${vm_operate_api_base}/poweroff`,
+    reboot: `${vm_operate_api_base}/reboot`,
+    reset: `${vm_operate_api_base}/reset`,
+}
+
+export const vm_manage_api: VMManageApiEndpoints = {
+    createFromTemplate: `${vm_manage_api_base}/createFromTemplate`,
+};
+
 export const pve_api: PVEApiEndpoints = {
-    getQemuConfig: `${pve_api_base}/getQemuConfig`
+    getQemuConfig: `${pve_api_base}/getQemuConfig`,
+    getNodes: `${pve_api_base}/getNodes`,
 };
 
 export const guacamole_api: GuacamoleApiEndpoints = {
@@ -73,10 +88,10 @@ export const guacamole_api: GuacamoleApiEndpoints = {
     disConnect: `${guacamole_api_base}/disconnect`
 };
 
-export const vm_operate_api:VMOperateApiEndpoints = {
-    boot: `${vm_operate_api_base}/boot`,
-    shutdown: `${vm_operate_api_base}/shutdown`,
-    poweroff: `${vm_operate_api_base}/poweroff`,
-    reboot: `${vm_operate_api_base}/reboot`,
-    reset: `${vm_operate_api_base}/reset`,
-}
+
+export const vm_template_api: VMTemplateApiEndpoints = {
+    getAllTemplates: `${vm_template_api_base}/getAll`,
+    getAccessibleTemplates: `${vm_template_api_base}/getAccessable`,
+    convertVMtoTemplate: `${vm_template_api_base}/convert`,
+    submitTemplate: `${vm_template_api_base}/submit`
+};

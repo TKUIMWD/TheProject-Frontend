@@ -34,7 +34,6 @@ function VMDetailContent() {
                 className="mb-3"
             >
                 <Tab eventKey="about" title="關於">
-                    {/* 3. 傳遞 isActive 屬性 */}
                     <VMInfo VM_name={vmDetail.pve_vmid} VM_pve_node={vmDetail.pve_node} isActive={activeTab === 'about'} />
                 </Tab>
                 <Tab eventKey="console" title="終端">
@@ -47,7 +46,6 @@ function VMDetailContent() {
 
 export default function VMDetailPage() {
     return (
-        // 用 Provider 包裹所有內容
         <VMDetailProvider>
             <VMDetailContent />
         </VMDetailProvider>

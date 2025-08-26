@@ -13,6 +13,7 @@ export interface UserApiEndpoints {
     uploadAvatar: string;
     deleteAvatar: string;
     getUserCourses: string;
+    getUserCRP: string;
 }
 
 export interface CourseApiEndpoints {
@@ -46,8 +47,21 @@ export interface VMApiEndpoints {
     getVMNetworkInfo: string;
 }
 
+export interface VMOperateApiEndpoints {
+    boot: string,
+    shutdown: string,
+    poweroff: string,
+    reboot: string,
+    reset: string
+}
+
+export interface VMManageApiEndpoints {
+    createFromTemplate: string;
+}
+
 export interface PVEApiEndpoints {
     getQemuConfig: string;
+    getNodes: string;
 }
 
 export interface GuacamoleApiEndpoints {
@@ -57,10 +71,9 @@ export interface GuacamoleApiEndpoints {
     disConnect: string
 }
 
-export interface VMOperateApiEndpoints {
-    boot: string,
-    shutdown: string,
-    poweroff: string,
-    reboot: string,
-    reset: string
+export interface VMTemplateApiEndpoints {
+    getAllTemplates: string;
+    getAccessibleTemplates: string;
+    convertVMtoTemplate: string;
+    submitTemplate: string;
 }
