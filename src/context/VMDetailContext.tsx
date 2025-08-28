@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { asyncGet } from '../utils/fetch';
 import { pve_api, vm_api } from '../enum/api';
 import { VMDetailWithBasicConfig, VMStatus, VMNetwork } from '../interface/VM/VM';
+import { getAuthStatus } from '../utils/token';
+import UserVMConsole from '../component/Dasboard/VM/UserVMConsole';
 
 // 定義 Context 要提供的資料結構
 interface VMDetailContextType {
@@ -31,7 +33,9 @@ export function VMDetailProvider({ children }: { children: ReactNode }) {
 
     // 獲取Status, Network 資料
     const fetchData = useCallback(() => {
-        if (!vmId) return;
+        // 只有 superadmin 才需要輪詢詳細狀態
+        if (getAuthStatus() !== "superadmin" || !vmId) return;
+
         const token = localStorage.getItem("token");
         if (!token) return;
         const headers = { Authorization: `Bearer ${token}` };
@@ -61,14 +65,12 @@ export function VMDetailProvider({ children }: { children: ReactNode }) {
             intervalRef.current = null;
         }
     }, []);
-    
 
     useEffect(() => {
         if (!vmId) return;
         const token = localStorage.getItem("token");
         if (!token) return;
         const headers = { Authorization: `Bearer ${token}` };
-
 
         // 獲取 VM 完整資訊 (名稱、節點等)
         asyncGet(vm_api.getAllMachines, { headers })

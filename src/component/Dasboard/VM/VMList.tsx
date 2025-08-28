@@ -75,8 +75,6 @@ export default function VMList() {
         );
     }, [stoppedVMs, stoppedSearchTerm]);
 
-
-
     return (
         <>
             <h3>我的機器</h3>

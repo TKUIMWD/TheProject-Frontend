@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Button, ButtonGroup, Dropdown, Spinner } from "react-bootstrap";
-import { asyncGet, asyncPost } from "../../../utils/fetch";
+import { asyncDelete, asyncGet, asyncPost } from "../../../utils/fetch";
 import { useToast } from "../../../context/ToastProvider";
 import { guacamole_api, vm_api, vm_operate_api } from "../../../enum/api";
 import StartVMModal from "../../modal/StartVMModal";
@@ -138,7 +138,7 @@ export default function VMConsole() {
             setConnectionId(connection_id);
             setConsoleUrl(direct_url);
             setConsoleLoading(false);
-            showToast("連線成功", "success");
+            showToast("連線成功，請稍後...", "success");
         } catch (error: any) {
             showToast(`連線失敗: ${error}`, "danger");
             setConnect(false);
@@ -148,19 +148,74 @@ export default function VMConsole() {
         }
     };
 
-    const handleDisconnect = async () => {
+    const handleDisconnect = () => {
         if (!connectionId) return;
         try {
-            await asyncPost(guacamole_api.disConnect, { connection_id: connectionId }, { headers });
-            showToast("已斷開連線", "success");
+            asyncDelete(guacamole_api.disConnect, { connection_id: connectionId }, { headers })
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("已斷開連線", "success");
+                        setConnect(false);
+                        setConnectionId(null);
+                        setConsoleUrl("");
+                    } else {
+                        throw new Error(res.message || "斷開連線失敗");
+                    }
+                })
         } catch (error: any) {
             showToast(`斷線失敗: ${error.message}`, "danger");
-        } finally {
+        }
+    };
+
+    const handleDeleteAllConnection = async () => {
+        try {
+            const confirm = window.confirm("確定要刪除您所有的 Guacamole 連線嗎？此操作無法復原。");
+            if (!confirm) {
+                return;
+            }
+
+            // list user's all connections
+            const listRes = await asyncGet(guacamole_api.listConnections, { headers });
+
+            if (listRes.code !== 200 || !Array.isArray(listRes.body)) {
+                throw new Error(listRes.message || "獲取連線列表失敗");
+            }
+            const connections: any[] = listRes.body;
+            console.log(connections);
+
+            if (connections.length === 0) {
+                showToast("沒有可刪除的連線。", "info");
+                return;
+            }
+
+            // delete all connections
+            const deletePromises = connections.map(conn =>
+                asyncDelete(guacamole_api.deleteConnection, { connection_id: conn.connection_id }, { headers })
+            );
+
+            showToast(`正在刪除 ${deletePromises.length} 個連線...`, "info");
+
+            // 執行所有刪除請求
+            const results = await Promise.all(deletePromises);
+
+            // 檢查是否有任何一個請求失敗
+            const failedDeletions = results.filter(res => res.code !== 200);
+            console.log(failedDeletions);
+
+            if (failedDeletions.length > 0) {
+                throw new Error(`部分連線刪除失敗 (${failedDeletions.length}/${results.length})`);
+            }
+
+            // 所有請求成功
+            showToast("所有連線已成功刪除", "success");
             setConnect(false);
             setConnectionId(null);
             setConsoleUrl("");
+        } catch (error: any) {
+            showToast(`刪除連線失敗: ${error.message}`, "danger");
         }
-    };
+
+    }
 
     const handleFullScreen = () => {
         // 檢查 ref 是否已經指向 iframe
@@ -214,8 +269,11 @@ export default function VMConsole() {
                     <Button variant="outline-secondary" onClick={handleReset} disabled={!isBoot}> <i className="bi bi-repeat" /> Reset</Button>
                 </ButtonGroup>
                 <div className="d-flex align-items-center gap-2">
-                    <Button variant="outline-secondary" onClick={handleConnect} disabled={!isBoot || connect}><i className="bi bi-play-circle" /> Connect</Button>
-                    <Button variant="outline-secondary" onClick={handleDisconnect} disabled={!connect}><i className="bi bi-x-circle" /> Disconnect</Button>
+                    <ButtonGroup>
+                        <Button variant="outline-secondary" onClick={handleConnect} disabled={!isBoot || connect}><i className="bi bi-play-circle" /> Connect</Button>
+                        <Button variant="outline-secondary" onClick={handleDisconnect} disabled={!connect}><i className="bi bi-x-circle" /> Disconnect</Button>
+                        <Button variant="outline-secondary" onClick={handleDeleteAllConnection}><i className="bi bi-x-circle" /> Delete Connect</Button>
+                    </ButtonGroup>
                     <Button variant="outline-secondary" onClick={handleFullScreen}><i className="bi bi-fullscreen" /> Full Screen</Button>
                     <Dropdown onSelect={handleConsoleTypeChange}>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">

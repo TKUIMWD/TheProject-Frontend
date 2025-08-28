@@ -85,7 +85,9 @@ export const guacamole_api: GuacamoleApiEndpoints = {
     sshConnection: `${guacamole_api_base}/ssh`,
     rdpConnection: `${guacamole_api_base}/rdp`,
     vncConnection: `${guacamole_api_base}/vnc`,
-    disConnect: `${guacamole_api_base}/disconnect`
+    disConnect: `${guacamole_api_base}/disconnect`,
+    deleteConnection: `${guacamole_api_base}/deleteConnection`,
+    listConnections: `${guacamole_api_base}/connections`
 };
 
 

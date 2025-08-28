@@ -8,6 +8,7 @@ import Course from "../view/Course";
 import Chapter from "../view/Chapter";
 import CourseResources from "../view/CourseResources";
 import VMDetailPage from "../component/SuperAdminDashboard/VM/VMDetailPage";
+import VMConsoleWrapper from "../component/VMConsoleWrapper";
 
 
 export const router = createBrowserRouter([
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
         )
     },
     {
-        path:'/courses/:courseId',
+        path: '/courses/:courseId',
         element: (
             <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
                 <Course />
@@ -54,8 +55,8 @@ export const router = createBrowserRouter([
     {
         path: '/vmDetail/:vmId',
         element: (
-            <ProtectedRoute allowedRoles={['superadmin']}>
-                <VMDetailPage />
+            <ProtectedRoute allowedRoles={['admin', 'superadmin']}>
+                <VMConsoleWrapper />
             </ProtectedRoute>
         )
     },

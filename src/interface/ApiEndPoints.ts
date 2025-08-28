@@ -68,7 +68,8 @@ export interface GuacamoleApiEndpoints {
     sshConnection: string;
     rdpConnection: string;
     vncConnection: string;
-    disConnect: string
+    disConnect: string;
+    
 }
 
 export interface VMTemplateApiEndpoints {

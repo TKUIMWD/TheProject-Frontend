@@ -12,7 +12,6 @@ function VMDetailContent() {
     }
 
     const { vmDetail } = context;
-
     if (!vmDetail) {
         return (
             <Spinner animation="border" role="status">

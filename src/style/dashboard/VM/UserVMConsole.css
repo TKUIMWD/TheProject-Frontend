@@ -1,0 +1,87 @@
+/* Breadcrumb 樣式調整 */
+.user-vm-console .breadcrumb {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.user-vm-console .breadcrumb-item a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.user-vm-console .breadcrumb-item a:hover {
+    color: #3498db;
+}
+
+.user-vm-console .breadcrumb-item.active {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.user-vm-console h3 {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 2rem;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.user-vm-console hr {
+    height: 2px;
+    margin-bottom: 2rem;
+    border-radius: 1px;
+}
+
+.user-vm-console {
+    /* 讓背景佔滿整個寬度 */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: calc(100vh - 140px);
+    padding: 2rem 0; /* 只給上下 padding，左右由 Container 處理 */
+}
+
+.user-vm-console .container {
+    /* 確保 Container 內容有適當的最大寬度 */
+    max-width: 1200px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .user-vm-console {
+        padding: 1.5rem 0;
+        min-height: calc(100vh - 120px);
+    }
+    
+    .user-vm-console h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .user-vm-console hr {
+        margin: 1.5rem auto;
+        max-width: 200px;
+    }
+    
+    .user-vm-console .console-container {
+        margin-bottom: 1.5rem;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-vm-console {
+        padding: 1rem 0;
+        min-height: calc(100vh - 100px);
+    }
+    
+    .user-vm-console h3 {
+        font-size: 1.25rem;
+    }
+    
+    .user-vm-console .console-container {
+        margin-bottom: 1rem;
+        min-height: 350px;
+    }
+}

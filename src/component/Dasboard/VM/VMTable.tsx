@@ -1,9 +1,10 @@
 import { Dropdown, Table } from "react-bootstrap";
 import { asyncGet } from "../../../utils/fetch";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { VMDetailWithBasicConfig } from "../../../interface/VM/VM";
 import { useToast } from "../../../context/ToastProvider";
 import { pve_api } from "../../../enum/api";
+import { useNavigate } from "react-router-dom";
 
 interface TableContentProps {
     VMs: VMDetailWithBasicConfig[];
@@ -15,6 +16,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
     const [selectedVMId, setSelectedVMId] = useState<string>("");
     const [vmsWithNames, setVmsWithNames] = useState<VMDetailWithBasicConfig[]>([]);
     const { showToast } = useToast();
+    const navigater = useNavigate();
 
     // get node info (name)
     useEffect(() => {
@@ -53,6 +55,13 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
         }
     }
 
+    const handleClick = (vm_id:string) => {
+        if (isSelectMode) {
+            return;
+        }
+        navigater(`/vmDetail/${vm_id}`);
+    }
+
     if (VMs.length === 0) {
         return (
             <div className="text-center">
@@ -60,7 +69,6 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
             </div>
         );
     }
-
 
     return (
         <Table hover responsive>
@@ -77,7 +85,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
             <tbody>
                 {vmsWithNames.map((vm, index) => {
                     return (
-                        <tr key={vm.pve_vmid}>
+                        <tr key={vm.pve_vmid} onClick={()=>handleClick(vm._id)} style={{ cursor: 'pointer' }}>
                             <td>
                                 {isSelectMode ? (
                                     <input

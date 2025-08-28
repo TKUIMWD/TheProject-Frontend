@@ -131,7 +131,7 @@ export default function CreateVM() {
         }, options)
             .then((res) => {
                 if (res.code === 200) {
-                    showToast("成功新增機器", "success");
+                    showToast("成功新增機器\nVM_Id: " + res.body.vmid, "success");
                 } else {
                     throw new Error(res.message || "無法新增機器");
                 }
