@@ -4,7 +4,6 @@ import { asyncGet } from '../utils/fetch';
 import { pve_api, vm_api } from '../enum/api';
 import { VMDetailWithBasicConfig, VMStatus, VMNetwork } from '../interface/VM/VM';
 import { getAuthStatus } from '../utils/token';
-import UserVMConsole from '../component/Dasboard/VM/UserVMConsole';
 
 // 定義 Context 要提供的資料結構
 interface VMDetailContextType {

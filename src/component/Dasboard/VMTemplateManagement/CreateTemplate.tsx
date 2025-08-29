@@ -3,7 +3,7 @@ import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { vm_api, vm_template_api } from "../../../enum/api";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncGet, asyncPost } from "../../../utils/fetch";
-import { VM, VMDetailWithBasicConfig } from "../../../interface/VM/VM";
+import { VMDetailWithBasicConfig } from "../../../interface/VM/VM";
 import { VMTable } from "../VM/VMTable";
 
 interface formDataInterface {

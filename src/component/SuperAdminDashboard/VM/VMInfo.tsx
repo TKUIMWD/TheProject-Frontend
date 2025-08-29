@@ -7,12 +7,7 @@ import { pve_api, vm_api } from "../../../enum/api";
 import { VMInfoProps, VMStatus, VMNetwork } from "../../../interface/VM/VM";
 import { useVMDetail } from "../../../context/VMDetailContext"; // 引入自訂 Hook
 import "../../../style/superAdmin/VM/VMInfo.css";
-
-const progressBarColor: { min: number; max: number; variant: string }[] = [
-    { min: 0, max: 59, variant: "success" },
-    { min: 60, max: 79, variant: "warning" },
-    { min: 80, max: 100, variant: "danger" }
-];
+import { getProgressBarVariant } from "../../../utils/ProgressBarColor";
 
 export default function VMInfo(props: VMInfoProps) {
     // 嘗試從 Context 獲取資料
@@ -86,11 +81,6 @@ export default function VMInfo(props: VMInfoProps) {
     // 決定最終要顯示的狀態資料
     const finalStatus = isContextMode ? contextData.status : status;
     const finalNetwork = isContextMode ? contextData.network : network;
-
-    const getProgressBarVariant = (value: number): string => {
-        const found = progressBarColor.find((range) => value >= range.min && value <= range.max);
-        return found ? found.variant : "success";
-    };
 
     const cpuUsage = finalStatus?.resourceUsage?.cpu ?? 0;
     const cpuSize = isContextMode ? contextData.cpuMax : cpuMax ?? 1; // 預設為 1 避免除以 0

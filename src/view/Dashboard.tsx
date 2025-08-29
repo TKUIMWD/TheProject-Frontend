@@ -17,6 +17,7 @@ import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateLis
 import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTemplate";
 import VMList from "../component/Dasboard/VM/VMList";
 import CreateVM from "../component/Dasboard/VM/CreateVM";
+import ComputeResources from "../component/Dasboard/VM/ComputeResources";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -39,6 +40,7 @@ export default function Dashboard() {
         {
             title: "機器管理",
             items: [
+                { key: "ComputeResources", label: "計算資源", component: <ComputeResources />, roles: ["admin", "superadmin"] },
                 { key: "VMList", label: "我的機器", component: <VMList />, roles: ["user", "admin", "superadmin"] },
                 { key: "CreateVM", label: "新增機器", component: <CreateVM />, roles: ["admin", "superadmin"] }
             ]
