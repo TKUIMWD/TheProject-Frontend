@@ -16,7 +16,7 @@ import SuperAdminDashboard from "./SuperAdminDashboard";
 import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateList";
 import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTemplate";
 import VMList from "../component/Dasboard/VM/VMList";
-import CreateVM from "../component/Dasboard/VM/CreateVM";
+import CreateVM from "../component/Dasboard/VM/CreateAndUpdateVM";
 import ComputeResources from "../component/Dasboard/VM/ComputeResources";
 
 export default function Dashboard() {
@@ -42,7 +42,7 @@ export default function Dashboard() {
             items: [
                 { key: "ComputeResources", label: "計算資源", component: <ComputeResources />, roles: ["admin", "superadmin"] },
                 { key: "VMList", label: "我的機器", component: <VMList />, roles: ["user", "admin", "superadmin"] },
-                { key: "CreateVM", label: "新增機器", component: <CreateVM />, roles: ["admin", "superadmin"] }
+                { key: "CreateVM", label: "新增機器", component: <CreateVM isUpdateMode={false} />, roles: ["admin", "superadmin"] }
             ]
         },
         {

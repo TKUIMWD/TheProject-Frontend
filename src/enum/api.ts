@@ -74,6 +74,8 @@ export const vm_operate_api:VMOperateApiEndpoints = {
 
 export const vm_manage_api: VMManageApiEndpoints = {
     createFromTemplate: `${vm_manage_api_base}/createFromTemplate`,
+    deleteVM: `${vm_manage_api_base}/delete`,
+    updateVMConfig: `${vm_manage_api_base}/updateConfig`,
 };
 
 export const pve_api: PVEApiEndpoints = {

@@ -10,7 +10,7 @@ import { VM_Template_Info } from "../../../interface/VM/VM_Template";
 import VMTemplateList from "../VMTemplateManagement/TemplateList";
 
 interface fromDataProps {
-    template_id: string;
+    template_id?: string;
     name: string;
     target: string;
     cpuCores: number;
@@ -18,7 +18,11 @@ interface fromDataProps {
     diskSize: number;
 };
 
-// 定義初始狀態
+interface CreateVMFormProps {
+    isUpdateMode: boolean;
+    vmToUpdateId?: string;
+}
+
 const initialFormData: fromDataProps = {
     template_id: "",
     name: "",
@@ -28,7 +32,7 @@ const initialFormData: fromDataProps = {
     diskSize: 0,
 };
 
-export default function CreateVM() {
+export default function CreateVM({ isUpdateMode, vmToUpdateId }: CreateVMFormProps) {
     const [formData, setFormData] = useState<fromDataProps>(initialFormData);
     const [userCRP, setUserCRP] = useState<ComputeResourcePlan | null>(null);
     const [templates, setTemplates] = useState<VM_Template_Info[]>([]);
@@ -94,6 +98,30 @@ export default function CreateVM() {
             });
     }, []);
 
+    // 當是更新模式時，用傳入的資料填充表單
+    useEffect(() => {
+        if (isUpdateMode && vmToUpdateId) {
+            asyncGet(`${pve_api.getQemuConfig}?id=${vmToUpdateId}`, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setFormData({
+                            name: res.body.name || "",
+                            target: res.body.node || "",
+                            cpuCores: res.body.cores || 0,
+                            memorySize: MBtoGB(Number(res.body.memory)) || 0,
+                            diskSize: res.body.disk_size || 0,
+                        });
+                    } else {
+                        throw new Error(res.message || "無法取得虛擬機資訊");
+                    }
+                })
+                .catch((err) => {
+                    showToast(err.message || "無法取得虛擬機資訊", "danger");
+                    console.error("Error fetching VM info:", err);
+                });
+        }
+    }, [isUpdateMode, vmToUpdateId]);
+
     // 接收從子元件傳來的 template_id
     const handleTemplateSelect = (templateId: string) => {
         const selectedTemplate = templates.find(t => t._id === templateId);
@@ -123,6 +151,14 @@ export default function CreateVM() {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+        if (isUpdateMode) {
+            handleUpdateVM();
+        } else {
+            handleCreateVM();
+        }
+    }
+
+    const handleCreateVM = () => {
         const memoryInMB = GBtoMB(formData.memorySize);
         showToast("新增機器可能需要一些時間，請稍後", "info");
         asyncPost(vm_manage_api.createFromTemplate, {
@@ -140,22 +176,52 @@ export default function CreateVM() {
                 showToast("無法新增機器：" + err.message, "danger");
                 console.error("Error creating VM:", err);
             });
-    }
+    };
+
+    const handleUpdateVM = () => {
+        const memoryInMB = GBtoMB(formData.memorySize);
+        showToast("更新機器可能需要一些時間，請稍後", "info");
+        const { template_id, ...payload } = formData;
+        asyncPost(vm_manage_api.updateVMConfig, {
+            vm_id: vmToUpdateId,
+            ...payload,
+            memorySize: memoryInMB
+        }, options)
+            .then((res) => {
+                if (res.code === 200) {
+                    showToast("成功更新機器\nVM_id: " + res.body.pve_vmid, "success");
+                } else {
+                    throw new Error(res.message || "無法更新機器");
+                }
+            })
+            .catch((err) => {
+                showToast("無法更新機器：" + err.message, "danger");
+                console.error("Error updating VM:", err);
+            });
+    };
 
     return (
         <div className="mb-3">
-            <h3>新增機器</h3>
-            <hr />
+            {!isUpdateMode && (
+                <>
+                    <h3>新增機器</h3>
+                    <hr />
+                </>
+            )}
             <Form className="d-flex flex-column gap-3 bg-light p-4 rounded" onSubmit={handleSubmit}>
-                <Form.Label>選擇範本</Form.Label>
-                <div style={{
-                    height: '300px',
-                    overflowY: 'auto',
-                    border: '1px solid #dee2e6',
-                    borderRadius: '0.375rem',
-                }}>
-                    <VMTemplateList isSelectMode={true} handleSelect={handleTemplateSelect}/>
-                </div>
+                {!isUpdateMode && (
+                    <>
+                        <Form.Label>選擇範本</Form.Label>
+                        <div style={{
+                            height: '300px',
+                            overflowY: 'auto',
+                            border: '1px solid #dee2e6',
+                            borderRadius: '0.375rem',
+                        }}>
+                            <VMTemplateList isSelectMode={true} handleSelect={handleTemplateSelect} />
+                        </div>
+                    </>
+                )}
                 <Form.Group controlId="VMName">
                     <Form.Label>機器名稱</Form.Label>
                     <Form.Control
@@ -221,7 +287,7 @@ export default function CreateVM() {
                     </Form.Group>
                 </Row>
                 <Button className="align-self-start" variant="success" type="submit">
-                    新增機器
+                    {isUpdateMode ? "更新機器" : "新增機器"}
                 </Button>
             </Form>
         </div>

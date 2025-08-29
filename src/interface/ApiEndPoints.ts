@@ -57,6 +57,8 @@ export interface VMOperateApiEndpoints {
 
 export interface VMManageApiEndpoints {
     createFromTemplate: string;
+    deleteVM: string;
+    updateVMConfig: string;
 }
 
 export interface PVEApiEndpoints {
@@ -69,7 +71,8 @@ export interface GuacamoleApiEndpoints {
     rdpConnection: string;
     vncConnection: string;
     disConnect: string;
-    
+    deleteConnection: string;
+    listConnections: string;
 }
 
 export interface VMTemplateApiEndpoints {

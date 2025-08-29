@@ -7,7 +7,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import Course from "../view/Course";
 import Chapter from "../view/Chapter";
 import CourseResources from "../view/CourseResources";
-import VMDetailPage from "../component/SuperAdminDashboard/VM/VMDetailPage";
 import VMConsoleWrapper from "../component/VMConsoleWrapper";
 
 
