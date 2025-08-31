@@ -16,7 +16,7 @@ import SuperAdminDashboard from "./SuperAdminDashboard";
 import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateList";
 import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTemplate";
 import VMList from "../component/Dasboard/VM/VMList";
-import CreateVM from "../component/Dasboard/VM/CreateAndUpdateVM";
+import CreateVM from "../component/Dasboard/VM/CreateVM";
 import ComputeResources from "../component/Dasboard/VM/ComputeResources";
 
 export default function Dashboard() {

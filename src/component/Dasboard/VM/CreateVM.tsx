@@ -32,6 +32,7 @@ const initialFormData: fromDataProps = {
     diskSize: 0,
 };
 
+// 共用新增、更新 VM 的元件
 export default function CreateVM({ isUpdateMode, vmToUpdateId }: CreateVMFormProps) {
     const [formData, setFormData] = useState<fromDataProps>(initialFormData);
     const [userCRP, setUserCRP] = useState<ComputeResourcePlan | null>(null);

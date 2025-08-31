@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import CreateVM from "./CreateAndUpdateVM";
+import CreateVM from "./CreateVM";
 
 interface UpdateVMModalProps {
     showUpdateModal: boolean;

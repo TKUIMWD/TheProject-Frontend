@@ -67,7 +67,7 @@ export default function CreateTemplate() {
         }));
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleConvert = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // 檢查 from 值是否為空
         if (!formData.vm_id || !formData.name || !formData.ciuser || !formData.cipassword || !formData.description) {
@@ -99,7 +99,7 @@ export default function CreateTemplate() {
         <div>
             <h3>新增範本</h3>
             <hr />
-            <Form className="bg-light p-4 rounded" onSubmit={handleSubmit}>
+            <Form className="bg-light p-4 rounded" onSubmit={handleConvert}>
                 <Form.Group className="mb-3">
                     <div className="d-flex align-items-center gap-1">
                         <Form.Label className="mb-0">選擇機器</Form.Label>

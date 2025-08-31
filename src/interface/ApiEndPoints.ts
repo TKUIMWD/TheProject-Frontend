@@ -81,3 +81,9 @@ export interface VMTemplateApiEndpoints {
     convertVMtoTemplate: string;
     submitTemplate: string;
 }
+
+export interface VMTemplateManageApiEndpoints {
+    update: string;
+    delete: string;
+    clone: string;
+};

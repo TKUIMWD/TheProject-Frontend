@@ -6,6 +6,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { pve_api, vm_manage_api } from "../../../enum/api";
 import { useNavigate } from "react-router-dom";
 import UpdateVMModal from "./UpdateVMModal";
+import { getAuthStatus } from "../../../utils/token";
 
 interface TableContentProps {
     VMs: VMDetailWithBasicConfig[];
@@ -32,6 +33,8 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
         return;
     }
     const options = { headers: { "Authorization": `Bearer ${token}` } };
+
+    const role = getAuthStatus();
 
     // get node info (name)
     useEffect(() => {
@@ -143,7 +146,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                         <th>名稱</th>
                         <th>節點名稱</th>
                         <th>狀態</th>
-                        {!isSelectMode && <th>設定</th>}
+                        {!isSelectMode && <th>操作</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -167,7 +170,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                                 <td>{vm.pve_name || "no-name"}</td>
                                 <td>{vm.pve_node}</td>
                                 <td>{vm.status?.current_status}</td>
-                                {!isSelectMode &&
+                                {!isSelectMode && (role !== "user") && (
                                     <td onClick={(e) => e.stopPropagation()} ref={el => { dropdownRefs.current[vm._id] = el; }}>
                                         <Dropdown
                                             show={openDropdownId === vm._id}
@@ -200,7 +203,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </td>
-                                }
+                                )}
                             </tr>
                         )
                     })}

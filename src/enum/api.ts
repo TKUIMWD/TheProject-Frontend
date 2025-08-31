@@ -1,4 +1,4 @@
-import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints, VMTemplateManageApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
@@ -14,6 +14,7 @@ const vm_operate_api_base = import.meta.env.VITE_API_BASE_URL + "/vm/operate";
 const pve_api_base = import.meta.env.VITE_API_BASE_URL + "/pve";
 const guacamole_api_base = import.meta.env.VITE_API_BASE_URL + "/guacamole";
 const vm_template_api_base = import.meta.env.VITE_API_BASE_URL + "/template";
+const vm_template_manage_api_base = import.meta.env.VITE_API_BASE_URL + "/template/manage";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -92,10 +93,15 @@ export const guacamole_api: GuacamoleApiEndpoints = {
     listConnections: `${guacamole_api_base}/connections`
 };
 
-
 export const vm_template_api: VMTemplateApiEndpoints = {
     getAllTemplates: `${vm_template_api_base}/getAll`,
     getAccessibleTemplates: `${vm_template_api_base}/getAccessable`,
     convertVMtoTemplate: `${vm_template_api_base}/convert`,
     submitTemplate: `${vm_template_api_base}/submit`
+};
+
+export const vm_template_manage_api: VMTemplateManageApiEndpoints = {
+    update: `${vm_template_manage_api_base}/update`,
+    delete: `${vm_template_manage_api_base}/delete`,
+    clone: `${vm_template_manage_api_base}/clone`
 };
