@@ -10,6 +10,8 @@ import SuperAdminNav from "../component/SuperAdminDashboard/SuperAdminNav";
 import "../style/superAdmin/SuperAdminDashboard.css";
 import AllUsers from "../component/SuperAdminDashboard/Account/AllUsers";
 import AllAdmins from "../component/SuperAdminDashboard/Account/AllAdmins";
+import AllTemplates from "../component/SuperAdminDashboard/Template/AllTemplate";
+import TemplateAudit from "../component/SuperAdminDashboard/Template/TemplateAudit";
 
 const menuConfig: MenuGroup[] = [
     {
@@ -32,9 +34,10 @@ const menuConfig: MenuGroup[] = [
         ]
     },
     {
-        title: "範本審核",
+        title: "範本管理",
         items: [
-            { key: "TemplateReview", label: "範本審核", component: <div>範本審核內容</div>, roles: ["superadmin"] }
+            { key: "TemplateManagement", label: "範本總覽", component: <AllTemplates />, roles: ["superadmin"] },
+            { key: "TemplateReview", label: "範本審核", component: <TemplateAudit />, roles: ["superadmin"] }
         ]
     }
 ];

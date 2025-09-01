@@ -99,7 +99,9 @@ export const vm_template_api: VMTemplateApiEndpoints = {
     getAllTemplates: `${vm_template_api_base}/getAll`,
     getAccessibleTemplates: `${vm_template_api_base}/getAccessable`,
     convertVMtoTemplate: `${vm_template_api_base}/convert`,
-    submitTemplate: `${vm_template_api_base}/submit`
+    submitTemplate: `${vm_template_api_base}/submit`,
+    getAllSubmittedTemplates: `${vm_template_api_base}/getAllSubmittedTemplates`,
+    audit: `${vm_template_api_base}/audit`
 };
 
 export const vm_template_manage_api: VMTemplateManageApiEndpoints = {

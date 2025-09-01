@@ -1,7 +1,6 @@
 import { Card, Image, ListGroup } from "react-bootstrap";
 import { User } from "../../../interface/User/User";
 import { processAvatarPath } from "../../../utils/processAvatar";
-import defaultAvatarImg from "../../../assets/images/Dashboard/default-avatar.jpg";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncGet } from "../../../utils/fetch";
 import { superadmin_crp_api } from "../../../enum/api";

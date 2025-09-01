@@ -80,6 +80,8 @@ export interface VMTemplateApiEndpoints {
     getAccessibleTemplates: string;
     convertVMtoTemplate: string;
     submitTemplate: string;
+    getAllSubmittedTemplates: string;
+    audit: string;
 }
 
 export interface VMTemplateManageApiEndpoints {
@@ -91,4 +93,12 @@ export interface VMTemplateManageApiEndpoints {
 export interface SuperadminApiEndpoints {
     getAllUsers: string;
     getAllAdminUsers: string;
+}
+
+export interface SuperadminCRPApiEndpoints {
+    create: string;
+    update: (crp_id: string) => string;
+    delete: (crp_id: string) => string;
+    getAll: string;
+    getById: (crp_id: string) => string;
 }

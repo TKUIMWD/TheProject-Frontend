@@ -4,7 +4,7 @@ import { asyncGet } from "../../../utils/fetch";
 import { superadmin_api } from "../../../enum/api";
 import { User } from "../../../interface/User/User";
 import { Col, Row } from "react-bootstrap";
-import UserCard from "./UserCard";
+import UserCard from "../Card/UserCard";
 
 export default function AllUsers() {
     const [users, setUsers] = useState<User[]>([]);
