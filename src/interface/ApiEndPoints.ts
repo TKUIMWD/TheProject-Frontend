@@ -87,3 +87,8 @@ export interface VMTemplateManageApiEndpoints {
     delete: string;
     clone: string;
 };
+
+export interface SuperadminApiEndpoints {
+    getAllUsers: string;
+    getAllAdminUsers: string;
+}

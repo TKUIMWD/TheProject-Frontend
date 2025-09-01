@@ -1,4 +1,4 @@
-import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints, VMTemplateManageApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, SuperadminApiEndpoints, SuperadminCRPApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints, VMTemplateManageApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
@@ -15,6 +15,8 @@ const pve_api_base = import.meta.env.VITE_API_BASE_URL + "/pve";
 const guacamole_api_base = import.meta.env.VITE_API_BASE_URL + "/guacamole";
 const vm_template_api_base = import.meta.env.VITE_API_BASE_URL + "/template";
 const vm_template_manage_api_base = import.meta.env.VITE_API_BASE_URL + "/template/manage";
+const superadmin_api_base = import.meta.env.VITE_API_BASE_URL + "/superadmin";
+const superadmin_crp_api_base = import.meta.env.VITE_API_BASE_URL + "/superadmin/crp";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -105,3 +107,16 @@ export const vm_template_manage_api: VMTemplateManageApiEndpoints = {
     delete: `${vm_template_manage_api_base}/delete`,
     clone: `${vm_template_manage_api_base}/clone`
 };
+
+export const superadmin_api: SuperadminApiEndpoints = {
+    getAllUsers: `${superadmin_api_base}/getAllUsers`,
+    getAllAdminUsers: `${superadmin_api_base}/getAllAdminUsers`
+}
+
+export const superadmin_crp_api: SuperadminCRPApiEndpoints = {
+    create: `${superadmin_crp_api_base}/create`,
+    getAll: `${superadmin_crp_api_base}/getAll`,
+    getById: (crp_id: string) => `${superadmin_crp_api_base}/getById/${crp_id}`,
+    update: (crp_id: string) => `${superadmin_crp_api_base}/update/${crp_id}`,
+    delete: (crp_id: string) => `${superadmin_crp_api_base}/delete/${crp_id}`,
+}
