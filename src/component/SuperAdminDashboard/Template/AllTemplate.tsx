@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncGet } from "../../../utils/fetch";
 import { vm_template_api } from "../../../enum/api";
-import TemplateList from "./TemplateList";
 import { VM_Template_Info } from "../../../interface/VM/VM_Template";
+import TemplateList from "../List/TemplateList";
 
 export default function AllTemplates() {
     const [templates, setTemplates] = useState<VM_Template_Info[]>([]);

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncGet } from "../../../utils/fetch";
 import { vm_template_api } from "../../../enum/api";
-import SubmittedTemplateList from "./SubmittedTemplateList";
 import { SubmittedTemplateDetails } from "../../../interface/Template/SubmittedTemplate";
+import SubmittedTemplateList from "../List/SubmittedTemplateList";
 
 export default function TemplateAudit() {
     const [templates, setTemplates] = useState<SubmittedTemplateDetails[]>([]);

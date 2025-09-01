@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { formatISOString } from "../../../utils/timeFormat";
 import { MBtoGB } from "../../../utils/StorageUnitsConverter";
 import { SubmittedTemplateDetails } from "../../../interface/Template/SubmittedTemplate";
