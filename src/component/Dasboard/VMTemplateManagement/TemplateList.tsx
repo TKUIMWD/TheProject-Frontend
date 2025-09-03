@@ -22,7 +22,7 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
     const dropdownRefs = useRef<Record<string, HTMLTableCellElement | null>>({});
     // update
     const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
-    const [editingTemplateId, setEditingTemplateId] = useState<string>("");
+    const [editingTemplate, setEditingTemplate] = useState<VM_Template_Info | null>(null);
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -96,12 +96,12 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
         }
     };
 
-    const handleUpdate = (templateId: string) => {
-        if (!templateId) {
-            showToast("無效的範本 ID", "danger");
+    const handleUpdate = (template: VM_Template_Info) => {
+        if (!template) {
+            showToast("無效的範本", "danger");
             return;
         }
-        setEditingTemplateId(templateId);
+        setEditingTemplate(template);
         setShowUpdateModal(true);
     }
 
@@ -188,7 +188,7 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
 
                                     <Dropdown.Item onClick={(e) => {
                                         e.stopPropagation();
-                                        handleUpdate(template._id);
+                                        handleUpdate(template);
                                     }}>
                                         <i className="bi bi-repeat" /> 更新
                                     </Dropdown.Item>
@@ -216,7 +216,7 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
                         <th>CPU(核)</th>
                         <th>記憶體(GB)</th>
                         <th>磁碟(GB)</th>
-                        <th>擁有者</th>
+                        <th>提交者</th>
                         {!isSelectMode && <th>操作</th>}
                     </tr>
                 </thead>
@@ -245,7 +245,7 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
                     {createList(publicTemplates)}
                 </Tab>
             </Tabs>
-            <UpdateTemplate show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} templateId={editingTemplateId} />
+            <UpdateTemplate show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} template={editingTemplate} />
         </>
     );
 }

@@ -12,10 +12,10 @@ export default function TemplateCard({ templates }: TemplateCardProps) {
         <>
             <Table striped bordered hover>
                 <thead>
-                    <tr>
+                    <tr className="text-center">
                         <th>#</th>
                         <th>名稱</th>
-                        <th>描述</th>
+                        <th style={{ width: '45%' }}>描述</th>
                         <th>CPU(核)</th>
                         <th>記憶體(GB)</th>
                         <th>磁碟(GB)</th>
@@ -25,7 +25,7 @@ export default function TemplateCard({ templates }: TemplateCardProps) {
                 </thead>
                 <tbody>
                     {templates.map((template, index) => (
-                        <tr key={template._id}>
+                        <tr key={template._id} className="text-start align-middle">
                             <td>{index + 1}</td>
                             <td>{template.name}</td>
                             <td>{template.description}</td>

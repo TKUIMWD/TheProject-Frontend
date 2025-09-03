@@ -151,7 +151,7 @@ export default function VMConsole() {
     const handleDisconnect = () => {
         if (!connectionId) return;
         try {
-            asyncDelete(guacamole_api.disConnect, { connection_id: connectionId }, { headers })
+            asyncPost(guacamole_api.disConnect, { connection_id: connectionId }, { headers })
                 .then((res) => {
                     if (res.code === 200) {
                         showToast("已斷開連線", "success");

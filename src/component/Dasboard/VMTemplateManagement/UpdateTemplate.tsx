@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useToast } from "../../../context/ToastProvider";
 import { asyncPost } from "../../../utils/fetch";
 import { vm_template_manage_api } from "../../../enum/api";
+import { VM_Template_Info } from "../../../interface/VM/VM_Template";
 
 interface UpdateTemplateProps {
     show: boolean;
     handleClose: () => void;
-    templateId: string;
+    template: VM_Template_Info | null;
 }
 
 interface FormData {
@@ -17,14 +18,30 @@ interface FormData {
     cipassword: string;
 }
 
-export default function UpdateTemplate({ show, handleClose, templateId }: UpdateTemplateProps) {
+export default function UpdateTemplate({ show, handleClose, template }: UpdateTemplateProps) {
+    const { showToast } = useToast();
     const [formData, setFormData] = useState<FormData>({
         description: "",
         template_name: "",
         ciuser: "",
         cipassword: ""
     });
-    const { showToast } = useToast();
+
+    useEffect(() => {
+        // 當 Modal 顯示且 template 有值時，才更新表單資料
+        if (show && template) {
+            setFormData({
+                description: template.description || "",
+                template_name: template.name || "",
+                ciuser: "",
+                cipassword: ""
+            });
+        }
+    }, [template, show]);
+
+    if (!template) {
+        return null;
+    }
 
     const handleUpdate = (templateId: string) => {
         const token = localStorage.getItem('token');
@@ -53,7 +70,7 @@ export default function UpdateTemplate({ show, handleClose, templateId }: Update
             .then((res) => {
                 if (res.code === 200) {
                     showToast("範本更新成功", "success");
-                    window.location.reload();
+                    handleClose();
                 } else {
                     showToast("範本更新失敗：" + res.message, "danger");
                 }
@@ -64,14 +81,14 @@ export default function UpdateTemplate({ show, handleClose, templateId }: Update
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name,value } = event.target;
+        const { name, value } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: value
         }));
     }
 
-    const checkEmpty =  () => {
+    const checkEmpty = () => {
         const emptyData = []
         for (const key in formData) {
             if (formData[key as keyof FormData].trim() === "") {
@@ -142,7 +159,7 @@ export default function UpdateTemplate({ show, handleClose, templateId }: Update
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="success" onClick={() => handleUpdate(templateId)}>
+                    <Button variant="success" onClick={() => handleUpdate(template._id)}>
                         更新
                     </Button>
                 </Modal.Footer>

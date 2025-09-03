@@ -48,7 +48,7 @@ export default function AllAdmins() {
 
     return (
         <div>
-            <h3>All Users</h3>
+            <h3>管理員總覽</h3>
             <hr />
             <Row>
                 {admins.map((admin) => (

@@ -24,6 +24,7 @@ export default function AllTemplates() {
             .then((response) => {
                 if (response.code === 200) {
                     setTemplates(response.body);
+                    console.log(response.body);
                 } else {
                     throw new Error(response.message || "獲取範本失敗");
                 }
@@ -35,8 +36,6 @@ export default function AllTemplates() {
 
     return (
         <div>
-            <h3>所有範本</h3>
-            <hr />
             {templates.length > 0 ? (
                 <TemplateList templates={templates} />
             ) : (

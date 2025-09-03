@@ -48,7 +48,7 @@ export default function AllUsers() {
 
     return (
         <div>
-            <h3>All Users</h3>
+            <h3>用戶總覽</h3>
             <hr />
             <Row>
                 {users.map((user) => (
