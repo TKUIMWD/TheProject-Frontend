@@ -33,7 +33,8 @@ export const user_api: UserApiEndpoints = {
     uploadAvatar: `${user_api_base}/uploadAvatar`,
     deleteAvatar: `${user_api_base}/deleteAvatar`,
     getUserCourses: `${user_api_base}/getUserCourses`,
-    getUserCRP: `${user_api_base}/getUserCRP`
+    getUserCRP: `${user_api_base}/getUserCRP`,
+    getUserById: (id: string) => `${user_api_base}/getUserById/${id}`
 };
 
 export const course_api: CourseApiEndpoints = {

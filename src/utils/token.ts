@@ -32,3 +32,26 @@ export function getAuthStatus(): AuthStatus {
         return 'notLogon';
     }
 }
+
+/**
+ * 獲取 API 請求所需的 options 物件。
+ * 如果成功，返回包含 Authorization header 的物件。
+ * 如果失敗 (找不到 token)，則拋出一個錯誤。
+ * @returns { headers: { Authorization: string } }
+ * @throws {Error} 如果 localStorage 中沒有 token。
+ */
+export function getOptions() {
+    const token = localStorage.getItem("token");
+
+    // 條件不滿足時，直接拋出錯誤
+    if (!token) {
+        throw new Error("請重新登入");
+    }
+
+    // 成功時，直接返回結果
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+}

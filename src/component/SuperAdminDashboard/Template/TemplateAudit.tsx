@@ -5,6 +5,7 @@ import { vm_template_api } from "../../../enum/api";
 import SubmittedTemplateList from "../List/SubmittedTemplateList";
 import { SubmittedTemplateDetails, SubmittedTemplateStatus } from "../../../interface/Template/SubmittedTemplate";
 import { Tab, Tabs } from "react-bootstrap";
+import { getOptions } from "../../../utils/token";
 
 export default function TemplateAudit() {
     const [key, setKey] = useState<string>(SubmittedTemplateStatus.not_approved);
@@ -13,32 +14,27 @@ export default function TemplateAudit() {
     const [rejectedTemplates, setRejectedTemplates] = useState<SubmittedTemplateDetails[]>([]);
     const { showToast } = useToast();
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-    const options = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
     useEffect(() => {
-        asyncGet(vm_template_api.getAllSubmittedTemplates, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setNotApprovedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.not_approved));
-                    setApprovedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.approved));
-                    setRejectedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.rejected));
-                } else {
-                    showToast(res.message || "取得範本失敗", "danger");
-                }
-            })
-            .catch((err) => {
-                showToast(`取得範本失敗：${err.message}`, "danger");
-            });
+        try {
+            const options = getOptions();
+            asyncGet(vm_template_api.getAllSubmittedTemplates, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setNotApprovedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.not_approved));
+                        setApprovedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.approved));
+                        setRejectedTemplates(res.body.filter((item: SubmittedTemplateDetails) => item.status === SubmittedTemplateStatus.rejected));
+                    } else {
+                        showToast(res.message || "取得範本失敗", "danger");
+                    }
+                })
+                .catch((err) => {
+                    showToast(`取得範本失敗：${err.message}`, "danger");
+                });
+        } catch (error: any) {
+            showToast(error.message, "danger");
+        }
     }, []);
+
 
     const handleAudit = (templateId: string, status: SubmittedTemplateStatus, reject_reason?: string) => {
         if (!templateId) {
@@ -61,25 +57,30 @@ export default function TemplateAudit() {
         }
 
         showToast("正在提交審核結果\n範本審核可能需要一點時間...", "info");
-        asyncPost(vm_template_api.audit, body, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    const message = status === SubmittedTemplateStatus.approved ? "範本已通過審核" : "範本已被拒絕";
-                    showToast(`審核成功：${message}`, "success");
-                    setNotApprovedTemplates((prev) => prev.filter((item) => item._id !== templateId));
-                    if (status === SubmittedTemplateStatus.approved) {
-                        setApprovedTemplates((prev) => [...prev, res.body]);
+        try {
+            const options = getOptions();
+            asyncPost(vm_template_api.audit, body, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        const message = status === SubmittedTemplateStatus.approved ? "範本已通過審核" : "範本已被拒絕";
+                        showToast(`審核成功：${message}`, "success");
+                        setNotApprovedTemplates((prev) => prev.filter((item) => item._id !== templateId));
+                        if (status === SubmittedTemplateStatus.approved) {
+                            setApprovedTemplates((prev) => [...prev, res.body]);
+                        } else {
+                            setRejectedTemplates((prev) => [...prev, res.body]);
+                        }
                     } else {
-                        setRejectedTemplates((prev) => [...prev, res.body]);
+                        throw new Error(res.message || "審核失敗");
                     }
-                } else {
-                    throw new Error(res.message || "審核失敗");
-                }
-            })
-            .catch((err) => {
-                showToast(`審核失敗：${err.message}`, "danger");
-                console.error("Error auditing template:", err);
-            });
+                })
+                .catch((err) => {
+                    showToast(`審核失敗：${err.message}`, "danger");
+                    console.error("Error auditing template:", err);
+                });
+        } catch (error: any) {
+            showToast(error.message, "danger");
+        }
     }
 
     return (

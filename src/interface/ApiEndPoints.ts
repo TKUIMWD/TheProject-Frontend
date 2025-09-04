@@ -14,6 +14,7 @@ export interface UserApiEndpoints {
     deleteAvatar: string;
     getUserCourses: string;
     getUserCRP: string;
+    getUserById: (id: string) => string;
 }
 
 export interface CourseApiEndpoints {
