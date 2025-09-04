@@ -1,4 +1,4 @@
-import { AuthApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, SuperadminApiEndpoints, SuperadminCRPApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints, VMTemplateManageApiEndpoints } from "../interface/ApiEndPoints";
+import { AuthApiEndpoints, BoxApiEndpoints, ClassApiEndpoints, GuacamoleApiEndpoints, PVEApiEndpoints, SuperadminApiEndpoints, SuperadminCRPApiEndpoints, VMApiEndpoints, VMManageApiEndpoints, VMOperateApiEndpoints, VMTemplateApiEndpoints, VMTemplateManageApiEndpoints } from "../interface/ApiEndPoints";
 import { UserApiEndpoints } from "../interface/ApiEndPoints";
 import { CourseApiEndpoints } from "../interface/ApiEndPoints";
 import { ChapterApiEndpoints } from "../interface/ApiEndPoints";
@@ -17,6 +17,7 @@ const vm_template_api_base = import.meta.env.VITE_API_BASE_URL + "/template";
 const vm_template_manage_api_base = import.meta.env.VITE_API_BASE_URL + "/template/manage";
 const superadmin_api_base = import.meta.env.VITE_API_BASE_URL + "/superadmin";
 const superadmin_crp_api_base = import.meta.env.VITE_API_BASE_URL + "/superadmin/crp";
+const box_api_base = import.meta.env.VITE_API_BASE_URL + "/vmbox";
 
 export const auth_api: AuthApiEndpoints = {
     login: `${auth_api_base}/login`,
@@ -122,4 +123,14 @@ export const superadmin_crp_api: SuperadminCRPApiEndpoints = {
     getById: (crp_id: string) => `${superadmin_crp_api_base}/getById/${crp_id}`,
     update: (crp_id: string) => `${superadmin_crp_api_base}/update/${crp_id}`,
     delete: (crp_id: string) => `${superadmin_crp_api_base}/delete/${crp_id}`,
+}
+
+export const box_api: BoxApiEndpoints = {
+    submitBox: `${box_api_base}/submit`,
+    auditBox: `${box_api_base}/audit`, // superadmin
+    getSubmittedBoxes: `${box_api_base}/submissions`, // superadmin
+    rateBox: `${box_api_base}/rate`,
+    getPublicBoxes: `${box_api_base}/public`,
+    getPendingBoxes: `${box_api_base}/pending`, // superadmin
+    getBoxReviews: `${box_api_base}/reviews`,
 }

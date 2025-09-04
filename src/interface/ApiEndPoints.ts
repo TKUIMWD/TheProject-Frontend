@@ -103,3 +103,13 @@ export interface SuperadminCRPApiEndpoints {
     getAll: string;
     getById: (crp_id: string) => string;
 }
+
+export interface BoxApiEndpoints {
+    submitBox: string;
+    auditBox: string; // superadmin
+    getSubmittedBoxes: string; // superadmin
+    rateBox: string;
+    getPublicBoxes: string;
+    getPendingBoxes: string; // superadmin
+    getBoxReviews: string;
+}

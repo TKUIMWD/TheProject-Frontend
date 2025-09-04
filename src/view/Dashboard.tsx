@@ -18,6 +18,7 @@ import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTem
 import VMList from "../component/Dasboard/VM/VMList";
 import CreateVM from "../component/Dasboard/VM/CreateVM";
 import ComputeResources from "../component/Dasboard/VM/ComputeResources";
+import SubmitBox from "../component/Dasboard/Box/SubmitBox";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -50,6 +51,12 @@ export default function Dashboard() {
             items: [
                 { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false}/>, roles: ["admin", "superadmin"] },
                 { key: "AddTemplate", label: "新增範本", component: <CreateTemplate />, roles: ["admin", "superadmin"] },
+            ]
+        },
+        {
+            title: "Box 管理",
+            items: [
+                { key: "AddBox", label: "提交Box", component: <SubmitBox />, roles: ["admin", "superadmin"] },
             ]
         },
         {
