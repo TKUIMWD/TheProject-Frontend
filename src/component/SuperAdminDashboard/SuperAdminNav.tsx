@@ -60,7 +60,7 @@ export default function SuperAdminNav({ menuConfig, activeKey, onSelect, navColl
     return (
         <Collapse in={navCollapsed}>
             <div className="super-admin-nav">
-                <h4 className="me-auto brand-text"><span className="brand-text-primary">The</span> Project</h4>
+                <h4 className="me-auto brand-text"><span className="brand-text-primary">CS</span>TG</h4>
                 {menuConfig.map((group) => (
                     <NavGroup
                         key={group.title}

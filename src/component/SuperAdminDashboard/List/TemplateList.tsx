@@ -14,7 +14,7 @@ interface TemplateCardProps {
     handleDelete: (template_id:string) => void;
 }
 
-export default function TemplateCard({ templates, handleDelete }: TemplateCardProps) {
+export default function TemplateList({ templates, handleDelete }: TemplateCardProps) {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTemplate, setSelectedTemplate] = useState<VM_Template_Info | null>(null);
     const [ownerNames, setOwnerNames] = useState<Record<string, string>>({});

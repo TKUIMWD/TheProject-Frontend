@@ -12,6 +12,7 @@ import AllUsers from "../component/SuperAdminDashboard/Account/AllUsers";
 import AllAdmins from "../component/SuperAdminDashboard/Account/AllAdmins";
 import AllTemplates from "../component/SuperAdminDashboard/Template/AllTemplate";
 import TemplateAudit from "../component/SuperAdminDashboard/Template/TemplateAudit";
+import BoxAudit from "../component/SuperAdminDashboard/Box/BoxAudit";
 
 const menuConfig: MenuGroup[] = [
     {
@@ -39,7 +40,13 @@ const menuConfig: MenuGroup[] = [
             { key: "TemplateManagement", label: "範本總覽", component: <AllTemplates />, roles: ["superadmin"] },
             { key: "TemplateReview", label: "範本審核", component: <TemplateAudit />, roles: ["superadmin"] }
         ]
-    }
+    },
+    {
+        title: "Box 管理",
+        items: [
+            { key: "AuditBox", label: "Box 審核", component: <BoxAudit />, roles: ["superadmin"] },
+        ]
+    },
 ];
 
 export default function SuperAdminDashboard() {

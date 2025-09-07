@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-interface TemplateRejectModalProps {
+interface RejectModalProps {
     show: boolean;
     handleClose: () => void;
-    template_id: string;
-    handleReject: (template_id: string, reason: string) => void;
+    _id: string; // template_id or box_id
+    handleReject: (_id: string, reason: string) => void;
 }
 
-export default function TemplateRejectModal({ show, handleClose, template_id, handleReject }: TemplateRejectModalProps) {
-    if (template_id === "") return null;
+export default function TemplateRejectModal({ show, handleClose, _id, handleReject }: RejectModalProps) {
+    if (_id === "") return null;
 
     const [rejectReason, setRejectReason] = useState<string>("");
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        handleReject(template_id, rejectReason);
+        handleReject(_id, rejectReason);
         handleClose();
     }
 
