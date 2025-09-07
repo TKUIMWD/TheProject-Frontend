@@ -33,13 +33,15 @@ export default function NavBar() {
         <>
             <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect sticky="top">
                 <Container>
-                    <Navbar.Brand className="me-auto brand-text"><span className="brand-text-primary">The</span> Project</Navbar.Brand>
+                    <Navbar.Brand className="me-auto brand-text">
+                        <span className="brand-text-primary">CS</span>TG
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="main-navbar-nav" />
                     <Navbar.Collapse id="main-navbar-nav">
                         <div className="w-100 d-flex justify-content-center">
                             <Nav className="my-2 my-lg-0">
                                 <Nav.Link as={NavLink} to="/" className="fw-bold">平台首頁</Nav.Link>
-                                <Nav.Link as={NavLink} to="/" className="fw-bold">機器範本</Nav.Link>
+                                <Nav.Link as={NavLink} to="/boxResources" className="fw-bold">Box資源</Nav.Link>
                                 <Nav.Link as={NavLink} to="/courseResources" className="fw-bold">課程資源</Nav.Link>
                             </Nav>
                         </div>

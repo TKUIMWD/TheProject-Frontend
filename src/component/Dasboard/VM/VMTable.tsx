@@ -170,7 +170,7 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                                 <td>{vm.pve_name || "no-name"}</td>
                                 <td>{vm.pve_node}</td>
                                 <td>{vm.status?.current_status}</td>
-                                {!isSelectMode && (role !== "user") && (
+                                {!isSelectMode && (
                                     <td onClick={(e) => e.stopPropagation()} ref={el => { dropdownRefs.current[vm._id] = el; }}>
                                         <Dropdown
                                             show={openDropdownId === vm._id}
@@ -187,12 +187,12 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu style={{ zIndex: 1000 }}>
-                                                <Dropdown.Item onClick={(e) => {
+                                                {role !== 'user' && <Dropdown.Item onClick={(e) => {
                                                     e.stopPropagation();
                                                     handleUpdate(vm._id);
                                                 }}>
                                                     <i className="bi bi-repeat" /> 更新
-                                                </Dropdown.Item>
+                                                </Dropdown.Item>}
 
                                                 <Dropdown.Item onClick={(e) => {
                                                     e.stopPropagation();

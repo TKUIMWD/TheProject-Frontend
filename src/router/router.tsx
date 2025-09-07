@@ -8,12 +8,21 @@ import Course from "../view/Course";
 import Chapter from "../view/Chapter";
 import CourseResources from "../view/CourseResources";
 import VMConsoleWrapper from "../component/VMConsoleWrapper";
+import BoxResources from "../view/BoxResources";
+import Box from "../view/Box";
+import Layout from "../component/Layout";
 
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing />,
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: <Landing />
+            }
+        ],
     },
     {
         path: '/verify',
@@ -54,9 +63,27 @@ export const router = createBrowserRouter([
     {
         path: '/vmDetail/:vmId',
         element: (
-            <ProtectedRoute allowedRoles={['admin', 'superadmin']}>
-                <VMConsoleWrapper />
-            </ProtectedRoute>
+            <VMConsoleWrapper />
         )
+    },
+    {
+        path: '/boxResources',
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: <BoxResources />
+            }
+        ],
+    },
+    {
+        path: '/box/:boxId',
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: <Box />
+            }
+        ],
     },
 ]);

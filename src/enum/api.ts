@@ -81,6 +81,7 @@ export const vm_manage_api: VMManageApiEndpoints = {
     createFromTemplate: `${vm_manage_api_base}/createFromTemplate`,
     deleteVM: `${vm_manage_api_base}/delete`,
     updateVMConfig: `${vm_manage_api_base}/updateConfig`,
+    createFromBoxTemplate: `${vm_manage_api_base}/createFromBoxTemplate`
 };
 
 export const pve_api: PVEApiEndpoints = {
@@ -133,4 +134,6 @@ export const box_api: BoxApiEndpoints = {
     getPublicBoxes: `${box_api_base}/public`,
     getPendingBoxes: `${box_api_base}/pending`, // superadmin
     getBoxReviews: `${box_api_base}/reviews`,
+    getMyAnswerRecord: `${box_api_base}/getMyAnswerRecord`,
+    subitBoxAnswer: `${box_api_base}/submitBoxAnswer`,
 }

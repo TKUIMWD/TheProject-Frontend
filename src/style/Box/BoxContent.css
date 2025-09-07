@@ -1,0 +1,42 @@
+/* 整個 Tabs 元件的外層容器 */
+.box-content .nav-tabs {
+    color: black;
+    background-color: #fff;
+    ;
+    border: none;
+    /* 底部加一條淺灰色底線作為軌道 */
+    border-radius: 0 !important;
+    /* 移除圓角 */
+}
+
+.box-content .nav-tabs .nav-link {
+    color: black;
+    /* 1. 將預設文字顏色設為黑色 */
+    border-radius: 0 !important;
+    /* 2. 強制移除所有狀態下的圓角 */
+    border-color: #e0e0e0;
+    /* 3. 統一邊框顏色為淺灰色 */
+}
+
+/* 當前選中的 Tab 的樣式 */
+.box-content .nav-tabs .nav-link.active {
+    color: #277633;
+    /* 您選擇的綠色 */
+    font-weight: 700;
+    /* 移除頂部邊框，讓它看起來與內容區相連 */
+    border-color: #277633;
+}
+
+/* Tab 內容區域的樣式 */
+.tab-pane-content {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    border: none;
+    border-radius: 0;
+    /* 內容區的邊框現在由 Tabs 容器提供，這裡不需要了 */
+    min-height: 200px;
+    background-color: #fff;
+    /* 確保內容區是白色背景 */
+}

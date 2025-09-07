@@ -1,0 +1,60 @@
+.box-header {
+    position: relative; /* 父容器為相對定位 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-header-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    filter: blur(2px) brightness(0.7);
+}
+
+.box-header-title {
+    position: absolute;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.box-header-title h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.box-header-title h5 {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.box-header-title .breadcrumb {
+    background-color: transparent;
+    justify-content: center; /* 讓麵包屑也置中 */
+    margin-top: 1rem;
+}
+
+/* 改變麵包屑連結的顏色 */
+.box-header-title .breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.8); /* 半透明的白色 */
+    text-decoration: none;
+}
+
+/* 改變連結滑鼠懸停時的顏色 */
+.box-header-title .breadcrumb-item a:hover {
+    color: #ffffff; /* 純白 */
+}
+
+/* 改變當前頁面（active）的文字顏色 */
+.box-header-title .breadcrumb-item.active {
+    color: #ffffff; /* 純白 */
+    font-weight: 500;
+}
+
+/* 改變分隔線 (斜線 '/') 的顏色 */
+.box-header-title .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, 0.6); /* 更透明的白色 */
+}

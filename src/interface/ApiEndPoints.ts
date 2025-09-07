@@ -60,6 +60,7 @@ export interface VMManageApiEndpoints {
     createFromTemplate: string;
     deleteVM: string;
     updateVMConfig: string;
+    createFromBoxTemplate: string;
 }
 
 export interface PVEApiEndpoints {
@@ -112,4 +113,6 @@ export interface BoxApiEndpoints {
     getPublicBoxes: string;
     getPendingBoxes: string; // superadmin
     getBoxReviews: string;
+    getMyAnswerRecord: string;
+    subitBoxAnswer: string;
 }
