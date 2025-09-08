@@ -44,7 +44,7 @@ export const course_api: CourseApiEndpoints = {
     getCourseById: (course_id: string) => `${course_api_base}/get/${course_id}`,
     getCourseMenu: (course_id: string) => `${course_api_base}/${course_id}/menu`,
     updateCourseById: (course_id: string) => `${course_api_base}/update/${course_id}`,
-    deleteCourseById: (course_id: string) => `${course_api_base}/update/${course_id}`,
+    deleteCourseById: (course_id: string) => `${course_api_base}/delete/${course_id}`,
     joinCourseById: (course_id: string) => `${course_api_base}/join/${course_id}`
 };
 

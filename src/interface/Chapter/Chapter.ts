@@ -6,4 +6,5 @@ export interface Chapter {
     chapter_order: number;
     class_id: string
     course_id: string;
+    template_id: string | null;
 }

@@ -99,6 +99,7 @@ export default function AddCourse() {
                 chapter_order: maxOrder + 1,
                 class_id: classId,
                 course_id: courseId || '',
+                template_id: null
             };
             return [...prevChapters, newChapter];
         });

@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect, MouseEvent } from "react";
 import { Col, Container, Dropdown, DropdownButton, Form, InputGroup, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
-import { asyncGet } from "../../utils/fetch";
-import { user_api } from "../../enum/api";
+import { asyncDelete, asyncGet } from "../../utils/fetch";
+import { course_api, user_api } from "../../enum/api";
 import { CourseInfo } from "../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
 import '../../style/dashboard/MyCourses.css';
 import '../../style/dashboard/AdminMyCourse.css';
 import { useToast } from "../../context/ToastProvider";
+import { getOptions } from "../../utils/token";
 
 const COURSE_IMAGE_URL = "/src/assets/images/Dashboard/course_image.jpg";
 
@@ -87,7 +88,7 @@ export default function AdminMyCourses() {
         };
 
         fetchUserCourses();
-    }, [showToast]);
+    }, []);
 
     // 處理篩選條件變更時，重置回第一頁
     useEffect(() => {
@@ -176,17 +177,35 @@ export default function AdminMyCourses() {
     };
 
     function handleDeleteCourse(e: MouseEvent<HTMLElement>): void {
-        if (confirm("確定要刪除這個課程嗎？")) {
-            e.stopPropagation();
+        e.stopPropagation();
+        const comfirmDelete = confirm("確定要刪除這個課程嗎？");
+        if (!comfirmDelete) return;
+
+        try {
             const row = (e.currentTarget as HTMLElement).closest('tr');
             const courseId = row?.getAttribute('id');
-            console.log("刪除課程 ID:", courseId);
-
             if (!courseId) return;
-            showToast("課程已刪除", "danger");
 
-            // todo
-        };
+            const options = getOptions();
+            const body = {};
+            asyncDelete(course_api.deleteCourseById(courseId), body, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("課程刪除成功", "success");
+                        setCourses(prevCourses => prevCourses.filter(c => c._id !== courseId));
+                    } else {
+                        throw new Error(res.message || "刪除課程失敗");
+                    }
+                })
+                .catch((error) => {
+                    showToast(error.message || "刪除課程失敗", "danger");
+                    console.error("刪除課程失敗:", error);
+                });
+
+        } catch (error: any) {
+            showToast(error.message || "刪除課程失敗", "danger");
+            return;
+        }
     }
 
     function handleAuditCourse(e: MouseEvent<HTMLElement>): void {

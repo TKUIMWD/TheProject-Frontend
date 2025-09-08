@@ -21,6 +21,7 @@ import {
 import '../../style/dashboard/AddChapterForm.css';
 import { SortableClassItem } from "./SortableClassItem";
 import { SortableChapterItem } from "./SortableChapterItem";
+import VMTemplateList from "./VMTemplateManagement/TemplateList";
 
 // 1. 重新定義 Props，使其更符合事件驅動的模式
 interface AddChapterFormProps {
@@ -106,6 +107,18 @@ export default function AddChapterForm({
         }
     }
 
+    // 專門用於更新已存在的 Chapter
+    const handleTemplateUpdate = (template_id: string) => {
+        if (selectedChapterId) {
+            // 如果點擊的是同一個已選中的範本，則取消選擇
+            if (selectedChapter?.template_id === template_id) {
+                onUpdateChapter(selectedChapterId, { template_id: null });
+            } else {
+                onUpdateChapter(selectedChapterId, { template_id: template_id });
+            }
+        }
+    };
+
     return (
         <Container fluid>
             <Row>
@@ -124,7 +137,12 @@ export default function AddChapterForm({
                                             classItem={classItem}
                                             index={classIndex}
                                             isSelected={selectedClassId === classItem._id && !selectedChapterId}
-                                            onSelect={() => { if (classItem._id) { setSelectedClassId(classItem._id); setSelectedChapterId(null); } }}
+                                            onSelect={() => {
+                                                if (classItem._id) {
+                                                    setSelectedClassId(classItem._id);
+                                                    setSelectedChapterId(null);
+                                                }
+                                            }}
                                             onDelete={(e) => { e.stopPropagation(); if (classItem._id) onDeleteClass(classItem._id); }}
                                         />
 
@@ -181,6 +199,12 @@ export default function AddChapterForm({
                                             </div>
                                         </Tab>
                                     </Tabs>
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>課程機器樣板(非必填)</Form.Label>
+                                    <div className="vm-template-select-container">
+                                        <VMTemplateList isSelectMode={true} handleSelect={handleTemplateUpdate} />
+                                    </div>
                                 </Form.Group>
                             </div>
                         ) : selectedClass ? (
