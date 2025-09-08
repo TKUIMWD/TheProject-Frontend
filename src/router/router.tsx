@@ -34,37 +34,74 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: (
-            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
-                <Dashboard />
-            </ProtectedRoute>
-        )
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <Dashboard />
+                    </ProtectedRoute>
+                )
+            }
+        ],
     },
     {
         path: '/courses/:courseId',
-        element: (
-            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
-                <Course />
-            </ProtectedRoute>
-        )
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <Course />
+                    </ProtectedRoute>
+                ),
+            }
+        ]
     },
     {
         path: '/chapters/:chapterId',
-        element: (
-            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
-                <Chapter />
-            </ProtectedRoute>
-        )
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <Chapter />
+                    </ProtectedRoute>
+                ),
+            }
+        ]
     },
     {
         path: '/CourseResources',
-        element: <CourseResources />,
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <CourseResources />
+                    </ProtectedRoute>
+                )
+            }
+        ],
     },
     {
         path: '/vmDetail/:vmId',
-        element: (
-            <VMConsoleWrapper />
-        )
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <VMConsoleWrapper />
+                    </ProtectedRoute>
+                )
+
+            }
+        ]
     },
     {
         path: '/boxResources',

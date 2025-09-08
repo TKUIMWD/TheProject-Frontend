@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ChapterPageDTO } from "../interface/Chapter/ChapterPageDTO";
 import { Col, Container, Row } from "react-bootstrap";
-import NavBar from "../component/NavBar";
-import Footer from "../component/Footer";
 import { useParams } from "react-router-dom";
 import { chapter_api, course_api } from "../enum/api";
 import { asyncGet } from "../utils/fetch";
@@ -86,7 +84,6 @@ export default function Chapter() {
         <>
             {chapter && courseMenu && (
                 <>
-                    <NavBar />
                     <Container fluid className="course-container">
                         <Row>
                             <Col>
@@ -102,7 +99,6 @@ export default function Chapter() {
                             </Col>
                         </Row>
                     </Container>
-                    <Footer />
                 </>
             )}
 

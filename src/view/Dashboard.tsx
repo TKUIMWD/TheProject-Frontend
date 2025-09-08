@@ -2,12 +2,10 @@ import { useMemo, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { getAuthStatus } from "../utils/token";
-import NavBar from "../component/NavBar";
 import DashboardHeader from "../component/Dasboard/DashboardHeader";
 import DashboardMenu from "../component/Dasboard/DashboardMenu";
 import Profile from "../component/Dasboard/Profile";
 import ChangePassword from "../component/Dasboard/ChangePassword";
-import Footer from "../component/Footer";
 import MyCourses from "../component/Dasboard/MyCourses";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/AddCourse";
@@ -49,7 +47,7 @@ export default function Dashboard() {
         {
             title: "範本管理",
             items: [
-                { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false}/>, roles: ["admin", "superadmin"] },
+                { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false} />, roles: ["admin", "superadmin"] },
                 { key: "AddTemplate", label: "新增範本", component: <CreateTemplate />, roles: ["admin", "superadmin"] },
             ]
         },
@@ -102,31 +100,27 @@ export default function Dashboard() {
 
 
     return (
-        <>
-            <NavBar />
-            <Container className="dashboard-container">
-                <Row>
-                    <Col lg={12}>
-                        <DashboardHeader />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={!collapse ? 3 : 1} >
-                        <DashboardMenu
-                            menuConfig={menuConfig}
-                            activeKey={activeKey}
-                            setActiveKey={setActiveKey}
-                            role={role}
-                            collapse={collapse}
-                            handleMenuCollapse={handleMenuCollapse}
-                        />
-                    </Col>
-                    <Col lg={!collapse ? 9 : 11}>
-                        {availableTabs[activeKey]}
-                    </Col>
-                </Row>
-            </Container>
-            <Footer />
-        </>
+        <Container className="dashboard-container">
+            <Row>
+                <Col lg={12}>
+                    <DashboardHeader />
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={!collapse ? 3 : 1} >
+                    <DashboardMenu
+                        menuConfig={menuConfig}
+                        activeKey={activeKey}
+                        setActiveKey={setActiveKey}
+                        role={role}
+                        collapse={collapse}
+                        handleMenuCollapse={handleMenuCollapse}
+                    />
+                </Col>
+                <Col lg={!collapse ? 9 : 11}>
+                    {availableTabs[activeKey]}
+                </Col>
+            </Row>
+        </Container>
     );
 }

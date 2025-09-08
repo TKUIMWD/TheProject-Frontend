@@ -1,8 +1,6 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import NavBar from "../component/NavBar";
-import Footer from "../component/Footer";
 import CourseHeader from "../component/Course/CourseHeader";
 import CourseContent from "../component/Course/CourseContent";
 import CourseMenu from "../component/Course/CourseMenu";
@@ -97,12 +95,11 @@ export default function Course() {
     }, [courseId]);
 
     return (
-                <>
-            <NavBar />
+        <>
             <Container fluid className="course-container">
                 {loading ? (
                     <div className="loading-overlay">
-                       <Spinner animation="border" />
+                        <Spinner animation="border" />
                     </div>
                 ) : courseData ? (
                     <>
@@ -130,7 +127,6 @@ export default function Course() {
                     <div className="text-center my-5">無法載入課程資訊。</div>
                 )}
             </Container>
-            <Footer />
 
             <JoinCourseModal
                 courseId={courseId || ""}

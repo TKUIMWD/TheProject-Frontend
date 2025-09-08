@@ -1,14 +1,11 @@
-import NavBar from "../component/NavBar"
 import Search from "../component/CourseResource/Search";
 import Filter from "../component/CourseResource/Filter";
 import Cards from "../component/CourseResource/Cards";
-import Footer from "../component/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { asyncGet } from "../utils/fetch";
 import { course_api, user_api } from "../enum/api";
 import { useToast } from "../context/ToastProvider";
-import { CoursePageDTO } from "../interface/Course/CoursePageDTO";
 import "../style/courseResource/CourseResource.css";
 import { CourseInfo } from "../interface/Course/Course";
 
@@ -132,7 +129,6 @@ export default function CourseResources() {
 
     return (
         <>
-            <NavBar />
             <div className="course-resources-title-container container mx-auto my-5">
                 <h1 className="text-4xl font-bold mb-4">課程資源</h1>
             </div>
@@ -147,7 +143,6 @@ export default function CourseResources() {
                     </Col>
                 </Row>
             </Container>
-            <Footer />
         </>
     );
 }
