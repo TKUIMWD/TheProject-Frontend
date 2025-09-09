@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Container, Card, Collapse, ListGroup } from "react-bootstrap";
-import '../../style/course/CourseMenu.css';
 import { CourseMenuProps } from "../../interface/Course/CourseMenuProps";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../component/Loading";
+import '../../style/BoxAndCourseUniversal/UniversalContent.css';
+import '../../style/course/CourseMenu.css';
 
-export default function CourseMenu({ showJoinCourseModal, class_titles,isEnrolled }: CourseMenuProps) {
+export default function CourseMenu({ showJoinCourseModal, class_titles, isEnrolled }: CourseMenuProps) {
     const navigate = useNavigate();
     const [expandedClasses, setExpandedClasses] = useState<Set<number>>(new Set([1])); // 預設第一個展開
 
@@ -34,21 +36,16 @@ export default function CourseMenu({ showJoinCourseModal, class_titles,isEnrolle
                     <div className="course-menu-header">
                         <h4 className="mb-3">目錄</h4>
                     </div>
-                    <p>載入中...</p>
+                    <Loading />
                 </Container>
             )}
 
-            <Container className="course-menu">
-                <div className="course-menu-header">
-                    <h4 className="mb-3">目錄</h4>
-                </div>
-
+            <div>
                 {class_titles.map((classItem) => (
                     <Card key={classItem.class_order} className="mb-3 class-card">
                         <Card.Header
                             className="class-header"
                             onClick={() => toggleClass(classItem.class_order)}
-                            style={{ cursor: 'pointer' }}
                         >
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="class-title">
@@ -92,7 +89,7 @@ export default function CourseMenu({ showJoinCourseModal, class_titles,isEnrolle
                         </Collapse>
                     </Card>
                 ))}
-            </Container>
+            </div>
         </>
     );
 }

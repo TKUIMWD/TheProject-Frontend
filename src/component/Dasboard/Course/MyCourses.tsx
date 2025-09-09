@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { Col, Container, Dropdown, DropdownButton, Form, InputGroup, Pagination, Row, Table } from "react-bootstrap";
-import '../../style/dashboard/MyCourses.css';
-import { asyncGet } from "../../utils/fetch";
-import { user_api } from "../../enum/api";
-import { CourseInfo } from "../../interface/Course/Course";
+import { asyncGet } from "../../../utils/fetch";
+import { user_api } from "../../../enum/api";
+import { CourseInfo } from "../../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
+import '../../../style/dashboard/MyCourses.css';
 
 export default function MyCourses() {
     const navigate = useNavigate();

@@ -1,13 +1,13 @@
 import { useState, useMemo, useEffect, MouseEvent } from "react";
 import { Col, Container, Dropdown, DropdownButton, Form, InputGroup, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
-import { asyncDelete, asyncGet } from "../../utils/fetch";
-import { course_api, user_api } from "../../enum/api";
-import { CourseInfo } from "../../interface/Course/Course";
+import { asyncDelete, asyncGet } from "../../../utils/fetch";
+import { course_api, user_api } from "../../../enum/api";
+import { CourseInfo } from "../../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
-import '../../style/dashboard/MyCourses.css';
-import '../../style/dashboard/AdminMyCourse.css';
-import { useToast } from "../../context/ToastProvider";
-import { getOptions } from "../../utils/token";
+import { useToast } from "../../../context/ToastProvider";
+import { getOptions } from "../../../utils/token";
+import '../../../style/dashboard/MyCourses.css';
+import '../../../style/dashboard/AdminMyCourse.css';
 
 const COURSE_IMAGE_URL = "/src/assets/images/Dashboard/course_image.jpg";
 
@@ -215,11 +215,9 @@ export default function AdminMyCourses() {
 
     return (
         <>
+            <h3>我的課程</h3>
+            <hr />
             <Container className="my-courses-container">
-                <Row>
-                    <h3>我的課程</h3>
-                    <hr />
-                </Row>
                 <Tabs
                     activeKey={activeTab}
                     onSelect={(k) => setActiveTab(k || 'all')}

@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 import { Container, Row, Col, Button, DropdownButton, Tabs, Tab, Dropdown, Form } from "react-bootstrap";
-import { Course } from "../../interface/Course/Course";
-import "../../style/dashboard/AddCourse.css";
+import { Course } from "../../../interface/Course/Course";
+import "../../../style/dashboard/AddCourse.css";
 
 interface AddCourseFormProps {
     courseData?: Course;

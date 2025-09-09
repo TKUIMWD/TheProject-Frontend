@@ -1,5 +1,7 @@
+/* 這是Course, Box 頁面通用的style */
+
 /* 整個 Tabs 元件的外層容器 */
-.box-content .nav-tabs {
+.content .nav-tabs {
     color: black;
     background-color: #fff;
     ;
@@ -9,7 +11,7 @@
     /* 移除圓角 */
 }
 
-.box-content .nav-tabs .nav-link {
+.content .nav-tabs .nav-link {
     color: black;
     /* 1. 將預設文字顏色設為黑色 */
     border-radius: 0 !important;
@@ -19,12 +21,12 @@
 }
 
 /* 當前選中的 Tab 的樣式 */
-.box-content .nav-tabs .nav-link.active {
-    color: #277633;
+.content .nav-tabs .nav-link.active {
+    color: #77AAAD;
     /* 您選擇的綠色 */
     font-weight: 700;
     /* 移除頂部邊框，讓它看起來與內容區相連 */
-    border-color: #277633;
+    border-color: #77AAAD;
 }
 
 /* Tab 內容區域的樣式 */
@@ -33,8 +35,8 @@
     flex-direction: column;
     padding: 2rem;
     gap: 1.5rem;
-    border: none;
-    border-radius: 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 9px 9px;
     /* 內容區的邊框現在由 Tabs 容器提供，這裡不需要了 */
     min-height: 200px;
     background-color: #fff;

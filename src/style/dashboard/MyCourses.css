@@ -10,6 +10,8 @@
 }
 
 .my-courses-container {
+    background-color: white;
+    border-radius: 10px;
     position: relative;
     min-height: 80vh; 
     padding-bottom: 80px;

@@ -3,14 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import CourseHeader from "../component/Course/CourseHeader";
 import CourseContent from "../component/Course/CourseContent";
-import CourseMenu from "../component/Course/CourseMenu";
-import SubmitterInfo from "../component/Course/SubmitterInfo";
 import JoinCourseModal from "../component/modal/JoinCourseModal";
 import { asyncGet } from "../utils/fetch";
 import { course_api } from "../enum/api";
 import { CoursePageDTO } from "../interface/Course/CoursePageDTO";
 import { CourseMenuProps } from "../interface/Course/CourseMenuProps"
 import { useToast } from "../context/ToastProvider";
+import CourseSidebar from "../component/Course/CourseSidebar";
 import '../style/course/Course.css';
 
 export default function Course() {
@@ -109,17 +108,16 @@ export default function Course() {
                             </Col>
                         </Row>
                         <Row className="course-main-section">
-                            <Col lg={8} md={12} className="course-left-section">
-                                <CourseContent {...courseData} />
-                            </Col>
-                            <Col lg={4} md={12} className="course-right-section">
-                                <CourseMenu
-                                    // 確保即使 menu 為 null 也不會出錯
+                            <Col lg={9} md={12} className="course-left-section">
+                                <CourseContent 
+                                    courseData={courseData} 
                                     class_titles={courseMenu?.class_titles || []}
                                     isEnrolled={isEnrolled}
                                     showJoinCourseModal={() => setShowJoinCourseModal(true)}
                                 />
-                                <SubmitterInfo {...courseData} />
+                            </Col>
+                            <Col lg={3} md={12} className="course-right-section">
+                                <CourseSidebar submitter={courseData.submitterInfo}/>
                             </Col>
                         </Row>
                     </>

@@ -1,6 +1,5 @@
 import { Row, Col, Image, Button, Modal, ProgressBar } from "react-bootstrap";
 import { VM_Box_Info } from "../../interface/VM/VM_Box";
-import "../../style/Box/BoxContent.css";
 import { useEffect, useState } from "react";
 import { UserProfile } from "../../interface/User/User";
 import { processAvatarPath } from "../../utils/processAvatar";
@@ -9,6 +8,7 @@ import { asyncGet, asyncPost } from "../../utils/fetch";
 import { box_api, user_api } from "../../enum/api";
 import { useToast } from "../../context/ToastProvider";
 import { Reviews } from "../../interface/Review/Review";
+import "../../style/BoxAndCourseUniversal/UniversalContent.css";
 
 interface WriteReviewAreaProps {
     showWriteReview: boolean;

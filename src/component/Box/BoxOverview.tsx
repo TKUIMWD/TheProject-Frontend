@@ -1,7 +1,7 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { VM_Box_Info } from "../../interface/VM/VM_Box";
 import { MBtoGB } from "../../utils/StorageUnitsConverter";
-import "../../style/Box/BoxContent.css";
+import "../../style/BoxAndCourseUniversal/UniversalContent.css";
 
 function SystemRequireCard({ box }: { box: VM_Box_Info }) {
     return (

@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { Button, Col, Container, Row, Form, ListGroup, Tabs, Tab } from "react-bootstrap";
 import Markdown from "react-markdown";
-import { Class } from "../../interface/Class/Class";
-import { Chapter } from "../../interface/Chapter/Chapter";
+import { Class } from "../../../interface/Class/Class";
+import { Chapter } from "../../../interface/Chapter/Chapter";
 import {
     DndContext,
     closestCenter,
@@ -18,10 +18,10 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import '../../style/dashboard/AddChapterForm.css';
+import '../../../style/dashboard/AddChapterForm.css';
 import { SortableClassItem } from "./SortableClassItem";
 import { SortableChapterItem } from "./SortableChapterItem";
-import VMTemplateList from "./VMTemplateManagement/TemplateList";
+import VMTemplateList from "../VMTemplateManagement/TemplateList";
 
 // 1. 重新定義 Props，使其更符合事件驅動的模式
 interface AddChapterFormProps {

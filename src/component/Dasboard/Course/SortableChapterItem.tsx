@@ -1,41 +1,46 @@
 import { ListGroup, Button } from 'react-bootstrap';
 import { useSortable } from '@dnd-kit/sortable';
-import { Class } from '../../interface/Class/Class';
 import { CSS } from '@dnd-kit/utilities';
+import { Chapter } from '../../../interface/Chapter/Chapter';
 
-interface SortableClassItemProps {
-    classItem: Class,
+interface SortableChapterItemProps {
+    chapter: Chapter,
     index: number,
     isSelected: boolean,
     onSelect: () => void,
-    onDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onDelete: (e: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
-export function SortableClassItem({ classItem, index, isSelected, onSelect, onDelete }: SortableClassItemProps) {
+export function SortableChapterItem({ chapter, index, isSelected, onSelect, onDelete }: SortableChapterItemProps) {
     const {
         attributes,
         listeners,
         setNodeRef,
         transform,
         transition,
-    } = useSortable({ id: `class-${classItem._id}` });
+    } = useSortable({ id: `chapter-${chapter._id}` });
 
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     };
-    
+
     return (
+        // setNodeRef 必須在最外層的容器上
         <div ref={setNodeRef} style={style} {...attributes}>
             <ListGroup.Item
                 action
                 active={isSelected}
                 onClick={onSelect}
-                className="d-flex justify-content-between align-items-center "
+                className="d-flex justify-content-between align-items-center chapter-item ps-4"
             >
-                <span>{`Class ${index + 1}. ${classItem.class_name || "未命名"}`}</span>
+                {/* 左側：標題 */}
+                <span>{`Chapter ${index + 1}. ${chapter.chapter_name || "未命名"}`}</span>
 
+                {/* 右側：按鈕區 */}
+                {/* 用一個 div 包住按鈕，並阻止事件冒泡 */}
                 <div onClick={(e) => e.stopPropagation()}>
+                    {/* 控制拖曳 */}
                     <Button variant="link" {...listeners} className="p-0 text-secondary me-2" style={{ cursor: 'grab' }}>
                         <i className="bi bi-grip-vertical"></i>
                     </Button>

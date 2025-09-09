@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { course_api, class_api, chapter_api } from "../../enum/api";
-import { asyncPost } from "../../utils/fetch";
-import { useToast } from "../../context/ToastProvider";
+import { course_api, class_api, chapter_api } from "../../../enum/api";
+import { asyncPost } from "../../../utils/fetch";
+import { useToast } from "../../../context/ToastProvider";
 import AddCourseForm from "./AddCourseForm";
 import AddChapterForm from "./AddChapterForm";
-import { Course } from "../../interface/Course/Course";
-import { Class } from "../../interface/Class/Class";
-import { Chapter } from "../../interface/Chapter/Chapter";
+import { Course } from "../../../interface/Course/Course";
+import { Class } from "../../../interface/Class/Class";
+import { Chapter } from "../../../interface/Chapter/Chapter";
 
 export default function AddCourse() {
     const { showToast } = useToast();

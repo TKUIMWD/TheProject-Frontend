@@ -1,18 +1,15 @@
 import { Tab, Tabs } from "react-bootstrap";
 import { VM_Box_Info } from "../../interface/VM/VM_Box";
 import BoxOverview from "./BoxOverview";
-import "../../style/Box/BoxContent.css";
 import BoxReviews from "./BoxReviews";
 import BoxAnswerArea from "./BoxAnswerArea";
-
-
+import "../../style/BoxAndCourseUniversal/UniversalContent.css";
 
 export default function BoxContent({ box }: { box: VM_Box_Info }) {
     return (
-        <div className="box-content">
+        <div className="content">
             <Tabs
                 defaultActiveKey="overview"
-                id="uncontrolled-tab-example"
                 fill
             >
                 <Tab eventKey="overview" title="總覽">
