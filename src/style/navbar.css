@@ -1,29 +1,123 @@
-#dropdown-user+.dropdown-menu {
-    min-width: 100px;
-    width: 120px;
-    padding: 0.25rem 0;
+/* --- 全局設定 --- */
+.navbar-section {
+    background-color: #fff;
+    /* 導覽列背景色 */
+    border-bottom: 1px solid #c9d8d9;
 }
 
+/* --- 品牌 Logo --- */
+.brand-text {
+    font-size: x-large;
+    font-weight: bold;
+    color: #6E7783;
+    /* "TG" 的顏色 */
+    text-decoration: none;
+}
+
+.brand-text:hover {
+    color: #6E7783;
+}
+
+.brand-text-primary {
+    color: #77AAAD;
+    /* "CS" 的顏色 */
+}
+
+.icon {
+    width: 50px;
+    /* 稍微縮小圖示 */
+    height: auto;
+    margin-right: 10px;
+}
+
+/* --- 中間導覽連結 --- */
+.navbar-section .nav-link {
+    color: #6E7783;
+    /* 主要文字顏色 */
+    margin: 0 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+    /* 預留底部邊框空間 */
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.navbar-section .nav-link:hover,
+.navbar-section .nav-link:focus {
+    color: #77AAAD;
+    /* 懸停時的強調色 */
+}
+
+/* NavLink 的啟用狀態 */
+.navbar-section .nav-link.active {
+    color: #77AAAD;
+    border-bottom-color: #77AAAD;
+    /* 啟用時顯示底線 */
+}
+
+
+/* --- 右側使用者區塊 --- */
+
+/* 登入/註冊按鈕 */
+.login-register-btn {
+    background-color: #77AAAD;
+    border-color: #77AAAD;
+    font-weight: 500;
+    color: #fff;
+}
+
+.login-register-btn:hover {
+    background-color: #6a9a9d;
+    /* 懸停時加深一點 */
+    border-color: #6a9a9d;
+}
+
+.login-register-btn.register {
+    background-color: transparent;
+    border-color: #77AAAD;
+    color: #77AAAD;
+}
+
+.login-register-btn.register:hover {
+    background-color: #77AAAD;
+    color: #fff;
+}
+
+
+/* 使用者下拉選單 */
 #nav-dropdown-user {
     font-weight: bold;
+    color: #6E7783 !important;
+    /* 覆寫 bootstrap 樣式 */
 }
 
 #nav-dropdown-user:hover,
 #nav-dropdown-user:focus {
-    color: green;
+    color: #77AAAD !important;
 }
 
+/* 下拉選單的背景 */
+#nav-dropdown-user+.dropdown-menu {
+    background-color: #fcfdfd;
+    border-color: #D8E6E7;
+    min-width: 120px;
+    padding: 0.25rem 0;
+}
+
+/* 下拉選單項目 */
+.dropdown-item,
 .nav-dropdown-item {
-    color: black !important;
-    text-decoration: none;
+    color: #6E7783 !important;
     font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
 }
 
-.brand-text-primary {
-    color: green;
-}
-
-.brand-text {
-    font-size: x-large;
-    font-weight: bold;
+.dropdown-item:hover,
+.nav-dropdown-item:hover {
+    background-color: #9DC3C1;
+    /* 懸停時的背景色 */
+    color: #fff !important;
 }

@@ -1,8 +1,9 @@
-import { Breadcrumb, Container, Spinner, Tab, Tabs } from "react-bootstrap";
+import { Breadcrumb, Container, Tab, Tabs } from "react-bootstrap";
 import VMInfo from "./VMInfo";
 import { VMDetailProvider, useVMDetail } from "../../../context/VMDetailContext"; // 引入 Provider
 import { useState } from "react";
 import VMConsole from "./VMConsole";
+import Loading from "../../Loading";
 
 function VMDetailContent() {
     const context = useVMDetail();
@@ -14,9 +15,7 @@ function VMDetailContent() {
     const { vmDetail } = context;
     if (!vmDetail) {
         return (
-            <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <Loading />
         );
     }
 

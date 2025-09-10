@@ -1,14 +1,15 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
-import { Navbar, Container, Nav, Button, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, Button, NavDropdown, Image } from "react-bootstrap";
 import logout from "../utils/logout";
 import LoginModal from "./modal/LoginModal";
 import RegisterModal from "./modal/RegisterModal";
-import "../style/navbar.css";
 import { NavLink } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
+import "../style/navbar.css";
 
 export default function NavBar() {
+    const icon = "src/assets/CSTG_icon.png";
     const { showToast } = useToast();
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
@@ -31,9 +32,14 @@ export default function NavBar() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg" className="navbar-section" collapseOnSelect sticky="top">
+            <Navbar expand="lg" className="navbar-section" collapseOnSelect sticky="top">
                 <Container>
-                    <Navbar.Brand className="me-auto brand-text">
+                    <Navbar.Brand className="d-flex align-items-center justify-content-center me-auto brand-text">
+                        <Image 
+                            src={icon}
+                            className="icon"
+                            roundedCircle
+                        />
                         <span className="brand-text-primary">CS</span>TG
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="main-navbar-nav" />
@@ -50,7 +56,6 @@ export default function NavBar() {
                                 <NavDropdown
                                     title={`Hi, ${username}`}
                                     id="nav-dropdown-user"
-                                    align="end"
                                     className="user-dropdown-toggle fw-bold text-dark"
                                 >
                                     <NavDropdown.Item >
@@ -58,7 +63,10 @@ export default function NavBar() {
                                             Dashboard
                                         </NavLink>
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item onClick={handleLogout}>登出</NavDropdown.Item>
+
+                                    <NavDropdown.Item className="nav-dropdown-item" onClick={handleLogout}>
+                                        登出
+                                    </NavDropdown.Item>
                                 </NavDropdown>
 
                             ) : (

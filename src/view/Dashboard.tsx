@@ -17,6 +17,7 @@ import VMList from "../component/Dasboard/VM/VMList";
 import CreateVM from "../component/Dasboard/VM/CreateVM";
 import ComputeResources from "../component/Dasboard/VM/ComputeResources";
 import SubmitBox from "../component/Dasboard/Box/SubmitBox";
+import "../style/Dashboard.css";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -107,7 +108,7 @@ export default function Dashboard() {
                 </Col>
             </Row>
             <Row>
-                <Col lg={!collapse ? 3 : 1} >
+                <Col lg={!collapse ? 3 : 1} className="mb-4 mb-lg-0">
                     <DashboardMenu
                         menuConfig={menuConfig}
                         activeKey={activeKey}
@@ -118,7 +119,9 @@ export default function Dashboard() {
                     />
                 </Col>
                 <Col lg={!collapse ? 9 : 11}>
-                    {availableTabs[activeKey]}
+                    <div className="dashboard-content">
+                        {availableTabs[activeKey]}
+                    </div>
                 </Col>
             </Row>
         </Container>

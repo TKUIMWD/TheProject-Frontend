@@ -2,8 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
 import { user_api } from '../../enum/api';
 import { asyncGet } from '../../utils/fetch';
-import '../../style/dashboard/DashboardHeader.css';
 import defaultAvatarImg from '../../assets/images/Dashboard/default-avatar.jpg';
+import '../../style/dashboard/DashboardHeader.css';
 
 
 export default function DashboardHeader() {
@@ -17,12 +17,12 @@ export default function DashboardHeader() {
         if (!avatarPath || avatarPath === "/uploads/avatars/default-avatar.jpg") {
             return defaultAvatarImg;
         }
-        
+
         // 如果已經是完整URL，直接返回
         if (avatarPath.startsWith('http')) {
             return avatarPath;
         }
-        
+
         // 否則組合後端基礎URL
         return `${import.meta.env.VITE_BACKEND_BASE_URL}${avatarPath}`;
     }
@@ -36,7 +36,7 @@ export default function DashboardHeader() {
                     'Authorization': `Bearer ${token}`
                 }
             }).then((res) => {
-                if (res.code === 200){
+                if (res.code === 200) {
                     setUsername(res.body.username || '');
                     setEmail(res.body.email || '');
                     setAvatarPath(processAvatarPath(res.body.avatar_path));
@@ -46,31 +46,27 @@ export default function DashboardHeader() {
     }, []);
 
     return (
-        <>
-            <div className="dashboard-green-area"></div>
-            <Container className="dashboard-header">
-                <Row>
-                    <Col lg={1} className="d-flex align-items-center justify-content-center">
-                        <img 
-                            src={avatarPath} 
-                            alt="user-avatar" 
-                            width={75} 
-                            height={75}
-                            style={{ objectFit: 'cover' }}
-                            className="rounded-circle"
+        <Container className="p-0">
+            <div className="dashboard-header-bar" />
+            <div className="dashboard-header">
+                <Row className="align-items-center">
+                    <Col className="dashboard-header-row d-flex align-items-center">
+                        <img
+                            src={avatarPath}
+                            alt="user-avatar"
+                            className="dashboard-header-avatar"
                             onError={(e) => {
-                                // 如果頭像載入失敗，使用預設頭像
                                 const target = e.target as HTMLImageElement;
                                 target.src = defaultAvatarImg;
                             }}
                         />
-                    </Col>
-                    <Col lg={2}>
-                        <h3>{username}</h3>
-                        <h5>{email}</h5>
+                        <div className="dashboard-header-info d-flex flex-column justify-content-start">
+                            <h3>{username}</h3>
+                            <h5>{email}</h5>
+                        </div>
                     </Col>
                 </Row>
-            </Container>
-        </>
+            </div>
+        </Container>
     );
 }

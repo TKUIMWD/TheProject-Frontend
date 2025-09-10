@@ -1,28 +1,70 @@
 .dashboard-menu {
-    background-color: #d8d8d8;
-    border-radius: 10px;
-    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
 }
 
-.dashboard-menu-item {
-    background-color: #d8d8d8;
-    border-color: #d8d8d8;
-    transition: background 0.2s, color 0.2s;
-    text-align: center;
-    border-radius: 5px;
+.menu-group {
+    margin-bottom: 2rem;
 }
 
 .menu-group-title {
-    margin-bottom: 0;
+    color: #6E7783;
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #D8E6E7;
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-menu-item {
+    background-color: #fff;
+    color: #6E7783;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    transition: background 0.2s, color 0.2s;
+    text-align: left;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.dashboard-menu-item:hover,
+.dashboard-menu-item:focus {
+    background-color: #9DC3C1;
+    color: #fff;
+}
+
+.dashboard-menu-item.active {
+    background-color: #D8E6E7;
+    color: #77AAAD;
+    border-left: 4px solid #77AAAD;
+    font-weight: bold;
 }
 
 .menu-group-header {
     margin-bottom: 0.5rem;
 }
 
-.dashboard-menu-item.active,
-.dashboard-menu-item:focus {
-    background-color: #b0b0b0 !important;
-    border-color: #b0b0b0 !important;
+.menu-collapse-btn {
+    background-color: #D8E6E7;
+    color: #77AAAD;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-collapse-btn:hover {
+    background-color: #77AAAD;
     color: #fff;
 }

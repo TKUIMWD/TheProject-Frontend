@@ -14,16 +14,9 @@ export default function CourseHeader(courseData: CoursePageDTO) {
         rating: courseData.course_rating,
     };
 
-    const { title, subtitle, duration, difficulty, rating } = courseHeaderProps;
+    const { title, subtitle } = courseHeaderProps;
 
-    const formatDuration = (duration: number): string => {
-        const hours = Math.floor(duration / 60).toFixed(1);
-        return `${hours} hr`
-    };
-
-    const formatRating = (rating: number): string => {
-        return rating.toFixed(1);
-    };
+    
 
     return (
         <div className="header">
@@ -36,11 +29,7 @@ export default function CourseHeader(courseData: CoursePageDTO) {
                     <Breadcrumb.Item active>{title}</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            {/* <div className="course-info">
-                <i className="bi bi-clock"></i><span className="course-meta">{formatDuration(duration)}</span>
-                <i className="bi bi-bar-chart-fill"></i><span className="course-meta">{difficulty}</span>
-                <i className="bi bi-star-fill text-warning"></i><span className="course-meta">{formatRating(rating)}</span>
-            </div> */}
+            
         </div>
     );
 }

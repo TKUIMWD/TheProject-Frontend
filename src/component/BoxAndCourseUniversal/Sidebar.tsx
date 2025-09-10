@@ -83,6 +83,13 @@ function CreateVMModal({ boxOrTemplate, show, handleClose, handleCreateVM }: Cre
                         </Form.Text>
                     </Form.Group>
 
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label>配置說明</Form.Label>
+                        <Form.Text className="text-muted">
+                            <p>{boxOrTemplate?.description}</p>
+                        </Form.Text>
+                    </Form.Group>
+
                     <Form.Group className="mb-3" controlId="vmName">
                         <Form.Label>虛擬機名稱</Form.Label>
                         <Form.Control

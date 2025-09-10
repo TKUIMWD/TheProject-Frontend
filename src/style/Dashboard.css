@@ -1,0 +1,14 @@
+/* --- 主容器 --- */
+.dashboard-container {
+    min-height: calc(100vh - 76px);
+    padding: 2rem 1rem;
+}
+
+/* --- 右側內容區 --- */
+.dashboard-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

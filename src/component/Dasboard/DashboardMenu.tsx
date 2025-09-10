@@ -1,8 +1,8 @@
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Dispatch, SetStateAction } from 'react';
-import '../../style/dashboard/DashboardMenu.css';
 import { useNavigate } from 'react-router-dom';
 import { MenuGroup } from '../../interface/Dashboard/DashboardMenu';
+import '../../style/dashboard/DashboardMenu.css';
 
 interface DashboardMenuProps {
     menuConfig: MenuGroup[];
@@ -28,7 +28,6 @@ export default function DashboardMenu({ menuConfig, activeKey, setActiveKey, rol
             {!collapse ? (
             <div className="dashboard-menu">
                 <ListGroup>
-                    {/* 4. 使用巢狀迴圈來動態產生整個選單 */}
                     {menuConfig.map((group) => {
                         // 過濾出該用戶角色可見的項目
                         const visibleItems = group.items.filter(item =>
@@ -41,8 +40,8 @@ export default function DashboardMenu({ menuConfig, activeKey, setActiveKey, rol
                         }
 
                         return (
-                            <Container key={group.title} className="menu-group mb-3">
-                                <Row className='align-items-center menu-group-header'>
+                            <Container key={group.title} className="menu-group">
+                                <Row className='menu-group-header'>
                                     <Col lg={10}>
                                         <h5 className="menu-group-title">{group.title}</h5>
                                     </Col>

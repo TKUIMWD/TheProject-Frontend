@@ -1,11 +1,9 @@
 import { Breadcrumb, Container } from "react-bootstrap"
-import Footer from "../../Footer"
-import NavBar from "../../NavBar"
-import VMConsole from "../../SuperAdminDashboard/VM/VMConsole"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { pve_api } from "../../../enum/api"
 import { asyncGet } from "../../../utils/fetch"
+import VMConsole from "../../SuperAdminDashboard/VM/VMConsole"
 import "../../../style/dashboard/VM/UserVMConsole.css"
 
 export default function UserVMConsole() {
@@ -35,20 +33,16 @@ export default function UserVMConsole() {
     }, [vmId])
 
     return (
-        <>
-            <NavBar />
-            <div className="user-vm-console">
-                <Container>
-                    <Breadcrumb>
-                        <Breadcrumb.Item href="/dashboard?tab=VMList">Dashboard</Breadcrumb.Item>
-                        <Breadcrumb.Item active>虛擬機終端（{VMName}）</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <h3>虛擬機終端（{VMName}）</h3>
-                    <hr />
-                    <VMConsole />
-                </Container>
-            </div>
-            <Footer />
-        </>
+        <div className="user-vm-console">
+            <Container>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/dashboard?tab=VMList">Dashboard</Breadcrumb.Item>
+                    <Breadcrumb.Item active>虛擬機終端（{VMName}）</Breadcrumb.Item>
+                </Breadcrumb>
+                <h3>虛擬機終端（{VMName}）</h3>
+                <hr />
+                <VMConsole />
+            </Container>
+        </div>
     )
 }
