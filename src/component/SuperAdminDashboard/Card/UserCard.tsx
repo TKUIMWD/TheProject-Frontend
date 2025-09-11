@@ -1,4 +1,4 @@
-import { Card, Image, ListGroup } from "react-bootstrap";
+import { Card, Image, ListGroup, Dropdown } from "react-bootstrap";
 import { User } from "../../../interface/User/User";
 import { processAvatarPath } from "../../../utils/processAvatar";
 import { useToast } from "../../../context/ToastProvider";
@@ -7,9 +7,10 @@ import { superadmin_crp_api } from "../../../enum/api";
 
 interface UserCardProps {
     user: User;
+    onPromote?: (userId: string) => void;
 }
 
-export default function UserCard({ user }: UserCardProps) {
+export default function UserCard({ user, onPromote }: UserCardProps) {
     const { showToast } = useToast();
     const token = localStorage.getItem('token');
     const isAdmin = user.role === "admin";
@@ -62,6 +63,20 @@ export default function UserCard({ user }: UserCardProps) {
                     </ListGroup>
                 </Card.Text>
             </Card.Body>
+            <Card.Footer>
+                <Dropdown>
+                    <Dropdown.Toggle variant="secondary" size="sm" className="w-100">
+                        管理操作
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {user.role === 'user' && onPromote && (
+                            <Dropdown.Item onClick={() => onPromote(user._id!)}>
+                                提升為 Admin
+                            </Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Card.Footer>
         </Card>
     );
 }

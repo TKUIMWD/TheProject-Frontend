@@ -113,7 +113,8 @@ export const vm_template_manage_api: VMTemplateManageApiEndpoints = {
 
 export const superadmin_api: SuperadminApiEndpoints = {
     getAllUsers: `${superadmin_api_base}/getAllUsers`,
-    getAllAdminUsers: `${superadmin_api_base}/getAllAdminUsers`
+    getAllAdminUsers: `${superadmin_api_base}/getAllAdminUsers`,
+    changeUserRole: `${superadmin_api_base}/changeUserRole`
 }
 
 export const superadmin_crp_api: SuperadminCRPApiEndpoints = {
