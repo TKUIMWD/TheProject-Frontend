@@ -6,7 +6,7 @@
 .platform-info-title-bar {
   width: 10px;
   height: 60px;
-  background: #1ecb8b;
+  background: #77AAAD;
   border-radius: 4px;
 }
 
@@ -29,24 +29,15 @@
   flex-direction: row-reverse;
 }
 .platform-info-row:hover {
-  box-shadow: 0 4px 32px 0 rgba(30,203,139,0.16);
+  box-shadow: 0 4px 32px 0 #D8E6E7;
 }
 
 .platform-info-img {
   max-width: 120px;
-  width: 100%;
   height: auto;
   display: block;
   margin: 0 auto auto;
   filter: drop-shadow(0 2px 8px rgba(30,203,139,0.10));
-}
-
-.platform-info-block-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1ecb8b;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
 }
 
 .platform-info-block-desc {
@@ -55,14 +46,6 @@
   line-height: 1.7;
   margin-bottom: 0.5em;
   font-weight: 600;
-}
-
-.platform-info-block-bar {
-  width: 18px;
-  height: 18px;
-  background: #1ecb8b;
-  border-radius: 4px;
-  display: inline-block;
 }
 
 @media (max-width: 991px) {

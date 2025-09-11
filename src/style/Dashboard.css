@@ -4,6 +4,10 @@
     padding: 2rem 1rem;
 }
 
+.dashboard-container .row {
+    margin-bottom: 1.5rem;
+}
+
 /* --- 右側內容區 --- */
 .dashboard-content {
     background-color: #fff;
@@ -11,4 +15,10 @@
     padding: 2rem;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-content h3 {
+    color: #6E7783;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }

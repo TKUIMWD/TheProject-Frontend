@@ -1,57 +1,46 @@
-.profile .row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.profile-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.profile-toast {
-    position: fixed;
-    z-index: 9999;
-}
-
-/* 區塊標題樣式 */
+/* --- 區塊標題 (e.g., "大頭貼設定") --- */
 .section-title {
-    color: #1ecb8b;
+    color: #77AAAD;
     font-weight: 600;
     margin-bottom: 1rem;
-    border-bottom: 2px solid #1ecb8b;
     padding-bottom: 0.5rem;
+    border-bottom: 2px solid #D8E6E7;
 }
 
-/* 頭像區塊樣式 */
-.avatar-section {
-    margin-bottom: 2rem;
+/* --- 頭像與個人資料表單容器 --- */
+.avatar-container,
+.profile-form {
+    background: #fff;
+    border: 1px solid #eaf0f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(119, 170, 173, 0.08);
 }
 
 .avatar-container {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    text-align: center;
+    padding: 1.5rem;
 }
 
-/* 頭像預覽樣式 */
+.profile-form {
+    padding: 2rem;
+}
+
+/* --- 頭像預覽 --- */
 .avatar-preview {
     position: relative;
     display: inline-block;
-    margin-bottom: 1rem;
 }
 
 .avatar-preview img {
-    border: 3px solid #1ecb8b;
-    transition: border-color 0.2s, transform 0.2s;
-    box-shadow: 0 2px 8px rgba(30, 203, 139, 0.2);
-    display: block;
-    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #77AAAD;
+    box-shadow: 0 2px 8px rgba(119, 170, 173, 0.2);
+    object-fit: cover;
+    transition: transform 0.2s;
 }
 
 .avatar-preview img:hover {
-    border-color: #229954;
     transform: scale(1.05);
 }
 
@@ -61,184 +50,66 @@
     left: 50%;
     transform: translateX(-50%);
     background: #fff;
-    border: 2px solid #1ecb8b;
+    border: 2px solid #77AAAD;
     border-radius: 10px;
     padding: 2px 8px;
     font-size: 10px;
     font-weight: bold;
+    color: #77AAAD;
 }
 
-/* 檔案上傳樣式 */
+/* --- 檔案上傳按鈕 --- */
 .custom-file-upload {
     position: relative;
     display: inline-block;
     width: 100%;
     max-width: 300px;
-    margin: 0 auto;
 }
 
 .file-input-hidden {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+    display: none;
 }
 
 .file-upload-btn {
-    display: inline-block;
+    display: block;
     padding: 8px 16px;
     background: #fff;
-    border: 2px solid #1ecb8b;
+    border: 2px solid #D8E6E7;
     border-radius: 6px;
-    color: #1ecb8b;
+    color: #6E7783;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 14px;
-    width: 100%;
-    text-align: center;
     font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .file-upload-btn:hover {
-    background: #1ecb8b;
+    background: #9DC3C1;
+    border-color: #9DC3C1;
     color: #fff;
 }
 
-/* 檔案上傳按鈕載入狀態 */
-.file-upload-btn:disabled {
-    background: #f8f9fa;
-    color: #6c757d;
-    border-color: #dee2e6;
-    cursor: not-allowed;
-}
-
-/* 頭像按鈕容器 */
-.avatar-buttons {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-/* 底部按鈕容器 */
+/* --- 底部按鈕區 --- */
 .avatar-buttons-bottom {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
     justify-content: center;
     align-items: center;
-    padding: 0.75rem 0;
-    border-top: 1px solid #e9ecef;
-    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #D8E6E7;
+    margin-top: 1.5rem;
 }
 
-@media (min-width: 768px) {
-    .avatar-buttons {
-        justify-content: flex-end;
-        margin-top: 0;
-        gap: 0.4rem;
-    }
-    
-    .avatar-buttons-bottom {
-        gap: 0.75rem;
-        padding: 1rem 0;
-    }
-}
-
-@media (min-width: 992px) {
-    .avatar-buttons {
-        gap: 0.5rem;
-    }
-    
-    .avatar-buttons-bottom {
-        gap: 1rem;
-    }
-}
-
-/* 頭像按鈕樣式 */
-.avatar-btn {
-    min-width: 50px;
-    width: 50px;
-    font-weight: 500;
-    border-width: 2px;
-    transition: all 0.2s;
-    flex-shrink: 0;
-    font-size: 11px;
-    padding: 4px 2px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-/* 底部按鈕樣式 */
 .avatar-btn-bottom {
-    min-width: 60px;
-    width: 60px;
     font-weight: 500;
-    border-width: 2px;
+    border-width: 1px;
     transition: all 0.2s;
-    flex-shrink: 0;
-    font-size: 12px;
-    padding: 6px 8px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-@media (min-width: 576px) {
-    .avatar-btn {
-        min-width: 60px;
-        width: 60px;
-        font-size: 12px;
-        padding: 6px 4px;
-    }
-    
-    .avatar-btn-bottom {
-        min-width: 70px;
-        width: 70px;
-        font-size: 13px;
-        padding: 8px 10px;
-    }
-}
-
-@media (min-width: 768px) {
-    .avatar-btn {
-        min-width: 70px;
-        width: 70px;
-        font-size: 13px;
-        padding: 8px 6px;
-    }
-    
-    .avatar-btn-bottom {
-        min-width: 80px;
-        width: 80px;
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
-
-@media (min-width: 992px) {
-    .avatar-btn {
-        min-width: 80px;
-        width: 80px;
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-    
-    .avatar-btn-bottom {
-        min-width: 85px;
-        width: 85px;
-        font-size: 14px;
-        padding: 10px 14px;
-    }
-}
-
-.avatar-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    font-size: 14px;
+    padding: 6px 12px;
 }
 
 .avatar-btn-bottom:disabled {
@@ -246,33 +117,32 @@
     cursor: not-allowed;
 }
 
-/* 個人資料表單樣式 */
-.profile-form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
+/* --- 個人資料表單 --- */
 .form-label {
     font-weight: 600;
-    color: #495057;
+    color: #6E7783;
 }
 
 .form-input {
-    border: 2px solid #e9ecef;
+    border: 2px solid #D8E6E7;
     border-radius: 6px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-input:focus {
-    border-color: #1ecb8b;
-    box-shadow: 0 0 0 0.2rem rgba(30, 203, 139, 0.25);
+    border-color: #77AAAD;
+    box-shadow: 0 0 0 0.2rem rgba(119, 170, 173, 0.25);
 }
 
+.form-input:disabled {
+    background-color: #e9ecef;
+    opacity: 0.7;
+}
+
+/* --- 更新按鈕 --- */
 .update-btn {
-    background: #1ecb8b;
-    border: none;
+    background: #77AAAD;
+    border-color: #77AAAD;
     padding: 10px 30px;
     font-weight: 600;
     border-radius: 6px;
@@ -280,14 +150,15 @@
 }
 
 .update-btn:hover {
-    background: #229954;
+    background: #6a9a9d;
+    border-color: #6a9a9d;
 }
 
-/* 頭像載入狀態 */
+/* --- 載入中 Spinner --- */
 .avatar-loading {
     width: 80px;
     height: 80px;
-    border: 3px solid #e9ecef;
+    border: 3px solid #D8E6E7;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -296,74 +167,178 @@
     margin: 0 auto;
 }
 
-/* 響應式設計 */
-@media (max-width: 575px) {
-    .avatar-container .row {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .avatar-preview img {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .avatar-buttons {
-        margin-top: 1rem;
-        flex-wrap: nowrap;
-        justify-content: center;
-        gap: 0.2rem;
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    .avatar-btn {
-        min-width: 45px;
-        width: 45px;
-        font-size: 10px;
-        padding: 4px 1px;
-        margin-bottom: 0;
-    }
-    
-    .custom-file-upload {
-        margin-bottom: 1rem;
-    }
-    
-    .profile-form {
-        padding: 1rem;
-    }
+/* --- 主標題 --- */
+.profile h3 {
+    color: #6E7783;
+    font-weight: 600;
+    margin-bottom: 0;
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-    .avatar-container .text-center {
-        margin-bottom: 1rem;
-    }
-    
-    .avatar-buttons {
-        justify-content: center;
-        margin-top: 1rem;
-        flex-wrap: nowrap;
-        gap: 0.3rem;
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    .avatar-btn {
-        min-width: 55px;
-        width: 55px;
-        font-size: 11px;
-        padding: 5px 2px;
-    }
-    
-    .profile-form {
-        padding: 1.5rem;
-    }
+/* --- 區塊標題 (e.g., "大頭貼設定") --- */
+.section-title {
+    color: #77AAAD;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #D8E6E7;
 }
 
-@media (min-width: 768px) {
-    .avatar-buttons {
-        justify-content: flex-end;
-        margin-top: 0;
-        flex-wrap: nowrap;
-    }
+/* --- 頭像與個人資料表單容器 --- */
+.avatar-container,
+.profile-form {
+    background: #fff;
+    border: 1px solid #eaf0f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(119, 170, 173, 0.08);
+}
+
+.avatar-container {
+    padding: 1.5rem;
+}
+
+.profile-form {
+    padding: 2rem;
+}
+
+/* --- 頭像預覽 --- */
+.avatar-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-preview img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #77AAAD;
+    box-shadow: 0 2px 8px rgba(119, 170, 173, 0.2);
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.avatar-preview img:hover {
+    transform: scale(1.05);
+}
+
+.preview-badge {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 2px solid #77AAAD;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #77AAAD;
+}
+
+/* --- 檔案上傳按鈕 --- */
+.custom-file-upload {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-btn {
+    display: block;
+    padding: 8px 16px;
+    background: #fff;
+    border: 2px solid #D8E6E7;
+    border-radius: 6px;
+    color: #6E7783;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-upload-btn:hover {
+    background: #9DC3C1;
+    border-color: #9DC3C1;
+    color: #fff;
+}
+
+/* --- 底部按鈕區 --- */
+.avatar-buttons-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid #D8E6E7;
+    margin-top: 1.5rem;
+}
+
+.avatar-btn-bottom {
+    font-weight: 500;
+    border-width: 1px;
+    transition: all 0.2s;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+.avatar-btn-bottom:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- 個人資料表單 --- */
+.form-label {
+    font-weight: 600;
+    color: #6E7783;
+}
+
+.form-input {
+    border: 2px solid #D8E6E7;
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+    border-color: #77AAAD;
+    box-shadow: 0 0 0 0.2rem rgba(119, 170, 173, 0.25);
+}
+
+.form-input:disabled {
+    background-color: #e9ecef;
+    opacity: 0.7;
+}
+
+/* --- 更新按鈕 --- */
+.update-btn {
+    background: #77AAAD;
+    border-color: #77AAAD;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.update-btn:hover {
+    background: #6a9a9d;
+    border-color: #6a9a9d;
+}
+
+/* --- 載入中 Spinner --- */
+.avatar-loading {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #D8E6E7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    margin: 0 auto;
 }

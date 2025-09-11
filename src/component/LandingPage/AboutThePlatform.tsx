@@ -32,15 +32,11 @@ export default function AboutThePlatform() {
                         <img
                             src={img.src}
                             alt={img.title}
-                            className="platform-info-img img-fluid"
+                            className="platform-info-img"
                         />
                     </Col>
                     {/* 左側描述區塊 */}
                     <Col md={7} className="text-md-start text-center">
-                        <div className="d-flex align-items-center mb-2">
-                            <div className="platform-info-block-bar me-2"></div>
-                            <h2 className="platform-info-block-title mb-0">{img.title}</h2>
-                        </div>
                         {img.description.map((desc, i) => (
                             <p className="platform-info-block-desc" key={i}>{desc}</p>
                         ))}

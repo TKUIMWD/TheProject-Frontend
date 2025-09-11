@@ -7,6 +7,7 @@ import RegisterModal from "./modal/RegisterModal";
 import { NavLink } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import "../style/navbar.css";
+import "../style/button/button.css";
 
 export default function NavBar() {
     const icon = "src/assets/CSTG_icon.png";
@@ -24,7 +25,7 @@ export default function NavBar() {
             }
         }
         return null;
-    });
+    });    
 
     const handleLogout = async () => {
         await logout(showToast);
@@ -70,15 +71,15 @@ export default function NavBar() {
                                 </NavDropdown>
 
                             ) : (
-                                <div className="login-register-btn-group">
+                                <div className="custom-btn-group">
                                     <Button
-                                        className="login-register-btn me-2"
+                                        className="btn-custom btn-light-blue"
                                         onClick={() => setShowLogin(true)}
                                     >
                                         登入
                                     </Button>
                                     <Button
-                                        className="login-register-btn register"
+                                        className="btn-custom btn-outline-light-blue"
                                         onClick={() => setShowRegister(true)}
                                     >
                                         註冊

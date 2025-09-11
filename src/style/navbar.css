@@ -54,35 +54,6 @@
     /* 啟用時顯示底線 */
 }
 
-
-/* --- 右側使用者區塊 --- */
-
-/* 登入/註冊按鈕 */
-.login-register-btn {
-    background-color: #77AAAD;
-    border-color: #77AAAD;
-    font-weight: 500;
-    color: #fff;
-}
-
-.login-register-btn:hover {
-    background-color: #6a9a9d;
-    /* 懸停時加深一點 */
-    border-color: #6a9a9d;
-}
-
-.login-register-btn.register {
-    background-color: transparent;
-    border-color: #77AAAD;
-    color: #77AAAD;
-}
-
-.login-register-btn.register:hover {
-    background-color: #77AAAD;
-    color: #fff;
-}
-
-
 /* 使用者下拉選單 */
 #nav-dropdown-user {
     font-weight: bold;

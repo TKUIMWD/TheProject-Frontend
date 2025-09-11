@@ -16,11 +16,15 @@
     box-shadow: 0 4px 32px 0 rgba(30,203,139,0.08);
 }
 
+.card-img, .card-img-bottom, .card-img-top {
+    width: 30px !important;
+}
+
 .platform-feature-img {
     width: 30px;
     height: 30px;
     object-fit: contain;
-    margin-left: 1.5rem;
+    margin-left: 2.5rem;
     margin-top: 1.5rem;
 }
 
