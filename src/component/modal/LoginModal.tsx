@@ -49,7 +49,7 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
             setShowPassword(false);
             if (onLoginSuccess) {
                 if (role === "superadmin") {
-                    navigate("/dashboard");
+                    navigate("/superadmin/dashboard");
                 } else {
                     onLoginSuccess(uname);
                 }

@@ -10,7 +10,6 @@ import MyCourses from "../component/Dasboard/Course/MyCourses";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/Course/AddCourse";
 import AdminMyCourse from "../component/Dasboard/Course/AdminMyCourse";
-import SuperAdminDashboard from "./SuperAdminDashboard";
 import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateList";
 import CreateTemplate from "../component/Dasboard/VMTemplateManagement/CreateTemplate";
 import VMList from "../component/Dasboard/VM/VMList";
@@ -73,10 +72,6 @@ export default function Dashboard() {
                 </div>
             </>
         );
-    }
-
-    if (role === "superadmin") {
-        return <SuperAdminDashboard />
     }
 
     const availableTabs = useMemo(() => {

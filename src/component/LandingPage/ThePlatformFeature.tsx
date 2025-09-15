@@ -30,7 +30,7 @@ export default function ThePlatformFeature() {
             <div className="platform-feature-grid">
                 {imgsData.map((img, index) => (
                     <Card key={index} className="platform-feature-card">
-                        <Card.Img variant="top" src={img.src} className="platform-feature-img" />
+                        <Card.Img src={img.src} className="platform-feature-img" />
                         <Card.Body>
                             <Card.Title className="platform-feature-title">{img.title}</Card.Title>
                             <Card.Text className="platform-feature-description">

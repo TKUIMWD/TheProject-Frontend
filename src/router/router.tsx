@@ -11,6 +11,7 @@ import VMConsoleWrapper from "../component/VMConsoleWrapper";
 import BoxResources from "../view/BoxResources";
 import Box from "../view/Box";
 import Layout from "../component/Layout";
+import SuperAdminDashboard from "../view/SuperAdminDashboard";
 
 
 export const router = createBrowserRouter([
@@ -128,4 +129,12 @@ export const router = createBrowserRouter([
             }
         ],
     },
+    {
+        path: '/superadmin/dashboard',
+        element:(
+            <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                <SuperAdminDashboard />
+            </ProtectedRoute>
+        )
+    }
 ]);
