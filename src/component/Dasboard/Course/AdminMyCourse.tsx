@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, MouseEvent } from "react";
-import { Col, Container, Dropdown, DropdownButton, Form, InputGroup, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
-import { asyncDelete, asyncGet } from "../../../utils/fetch";
+import { Button, Col, Container, Dropdown, DropdownButton, Form, InputGroup, ListGroup, Modal, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
+import { asyncDelete, asyncGet, asyncPost } from "../../../utils/fetch";
 import { course_api, user_api } from "../../../enum/api";
 import { CourseInfo } from "../../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
@@ -54,6 +54,11 @@ export default function AdminMyCourses() {
     const [activeTab, setActiveTab] = useState('all');
     const [activePage, setActivePage] = useState(1);
     const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+    const [showInviteModal, setShowInviteModal] = useState(false);
+    const [currentEmail, setCurrentEmail] = useState(""); // 用於當前輸入框
+    const [emailList, setEmailList] = useState<string[]>([]); // 用於儲存待邀請列表
+    const [isInviting, setIsInviting] = useState(false); // 控制邀請按鈕狀態
+    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
     const { showToast } = useToast();
 
@@ -213,6 +218,85 @@ export default function AdminMyCourses() {
         // todo
     }
 
+    function handleShowInviteModal(e: MouseEvent<HTMLElement>, courseId:string): void {
+        e.stopPropagation();
+        setSelectedCourseId(courseId);
+        setShowInviteModal(true);
+    }
+
+    function handleCloseInviteModal(): void {
+        setCurrentEmail("");
+        setEmailList([]);
+        setShowInviteModal(false);
+        setSelectedCourseId(null);
+    }
+
+    function handleAddEmail() {
+        const trimmedEmail = currentEmail.trim();
+        if (!trimmedEmail) {
+            showToast("請輸入 Email", "warning");
+            return;
+        }
+        // 簡單的 email 格式驗證
+        if (!/\S+@\S+\.\S+/.test(trimmedEmail)) {
+            showToast("Email 格式不正確", "danger");
+            return;
+        }
+        if (emailList.includes(trimmedEmail)) {
+            showToast("此 Email 已在列表中", "info");
+            return;
+        }
+        // 將 email push 到 string array
+        setEmailList([...emailList, trimmedEmail]);
+        setCurrentEmail(""); // 清空輸入框
+    }
+
+    function handleRemoveEmail(indexToRemove: number) {
+        setEmailList(emailList.filter((_, index) => index !== indexToRemove));
+    }
+
+    function handleInvite(): void {
+        if (emailList.length === 0) {
+            showToast("邀請列表是空的，請先新增 Email", "warning");
+            return;
+        }
+
+        if (!selectedCourseId) {
+            showToast("未選擇課程", "danger");
+            return;
+        }
+
+        setIsInviting(true);
+
+        try {
+            const options = getOptions();
+            const body = {
+                course_id: selectedCourseId,
+                emails: emailList
+            };
+            console.log("邀請使用者到課程 ID:", selectedCourseId);
+            asyncPost(course_api.InviteToJoinCourse, body, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("邀請已發送", "success");
+                    } else {
+                        throw new Error(res.message || "邀請失敗");
+                    }
+                })
+                .catch((error) => {
+                    showToast(error.message || "邀請失敗", "danger");
+                    console.error("邀請失敗:", error);
+                });
+        } catch (error: any) {
+            showToast(error.message || "邀請失敗", "danger");
+            console.error("邀請失敗:", error);
+            return;
+        } finally {
+            setIsInviting(false);
+            handleCloseInviteModal();
+        }
+    }
+
     return (
         <>
             <h3>我的課程</h3>
@@ -223,6 +307,7 @@ export default function AdminMyCourses() {
                     onSelect={(k) => setActiveTab(k || 'all')}
                     id="course-status-tabs"
                     className="mb-3"
+                    fill
                 >
                     {TABS_CONFIG.map(tab => (
                         <Tab key={tab.eventKey} eventKey={tab.eventKey} title={tab.title} />
@@ -292,6 +377,7 @@ export default function AdminMyCourses() {
                                         show={openDropdownId === course._id}
                                         onToggle={(isOpen) => {
                                             setOpenDropdownId(isOpen ? course._id : null);
+                                            console.log(course._id);
                                         }}
                                     >
                                         <Dropdown.Toggle variant="none" className="course-dropdown">
@@ -306,7 +392,10 @@ export default function AdminMyCourses() {
                                             {course.status === "編輯中" ?
                                                 <Dropdown.Item onClick={(e) => handleAuditCourse(e)}>送出審核</Dropdown.Item>
                                                 : null}
-                                            <Dropdown.Item className="text-danger" onClick={(e) => handleDeleteCourse(e)}>刪除</Dropdown.Item>
+                                            <Dropdown.Item onClick={(e) => handleDeleteCourse(e)}>刪除</Dropdown.Item>
+                                            {course.status === "公開" && (
+                                                <Dropdown.Item onClick={(e) => handleShowInviteModal(e, course._id)}>邀請</Dropdown.Item>
+                                            )}
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </td>
@@ -321,6 +410,69 @@ export default function AdminMyCourses() {
                         <h4>沒有找到課程資料</h4>
                     </div>
                 )}
+
+                <Modal centered show={showInviteModal} onHide={handleCloseInviteModal} backdrop="static">
+                    <Modal.Header closeButton>
+                        <Modal.Title>邀請使用者</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={(e) => { e.preventDefault(); handleAddEmail(); }}>
+                            <Form.Group className="mb-3" controlId="inviteEmail">
+                                <Form.Label>輸入要邀請的使用者 Email</Form.Label>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="example@email.com"
+                                        value={currentEmail}
+                                        onChange={e => setCurrentEmail(e.target.value)}
+                                        disabled={isInviting}
+                                    />
+                                    <Button variant="outline-secondary" onClick={handleAddEmail} disabled={isInviting}>
+                                        新增
+                                    </Button>
+                                </InputGroup>
+                            </Form.Group>
+                        </Form>
+
+                        {emailList.length > 0 && (
+                            <>
+                                <hr />
+                                <p className="text-muted">待邀請列表 ({emailList.length})</p>
+                                <ListGroup variant="flush" style={{ maxHeight: '200px', overflowY: 'auto' }} as="ol" numbered>
+                                    {emailList.map((email, index) => (
+                                        <ListGroup.Item
+                                            key={index}
+                                            className="d-flex justify-content-between align-items-center"
+                                        >
+                                            {email}
+                                            <Button
+                                                variant="link"
+                                                className="text-danger p-0"
+                                                onClick={() => handleRemoveEmail(index)}
+                                                disabled={isInviting}
+                                                title="移除"
+                                            >
+                                                <i className="bi bi-x-circle"></i>
+                                            </Button>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            </>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseInviteModal} disabled={isInviting}>
+                            取消
+                        </Button>
+                        <Button
+                            className="btn-custom btn-light-blue"
+                            onClick={() => handleInvite()}
+                            disabled={isInviting || emailList.length === 0}
+                        >
+                            {isInviting ? '發送中...' : `發送 ${emailList.length} 封邀請`}
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <div className="pagination-container">
                     <Pagination>
