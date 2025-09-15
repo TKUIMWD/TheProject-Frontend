@@ -25,5 +25,14 @@
             "確保資源的有效利用與分配"
         ],
         "captionPosition": "top-left"
+    },
+    {
+        "src": "src/assets/images/LandingPage/About/img3.png",
+        "title": "靶機演練環境",
+        "description": [
+            "提供靶機演練的虛擬環境",
+            "支援各種攻防演練場景"
+        ],
+        "captionPosition": "bottom-left"
     }
 ]
