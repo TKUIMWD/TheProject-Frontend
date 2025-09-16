@@ -22,7 +22,7 @@ function VMDetailContent() {
     return (
         <Container className="mt-4">
             <Breadcrumb>
-                <Breadcrumb.Item href="/dashboard?tab=MachineManagement">機器總覽</Breadcrumb.Item>
+                <Breadcrumb.Item href="/superadmin/dashboard?tab=MachineManagement">機器總覽</Breadcrumb.Item>
                 <Breadcrumb.Item active>虛擬機資訊（{vmDetail.pve_vmid}）</Breadcrumb.Item>
             </Breadcrumb>
 

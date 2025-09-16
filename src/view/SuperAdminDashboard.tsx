@@ -19,7 +19,7 @@ const menuConfig: MenuGroup[] = [
         title: "帳號管理",
         items: [
             { key: "UserManagement", label: "用戶總覽", component: <AllUsers />, roles: ["superadmin"] },
-            { key: "AdminManagement", label: "管理員總覽", component: <AllAdmins />, roles: ["superadmin"] },
+            { key: "AdminManagement", label: "教師總覽", component: <AllAdmins />, roles: ["superadmin"] },
         ]
     },
     {

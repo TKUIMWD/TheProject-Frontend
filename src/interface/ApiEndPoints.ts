@@ -96,6 +96,8 @@ export interface VMTemplateManageApiEndpoints {
 export interface SuperadminApiEndpoints {
     getAllUsers: string;
     getAllAdminUsers: string;
+    changeUserRole: string;
+    assignCRPToUser: string;
 }
 
 export interface SuperadminCRPApiEndpoints {

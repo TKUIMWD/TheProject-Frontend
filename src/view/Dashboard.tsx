@@ -2,12 +2,12 @@ import { useMemo, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { getAuthStatus } from "../utils/token";
+import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import DashboardHeader from "../component/Dasboard/DashboardHeader";
 import DashboardMenu from "../component/Dasboard/DashboardMenu";
 import Profile from "../component/Dasboard/Profile";
 import ChangePassword from "../component/Dasboard/ChangePassword";
 import MyCourses from "../component/Dasboard/Course/MyCourses";
-import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AddCourse from "../component/Dasboard/Course/AddCourse";
 import AdminMyCourse from "../component/Dasboard/Course/AdminMyCourse";
 import TemplateList from "../component/Dasboard/VMTemplateManagement/TemplateList";
@@ -17,6 +17,7 @@ import CreateVM from "../component/Dasboard/VM/CreateVM";
 import ComputeResources from "../component/Dasboard/VM/ComputeResources";
 import SubmitBox from "../component/Dasboard/Box/SubmitBox";
 import "../style/Dashboard.css";
+import ListCRP from "../component/Dasboard/CRP/ListCRP";
 
 export default function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -39,7 +40,7 @@ export default function Dashboard() {
         {
             title: "機器管理",
             items: [
-                { key: "ComputeResources", label: "計算資源", component: <ComputeResources />, roles: ["admin", "superadmin"] },
+                { key: "ComputeResources", label: "計算資源", component: <ComputeResources />, roles: ["user", "admin", "superadmin"] },
                 { key: "VMList", label: "我的機器", component: <VMList />, roles: ["user", "admin", "superadmin"] },
                 { key: "CreateVM", label: "新增機器", component: <CreateVM isUpdateMode={false} />, roles: ["admin", "superadmin"] }
             ]
@@ -59,7 +60,9 @@ export default function Dashboard() {
         },
         {
             title: "訂閱資訊",
-            items: []
+            items: [
+                { key: "Subscription", label: "訂閱資訊", component: <ListCRP />, roles: ["user", "admin", "superadmin"] },
+            ]
         }
     ];
 

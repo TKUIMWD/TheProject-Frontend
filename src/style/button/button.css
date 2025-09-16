@@ -30,7 +30,7 @@
 }
 
 
-/* --- 實心淺藍按鈕 (原 Login) --- */
+/* --- 實心淺藍按鈕 --- */
 .btn-light-blue {
     background: #77AAAD !important;
     color: #fff !important;
@@ -45,7 +45,7 @@
 }
 
 
-/* --- 線框淺藍按鈕 (原 Register) --- */
+/* --- 線框淺藍按鈕 --- */
 .btn-outline-light-blue {
     background: transparent !important;
     color: #77AAAD !important;
@@ -57,4 +57,32 @@
     background: #77AAAD !important;
     color: #fff !important;
     border-color: #77AAAD !important;
+}
+
+/* --- 實心灰按鈕 --- */
+.btn-gray {
+    background: #6c757d !important;
+    color: #fff !important;
+    border: 1px solid #6c757d !important;
+}
+
+.btn-gray:hover,
+.btn-gray:active {
+    background: #5a6268 !important;
+    color: #fff !important;
+    border-color: #5a6268 !important;
+}
+
+/* --- 線框灰按鈕 --- */
+.btn-outline-gray {
+    background: transparent !important;
+    color: #6c757d !important;
+    border: 1px solid #6c757d !important;
+}
+
+.btn-outline-gray:hover,
+.btn-outline-gray:active {
+    background: #6c757d !important;
+    color: #fff !important;
+    border-color: #6c757d !important;
 }
