@@ -14,6 +14,7 @@ import AllTemplates from "../component/SuperAdminDashboard/Template/AllTemplate"
 import TemplateAudit from "../component/SuperAdminDashboard/Template/TemplateAudit";
 import BoxAudit from "../component/SuperAdminDashboard/Box/BoxAudit";
 import AllCourse from "../component/SuperAdminDashboard/Course/AllCourse";
+import AuditCourse from "../component/SuperAdminDashboard/Course/AuditCourse";
 
 const menuConfig: MenuGroup[] = [
     {
@@ -27,6 +28,7 @@ const menuConfig: MenuGroup[] = [
         title: "課程管理",
         items: [
             { key: "CourseManagement", label: "課程總覽", component: <AllCourse />, roles: ["superadmin"] },
+            { key: "AuditCourse", label: "課程審核", component: <AuditCourse />, roles: ["superadmin"] },
         ]
     },
     {

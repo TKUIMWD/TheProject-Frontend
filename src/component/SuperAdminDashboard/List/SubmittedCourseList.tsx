@@ -1,28 +1,21 @@
-import { useState } from "react";
-import { Dropdown, Table } from "react-bootstrap";
+
+import { Button, Table } from "react-bootstrap";
 import { CourseInfo } from "../../../interface/Course/Course";
 import { formatISOString, minute_to_hour } from "../../../utils/timeFormat";
 import { useNavigate } from "react-router-dom";
-import '../../../style/superAdmin/List/CourseList.css';
 
 interface CourseListProps {
     courses: CourseInfo[];
-    handleDelete: (course_id: string) => void;
+    handleAudit: (course_id: string, approved: boolean) => void;
 }
 
-export default function AllCourse({ courses, handleDelete }: CourseListProps) {
+export default function SubmittedCourseList({ courses, handleAudit }: CourseListProps) {
     const navigate = useNavigate();
     const course_image_base = "/src/assets/images/Dashboard/course_image.jpg";
-    const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
-
+    
     function handleClick(e: React.MouseEvent, course_id: string) {
         e.stopPropagation();
-        setTimeout(() => {
-            // 當這段程式碼執行時，onToggle 必定已經完成
-            if (!openDropdownId) {
-                navigate(`/courses/${course_id}`);
-            }
-        }, 0);
+        navigate(`/courses/${course_id}`);
     }
 
     const course_title = (course: CourseInfo) => (
@@ -68,25 +61,9 @@ export default function AllCourse({ courses, handleDelete }: CourseListProps) {
                         <td>{course.status}</td>
                         <td>{course.teacher_name}</td>
                         <td>{formatISOString(course.update_date)}</td>
-                        <td onClick={(e) => e.stopPropagation()}>
-                           <Dropdown
-                                show={openDropdownId === course._id}
-                                onToggle={(isOpen) => {
-                                    setOpenDropdownId(isOpen ? course._id : null);
-                                }}
-                            >
-                                <Dropdown.Toggle variant="none" className="no-arrow">
-                                    <i className="bi bi-three-dots-vertical"></i>
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => {
-                                        handleDelete(course._id);
-                                    }}>
-                                        刪除
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        <td>
+                            <Button className="me-2" variant="outline-success" onClick={(e) => { e.stopPropagation(); handleAudit(course._id, true); }}>核准</Button>
+                            <Button variant="outline-danger" onClick={(e) => { e.stopPropagation(); handleAudit(course._id, false); }}>拒絕</Button>
                         </td>
                     </tr>
                 ))}

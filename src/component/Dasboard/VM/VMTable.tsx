@@ -117,8 +117,8 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
                 if (res.code === 200) {
                     showToast("刪除成功", "success");
                     setVmsWithNames(prev => prev.filter(vm => vm._id !== vm_id));
-                } else {
-                    showToast("刪除失敗", "danger");
+                } else if (res.code !== 200) {
+                    showToast(`刪除失敗：${res.message || "非預期錯誤"}`, "danger");
                 }
             });
     }

@@ -178,7 +178,25 @@ export default function AdminMyCourses() {
             prevCourses.map(c => c._id === courseId ? { ...c, status: newStatus } : c)
         );
 
-        // todo
+        try {
+            const options = getOptions();
+            const body = { courseId: courseId , status: newStatus };
+            asyncPost( course_api.setCourseStatus, body, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast(`課程已${newStatus === "公開" ? "公開" : "設為未公開"}`, "success");
+                    } else {
+                        throw new Error(res.message || "更新課程狀態失敗");
+                    }
+                })
+                .catch((error) => {
+                    showToast(error.message || "更新課程狀態失敗", "danger");
+                    console.error("更新課程狀態失敗:", error);
+                });
+        } catch (error: any) {
+            showToast(error.message || "更新課程狀態失敗", "danger");
+            return;
+        }
     };
 
     function handleDeleteCourse(e: MouseEvent<HTMLElement>): void {
@@ -213,12 +231,39 @@ export default function AdminMyCourses() {
         }
     }
 
-    function handleAuditCourse(e: MouseEvent<HTMLElement>): void {
+    function handleAuditCourse(e: MouseEvent<HTMLElement>, courseId: string): void {
         e.stopPropagation();
-        // todo
+        try {
+            if (courseId === null) {
+                showToast("無法取得課程 ID", "danger");
+                return;
+            }
+            const options = getOptions();
+            const body = { courseId: courseId };
+            asyncPost(course_api.submit, body, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("課程送出審核成功", "success");
+                        // 更新課程狀態為 "審核中"
+                        setCourses(prevCourses =>
+                            prevCourses.map(c => c._id === courseId ? { ...c, status: "審核中" } : c)
+                        );
+                    } else {
+                        throw new Error(res.message || "送出審核失敗");
+                    }
+                })
+                .catch((error) => {
+                    showToast(error.message || "送出審核失敗", "danger");
+                    console.error("送出審核失敗:", error);
+                });
+        } catch (error: any) {
+            showToast(error.message || "送出審核失敗", "danger");
+            return;
+        }
+
     }
 
-    function handleShowInviteModal(e: MouseEvent<HTMLElement>, courseId:string): void {
+    function handleShowInviteModal(e: MouseEvent<HTMLElement>, courseId: string): void {
         e.stopPropagation();
         setSelectedCourseId(courseId);
         setShowInviteModal(true);
@@ -389,8 +434,8 @@ export default function AdminMyCourses() {
                                             {course.status === "公開" || course.status === "未公開" ?
                                                 <Dropdown.Item onClick={(e) => handlePublicCourse(e)}>{course.status === "公開" ? "不公開" : "公開"}</Dropdown.Item>
                                                 : null}
-                                            {course.status === "編輯中" ?
-                                                <Dropdown.Item onClick={(e) => handleAuditCourse(e)}>送出審核</Dropdown.Item>
+                                            {course.status === "編輯中" || course.status === "審核未通過" ?
+                                                <Dropdown.Item onClick={(e) => handleAuditCourse(e, course._id)}>送出審核</Dropdown.Item>
                                                 : null}
                                             <Dropdown.Item onClick={(e) => handleDeleteCourse(e)}>刪除</Dropdown.Item>
                                             {course.status === "公開" && (

@@ -19,14 +19,19 @@ export interface UserApiEndpoints {
 
 export interface CourseApiEndpoints {
     addCourse: string;
+    submit: string;
     getAllPublicCourses: string;
     InviteToJoinCourse: string;
     getAllCourses: string;
+    getAllSubmittedCourses: string;
+    setCourseStatus: string;
     getCourseById: (course_id: string) => string;
     getCourseMenu: (course_id: string) => string;
     updateCourseById: (course_id: string) => string;
     deleteCourseById: (course_id: string) => string;
     joinCourseById: (course_id: string) => string;
+    approvedCourseById: (course_id: string) => string;
+    unApprovedCourseById: (course_id: string) => string;
 }
 
 export interface ClassApiEndpoints {

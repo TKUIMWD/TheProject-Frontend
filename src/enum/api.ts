@@ -40,14 +40,19 @@ export const user_api: UserApiEndpoints = {
 
 export const course_api: CourseApiEndpoints = {
     addCourse: `${course_api_base}/add`,
+    submit: `${course_api_base}/submit`,
     getAllPublicCourses: `${course_api_base}/allPublicCourses`,
+    getAllSubmittedCourses: `${course_api_base}/getAllSubmittedCourses`,
     InviteToJoinCourse: `${course_api_base}/invite`,
     getAllCourses: `${course_api_base}/getAllCourses`,
+    setCourseStatus: `${course_api_base}/setCourseStatus`,
     getCourseById: (course_id: string) => `${course_api_base}/get/${course_id}`,
     getCourseMenu: (course_id: string) => `${course_api_base}/${course_id}/menu`,
     updateCourseById: (course_id: string) => `${course_api_base}/update/${course_id}`,
     deleteCourseById: (course_id: string) => `${course_api_base}/delete/${course_id}`,
-    joinCourseById: (course_id: string) => `${course_api_base}/join/${course_id}`
+    joinCourseById: (course_id: string) => `${course_api_base}/join/${course_id}`,
+    approvedCourseById: (course_id: string) => `${course_api_base}/approved/${course_id}`,
+    unApprovedCourseById: (course_id: string) => `${course_api_base}/unapproved/${course_id}`,
 };
 
 export const class_api: ClassApiEndpoints = {
