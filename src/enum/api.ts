@@ -42,6 +42,7 @@ export const course_api: CourseApiEndpoints = {
     addCourse: `${course_api_base}/add`,
     getAllPublicCourses: `${course_api_base}/allPublicCourses`,
     InviteToJoinCourse: `${course_api_base}/invite`,
+    getAllCourses: `${course_api_base}/getAllCourses`,
     getCourseById: (course_id: string) => `${course_api_base}/get/${course_id}`,
     getCourseMenu: (course_id: string) => `${course_api_base}/${course_id}/menu`,
     updateCourseById: (course_id: string) => `${course_api_base}/update/${course_id}`,

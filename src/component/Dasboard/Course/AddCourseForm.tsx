@@ -1,6 +1,7 @@
 import { MouseEvent } from "react";
 import { Container, Row, Col, Button, DropdownButton, Tabs, Tab, Dropdown, Form } from "react-bootstrap";
 import { Course } from "../../../interface/Course/Course";
+import Markdown from "react-markdown";
 import "../../../style/dashboard/AddCourse.css";
 
 interface AddCourseFormProps {
@@ -151,7 +152,9 @@ export default function AddCourseForm({ courseData, handleTabChange, onTemporary
                                 />
                             </Tab>
                             <Tab eventKey="preview" title="預覽">
-                                <div dangerouslySetInnerHTML={{ __html: courseData?.course_description || '' }} />
+                                <Markdown>
+                                    {courseData?.course_description || ''}
+                                </Markdown>
                             </Tab>
                         </Tabs>
                     </Col>

@@ -21,6 +21,7 @@ export interface CourseApiEndpoints {
     addCourse: string;
     getAllPublicCourses: string;
     InviteToJoinCourse: string;
+    getAllCourses: string;
     getCourseById: (course_id: string) => string;
     getCourseMenu: (course_id: string) => string;
     updateCourseById: (course_id: string) => string;

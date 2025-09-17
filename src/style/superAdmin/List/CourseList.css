@@ -1,0 +1,13 @@
+/* 移除 Dropdown Toggle 的預設箭頭 */
+.dropdown-toggle.no-arrow::after {
+    display: none;
+}
+
+/* 課程列表中的圖片樣式 */
+.course-image {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

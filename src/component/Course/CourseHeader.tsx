@@ -2,9 +2,11 @@ import { Breadcrumb, Image } from "react-bootstrap";
 import { CourseHeaderProps } from "../../interface/Course/CourseHeaderProp";
 import { CoursePageDTO } from "../../interface/Course/CoursePageDTO";
 import '../../style/BoxAndCourseUniversal/UniversalHeader.css';
+import { getAuthStatus } from "../../utils/token";
 
 export default function CourseHeader(courseData: CoursePageDTO) {
     const imageUrl = "/src/assets/images/Course/course_banner.jpg";
+    const role = getAuthStatus();
 
     const courseHeaderProps: CourseHeaderProps = {
         title: courseData.course_name,
@@ -25,7 +27,9 @@ export default function CourseHeader(courseData: CoursePageDTO) {
                 <h1>{title}</h1>
                 <h5>{subtitle}</h5>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="../dashboard?tab=MyCourses">我的課程</Breadcrumb.Item>
+                    <Breadcrumb.Item href={role === "superadmin" ? "../superadmin/dashboard?tab=CourseManagement" : "../dashboard?tab=MyCourses"}>
+                        {role === "superadmin" ? "課程總覽" : "我的課程"}
+                    </Breadcrumb.Item>
                     <Breadcrumb.Item active>{title}</Breadcrumb.Item>
                 </Breadcrumb>
             </div>

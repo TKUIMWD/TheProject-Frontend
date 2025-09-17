@@ -5,6 +5,7 @@ import { user_api } from "../../../enum/api";
 import { CourseInfo } from "../../../interface/Course/Course";
 import { useNavigate } from "react-router-dom";
 import '../../../style/dashboard/MyCourses.css';
+import Loading from "../../Loading";
 
 export default function MyCourses() {
     const navigate = useNavigate();
@@ -107,11 +108,7 @@ export default function MyCourses() {
 
     if (loading) {
         return (
-            <Container className="my-courses-container">
-                <div className="text-center p-5">
-                    <h4>載入中...</h4>
-                </div>
-            </Container>
+            <Loading />
         );
     }
 
