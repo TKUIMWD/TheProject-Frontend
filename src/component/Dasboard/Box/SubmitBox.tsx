@@ -76,7 +76,7 @@ function BoxForm({ handleSubmitBox }: BoxFormProps) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="BoxForm.description">
-                <Form.Label>Box 設置說明<BoxTrigger message="請填寫詳細的Box設定資訊" /></Form.Label>
+                <Form.Label>Box 設置說明<BoxTrigger message="請填寫詳細的Box設定資訊，支援Markdown語法" /></Form.Label>
                 <Form.Control
                     as="textarea"
                     rows={3}

@@ -174,10 +174,13 @@ function WriteReviewArea({ userProfile, handleRating, box, showWriteReview, hand
 function AllReviews({ reviews, handleShowWriteReview }: { reviews: Reviews[]; handleShowWriteReview: () => void }) {
     if (!reviews || reviews.length === 0) {
         return (
-            <div>
-                <h3><b>留言(0)</b></h3>
+            <>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h3 className="mb-4"><b>留言({reviews.length})</b></h3>
+                    <Button variant="success" onClick={handleShowWriteReview}>新增留言</Button>
+                </div>
                 <p className="text-muted">目前尚無留言</p>
-            </div>
+            </>
         );
     }
 

@@ -1,6 +1,7 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { VM_Box_Info } from "../../interface/VM/VM_Box";
 import { MBtoGB } from "../../utils/StorageUnitsConverter";
+import Markdown from "react-markdown";
 import "../../style/BoxAndCourseUniversal/UniversalContent.css";
 
 function SystemRequireCard({ box }: { box: VM_Box_Info }) {
@@ -32,12 +33,12 @@ export default function BoxOverview({box}: {box: VM_Box_Info}) {
             <Row>
                 <Col>
                     <div className="mb-4">
-                        <h5><b>Box描述</b></h5>
-                        <p className="text-muted">{box.description}</p>
+                        <h5><b>範本描述</b></h5>
+                        <Markdown>{box.description}</Markdown>
                     </div>
                     <div className="mb-4">
-                        <h5><b>設定說明</b></h5>
-                        <p className="text-muted">{box.box_setup_description}</p>
+                        <h5><b>Box資訊與設定說明</b></h5>
+                        <Markdown>{box.box_setup_description}</Markdown>
                     </div>
                     <div className="mb-4">
                         <h5><b>系統規格</b></h5>
