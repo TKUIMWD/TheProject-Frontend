@@ -7,6 +7,7 @@ import { useToast } from "../context/ToastProvider";
 import { MenuGroup } from "../interface/Dashboard/DashboardMenu";
 import AllMechine from "../component/SuperAdminDashboard/VM/AllVM";
 import SuperAdminNav from "../component/SuperAdminDashboard/SuperAdminNav";
+import DraggableAIContainer from "../component/AIAssistant/DraggableAIContainer";
 import "../style/superAdmin/SuperAdminDashboard.css";
 import AllUsers from "../component/SuperAdminDashboard/Account/AllUsers";
 import AllAdmins from "../component/SuperAdminDashboard/Account/AllAdmins";
@@ -17,8 +18,7 @@ import AllCourse from "../component/SuperAdminDashboard/Course/AllCourse";
 import AuditCourse from "../component/SuperAdminDashboard/Course/AuditCourse";
 import 'sakana-widget/lib/index.css';
 import SakanaWidget from 'sakana-widget';
-
-const sakanaWidgetImageURL = import.meta.env.VITE_SAKANA_WIDGET_IMAGE_URL || "";
+import AIAssistantImage from '../assets/AI_assitant.png';
 
 const menuConfig: MenuGroup[] = [
     {
@@ -140,8 +140,8 @@ export default function SuperAdminDashboard() {
         const el = document.createElement('div');
         el.id = containerId;
         el.style.position = 'fixed';
-        el.style.right = '-80px';
-        el.style.bottom = '-60px';
+        // el.style.right = '-80px';
+        // el.style.bottom = '-60px';
         el.style.zIndex = '1050';
         el.style.width = '360px';
         el.style.height = '360px';
@@ -156,7 +156,7 @@ export default function SuperAdminDashboard() {
         let widget: any;
         try {
             if ((SakanaWidget as any)?.getCharacter && (SakanaWidget as any)?.registerCharacter) {
-                const img = await loadImage(sakanaWidgetImageURL);
+                const img = await loadImage(AIAssistantImage);
                 // 以容器的最小邊作為正方形尺寸，設定合理上下限
                 const minSide = Math.max(120, Math.min(800, Math.min(container.clientWidth || 200, container.clientHeight || 200)));
                 const canvas = document.createElement('canvas');
@@ -175,12 +175,25 @@ export default function SuperAdminDashboard() {
                 }
                 const dataUrl = canvas.toDataURL('image/png');
 
-                const base = (SakanaWidget as any).getCharacter('chisato');
-                const custom = { ...base, image: dataUrl };
+                const base = (SakanaWidget).getCharacter('takina');
+                const custom = { 
+                    ...base, 
+                    image: dataUrl,
+                    initialState: {
+                        ...(base?.initialState || {}),
+                        d: 1, // 衰减
+                        i: 0.0001, // 惯性
+                        r: 0, // 角度
+                        // s: 0.001, // 粘性
+                        // t: -10, // 垂直速度
+                        // w: -10, // 水平速度
+                        y: 10 // 高度
+                    }
+                };
                 (SakanaWidget as any).registerCharacter('custom', custom);
-                widget = new (SakanaWidget as any)({ character: 'custom', size: minSide, controls: false, rod: false, draggable: true, autoFit: false });
+                widget = new (SakanaWidget)({ character: 'custom', size: minSide, controls: false, rod: false, draggable: false, autoFit: false });
             } else {
-                widget = new (SakanaWidget as any)();
+                widget = new (SakanaWidget)();
             }
         } catch {
             widget = new (SakanaWidget as any)();
@@ -198,7 +211,7 @@ export default function SuperAdminDashboard() {
     // 初始化 Sakana Widget 的主要函數
     const initializeSakanaWidget = async () => {
         // 若沒自訂圖片，清理並跳出
-        if (!sakanaWidgetImageURL) {
+        if (!AIAssistantImage) {
             cleanupSakanaWidget();
             return;
         }
@@ -213,10 +226,12 @@ export default function SuperAdminDashboard() {
 
         // 清理函式
         return cleanupSakanaWidget;
-    }, [sakanaWidgetImageURL]);
+    }, [AIAssistantImage]);
 
     return (
         <>
+            <DraggableAIContainer />
+            
             <Container className="super-admin-dashboard" fluid>
                 <Row>
                     {navCollapsed && (
