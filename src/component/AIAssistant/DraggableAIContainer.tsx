@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import AIAssistantMessage from './AIAssistantMessage';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import '../../style/aiAssistant/DraggableAIContainer.css';
+import '../../style/AIAssistant/DraggableAIContainer.css';
 
 export default function DraggableAIContainer() {
     const containerRef = useRef<HTMLDivElement>(null);
