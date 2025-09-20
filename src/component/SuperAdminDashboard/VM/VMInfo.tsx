@@ -30,7 +30,7 @@ export default function VMInfo(props: VMInfoProps) {
     // 如果 contextData 存在，使用 Context 的資料；否則，使用 props 的資料。
     const isContextMode = !!contextData;
     const vmId = isContextMode ? contextData.vmDetail?._id : props.VM_id;
-    const vmName = isContextMode ? contextData.vmDetail?.pve_vmid.toString() : props.VM_name;
+    const vmName = isContextMode ? contextData.vmDetail?.pve_name : props.VM_name;
     const vmNode = isContextMode ? contextData.vmDetail?.pve_node : props.VM_pve_node;
 
     // 狀態管理：只有在非 Context 模式下才需要自己管理狀態

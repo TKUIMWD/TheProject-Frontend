@@ -97,7 +97,7 @@ export default function AllMechine() {
                             <Col lg={8} md={10}>
                                 <VMInfo
                                     VM_id={vm._id}
-                                    VM_name={vm.pve_vmid.toString()}
+                                    VM_name={vm.pve_name || 'unknown'}
                                     VM_pve_node={vm.pve_node}
                                 />
                             </Col>
@@ -136,7 +136,7 @@ export default function AllMechine() {
                 <Table hover>
                     <thead>
                         <tr>
-                            <th>id</th>
+                            <th>name</th>
                             <th>pve_vmid</th>
                             <th>pve_node</th>
                             <th>owner</th>
@@ -149,7 +149,7 @@ export default function AllMechine() {
                             const time = uptimeFormat(mechine.status?.uptime);
                             return (
                                 <tr key={mechine._id} onClick={e => { e.stopPropagation(); navigator(`/vmDetail/${mechine._id}`); }}>
-                                    <td>{mechine._id}</td>
+                                    <td>{mechine.pve_name}</td>
                                     <td>{mechine.pve_vmid}</td>
                                     <td>{mechine.pve_node}</td>
                                     <td>{mechine.owner}</td>
