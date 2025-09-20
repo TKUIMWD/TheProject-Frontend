@@ -8,6 +8,7 @@ import { ComputeResourcePlan } from "../../../interface/CRP/CRP";
 import { GBtoMB, MBtoGB } from "../../../utils/StorageUnitsConverter";
 import { VM_Template_Info } from "../../../interface/VM/VM_Template";
 import VMTemplateList from "../VMTemplateManagement/TemplateList";
+import { getOptions } from "../../../utils/token";
 
 interface fromDataProps {
     template_id?: string;
@@ -40,86 +41,99 @@ export default function CreateVM({ isUpdateMode, vmToUpdateId }: CreateVMFormPro
     const [nodeOptions, setNodeOptions] = useState<string[]>([]);
     const { showToast } = useToast();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        showToast("請先登入", "danger")
-    }
-
-    const options = {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    }
-
     // fetch node list
     useEffect(() => {
-        asyncGet(pve_api.getNodes, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setNodeOptions(res.body.map((node: { node: PVE_node }) => node.node));
-                } else {
-                    throw new Error(res.message || "無法取得節點列表");
-                }
-            })
-            .catch((err) => {
-                showToast(err.message || "無法取得節點列表", "danger");
-                console.error("Error fetching nodes:", err);
-            });
+        try {
+            const options = getOptions();
+            asyncGet(pve_api.getNodes, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setNodeOptions(res.body.map((node: { node: PVE_node }) => node.node));
+                    } else {
+                        throw new Error(res.message || "無法取得節點列表");
+                    }
+                })
+                .catch((err) => {
+                    showToast(err.message || "無法取得節點列表", "danger");
+                    console.error("Error fetching nodes:", err);
+                });
+        } catch (error: any) {
+            showToast(`無法獲取節點列表：${error.message}`, "danger");
+            console.error("獲取節點列表時發生錯誤：", error);
+        }
     }, []);
 
     // get compute resource plan
     useEffect(() => {
-        asyncGet(user_api.getUserCRP, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setUserCRP(res.body);
-                } else {
-                    throw new Error(res.message || "無法取得計算資源計畫");
-                }
-            })
-            .catch((err) => {
-                showToast(err.message || "無法取得計算資源計畫", "danger");
-                console.error("Error fetching compute resource plan:", err);
-            });
+        try {
+            const options = getOptions();
+            asyncGet(user_api.getUserCRP, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setUserCRP(res.body);
+                    } else {
+                        throw new Error(res.message || "無法取得計算資源計畫");
+                    }
+                })
+                .catch((err) => {
+                    showToast(err.message || "無法取得計算資源計畫", "danger");
+                    console.error("Error fetching compute resource plan:", err);
+                });
+        } catch (error: any) {
+            showToast(`無法獲取計算資源計畫：${error.message}`, "danger");
+            console.error("獲取計算資源計畫時發生錯誤：", error);
+        }
     }, []);
 
     // get user's templates
     useEffect(() => {
-        asyncGet(vm_template_api.getAccessibleTemplates, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setTemplates(res.body);
-                } else {
-                    throw new Error(res.message || "無法取得使用者範本");
-                }
-            })
-            .catch((err) => {
-                showToast(err.message || "無法取得使用者範本", "danger");
-                console.error("Error fetching user templates:", err);
-            });
+        try {
+            const options = getOptions();
+            asyncGet(vm_template_api.getAccessibleTemplates, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setTemplates(res.body);
+                    } else {
+                        throw new Error(res.message || "無法取得使用者範本");
+                    }
+                })
+                .catch((err) => {
+                    showToast(err.message || "無法取得使用者範本", "danger");
+                    console.error("Error fetching user templates:", err);
+                });
+        } catch (error: any) {
+            showToast(`無法獲取使用者範本：${error.message}`, "danger");
+            console.error("獲取使用者範本時發生錯誤：", error);
+        }
     }, []);
 
     // 當是更新模式時，用傳入的資料填充表單
     useEffect(() => {
-        if (isUpdateMode && vmToUpdateId) {
-            asyncGet(`${pve_api.getQemuConfig}?id=${vmToUpdateId}`, options)
-                .then((res) => {
-                    if (res.code === 200) {
-                        setFormData({
-                            name: res.body.name || "",
-                            target: res.body.node || "",
-                            cpuCores: res.body.cores || 0,
-                            memorySize: MBtoGB(Number(res.body.memory)) || 0,
-                            diskSize: res.body.disk_size || 0,
-                        });
-                    } else {
-                        throw new Error(res.message || "無法取得虛擬機資訊");
-                    }
-                })
-                .catch((err) => {
-                    showToast(err.message || "無法取得虛擬機資訊", "danger");
-                    console.error("Error fetching VM info:", err);
-                });
+        try {
+            const options = getOptions();
+            if (isUpdateMode && vmToUpdateId) {
+                asyncGet(`${pve_api.getQemuConfig}?id=${vmToUpdateId}`, options)
+                    .then((res) => {
+                        if (res.code === 200) {
+                            setFormData({
+                                name: res.body.name || "",
+                                target: res.body.node || "",
+                                cpuCores: res.body.cores || 0,
+                                memorySize: MBtoGB(Number(res.body.memory)) || 0,
+                                diskSize: res.body.disk_size || 0,
+                            });
+                        } else {
+                            throw new Error(res.message || "無法取得虛擬機資訊");
+                        }
+                    })
+                    .catch((err) => {
+                        showToast(err.message || "無法取得虛擬機資訊", "danger");
+                        console.error("Error fetching VM info:", err);
+                    });
+            }
+        } catch (error: any) {
+            showToast(`無法獲取 token：${error.message}`, "danger");
+            console.error("獲取 token 時發生錯誤：", error);
         }
     }, [isUpdateMode, vmToUpdateId]);
 
@@ -160,45 +174,57 @@ export default function CreateVM({ isUpdateMode, vmToUpdateId }: CreateVMFormPro
     }
 
     const handleCreateVM = () => {
-        const memoryInMB = GBtoMB(formData.memorySize);
-        showToast("新增機器可能需要一些時間，請稍後", "info");
-        asyncPost(vm_manage_api.createFromTemplate, {
-            ...formData,
-            memorySize: memoryInMB
-        }, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    showToast("成功新增機器\nVM_Id: " + res.body.vmid, "success");
-                } else {
-                    throw new Error(res.message || "無法新增機器");
-                }
-            })
-            .catch((err) => {
-                showToast("無法新增機器：" + err.message, "danger");
-                console.error("Error creating VM:", err);
-            });
+        try {
+            const options = getOptions();
+            const memoryInMB = GBtoMB(formData.memorySize);
+            showToast("新增機器可能需要一些時間，請稍後", "info");
+            asyncPost(vm_manage_api.createFromTemplate, {
+                ...formData,
+                memorySize: memoryInMB
+            }, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("成功新增機器\nVM_Id: " + res.body.vmid, "success");
+                    } else {
+                        throw new Error(res.message || "無法新增機器");
+                    }
+                })
+                .catch((err) => {
+                    showToast("無法新增機器：" + err.message, "danger");
+                    console.error("Error creating VM:", err);
+                });
+        } catch (error: any) {
+            showToast(`無法獲取 token：${error.message}`, "danger");
+            console.error("獲取 token 時發生錯誤：", error);
+        }
     };
 
     const handleUpdateVM = () => {
-        const memoryInMB = GBtoMB(formData.memorySize);
-        showToast("更新機器可能需要一些時間，請稍後", "info");
-        const { template_id, ...payload } = formData;
-        asyncPost(vm_manage_api.updateVMConfig, {
-            vm_id: vmToUpdateId,
-            ...payload,
-            memorySize: memoryInMB
-        }, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    showToast("成功更新機器\nVM_id: " + res.body.pve_vmid, "success");
-                } else {
-                    throw new Error(res.message || "無法更新機器");
-                }
-            })
-            .catch((err) => {
-                showToast("無法更新機器：" + err.message, "danger");
-                console.error("Error updating VM:", err);
-            });
+        try {
+            const options = getOptions();
+            const memoryInMB = GBtoMB(formData.memorySize);
+            showToast("更新機器可能需要一些時間，請稍後", "info");
+            const { template_id, ...payload } = formData;
+            asyncPost(vm_manage_api.updateVMConfig, {
+                vm_id: vmToUpdateId,
+                ...payload,
+                memorySize: memoryInMB
+            }, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("成功更新機器\nVM_id: " + res.body.pve_vmid, "success");
+                    } else {
+                        throw new Error(res.message || "無法更新機器");
+                    }
+                })
+                .catch((err) => {
+                    showToast("無法更新機器：" + err.message, "danger");
+                    console.error("Error updating VM:", err);
+                });
+        } catch (error: any) {
+            showToast(`無法獲取 token：${error.message}`, "danger");
+            console.error("獲取 token 時發生錯誤：", error);
+        }
     };
 
     return (

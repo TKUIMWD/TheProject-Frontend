@@ -7,6 +7,7 @@ import { pve_api, user_api, vm_api } from "../../../enum/api";
 import { ComputeResourcePlan } from "../../../interface/CRP/CRP";
 import { VMDetailedConfig, VMDetailWithBasicConfig } from "../../../interface/VM/VM";
 import { MBtoGB } from "../../../utils/StorageUnitsConverter";
+import { getOptions } from "../../../utils/token";
 
 interface ResourceCardProps {
     icon: string;
@@ -59,52 +60,54 @@ export default function ComputeResources() {
     );
     const { showToast } = useToast();
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-
-    const options = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
     // GET user CRP
     useEffect(() => {
-        asyncGet(user_api.getUserCRP, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    const crpData = res.body;
-                    setUserCRP({
-                        ...crpData,
-                        max_memory_sum: MBtoGB(Number(crpData.max_memory_sum)),
-                    });
-                } else {
-                    throw new Error(res.message || "無法取得使用者計算資源方案");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching user CRP:", error);
-                showToast(error.message, "danger");
-            });
+        try {
+            const options = getOptions();
+            asyncGet(user_api.getUserCRP, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        const crpData = res.body;
+                        setUserCRP({
+                            ...crpData,
+                            max_memory_sum: MBtoGB(Number(crpData.max_memory_sum)),
+                        });
+                    } else {
+                        throw new Error(res.message || "無法取得使用者計算資源方案");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching user CRP:", error);
+                    showToast(error.message, "danger");
+                });
+        } catch (error) {
+            showToast(`無法取得使用者計算資源方案：${error}`, "danger");
+            console.error("Error fetching user CRP:", error);
+            return;
+        }
     }, []);
 
     // get user vm ids
     useEffect(() => {
-        asyncGet(vm_api.getUsersOwnedVMs, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setUserVMIds(res.body.map((vm: VMDetailWithBasicConfig) => vm._id));
-                } else {
-                    throw new Error(res.message || "無法取得使用者虛擬機");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching user VM:", error);
-                showToast(error.message, "danger");
-            });
+        try {
+            const options = getOptions();
+            asyncGet(vm_api.getUsersOwnedVMs, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setUserVMIds(res.body.map((vm: VMDetailWithBasicConfig) => vm._id));
+                    } else {
+                        throw new Error(res.message || "無法取得使用者虛擬機");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching user VM:", error);
+                    showToast(error.message, "danger");
+                });
+        } catch (error) {
+            showToast(`無法取得使用者虛擬機：${error}`, "danger");
+            console.error("Error fetching user VM:", error);
+            return;
+        }
     }, [])
 
     // get all vm usage, and calculate current resource usage
@@ -116,6 +119,7 @@ export default function ComputeResources() {
 
         const fetchAllVmUsage = async () => {
             try {
+                const options = getOptions();
                 const promises = userVMIds.map(vmId =>
                     asyncGet(`${pve_api.getQemuConfig}?id=${vmId}`, { ...options })
                 );

@@ -5,6 +5,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { asyncGet, asyncPost } from "../../../utils/fetch";
 import { VMDetailWithBasicConfig } from "../../../interface/VM/VM";
 import { VMTable } from "../VM/VMTable";
+import { getOptions } from "../../../utils/token";
 
 interface formDataInterface {
     vm_id: string;
@@ -25,31 +26,27 @@ export default function CreateTemplate() {
         description: ""
     });
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-    const options = {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    }
-
     useEffect(() => {
         // get user own mechine (not running)
-        asyncGet(vm_api.getUsersOwnedVMs, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    setVMs(res.body.filter((vm: VMDetailWithBasicConfig) => vm.status?.current_status === "stopped"));
-                } else {
-                    throw new Error(res.message || "無法取得機器列表");
-                }
-            })
-            .catch((err) => {
-                showToast("無法取得機器列表：" + err.message, "danger");
-                console.error("Error fetching machines:", err);
-            });
+        try {
+            const options = getOptions();
+            asyncGet(vm_api.getUsersOwnedVMs, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        setVMs(res.body.filter((vm: VMDetailWithBasicConfig) => vm.status?.current_status === "stopped"));
+                    } else {
+                        throw new Error(res.message || "無法取得機器列表");
+                    }
+                })
+                .catch((err) => {
+                    showToast("無法取得機器列表：" + err.message, "danger");
+                    console.error("Error fetching machines:", err);
+                });
+        } catch (error) {
+            showToast(`無法取得機器列表：${error}`, "danger");
+            console.error("Error fetching machines:", error);
+            return;
+        }
     }, []);
 
     const handleVMSelect = (id: string) => {
@@ -74,19 +71,26 @@ export default function CreateTemplate() {
             showToast("請填寫所有欄位", "danger");
             return;
         }
-        asyncPost(vm_template_api.convertVMtoTemplate, formData, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    showToast("成功將機器轉換成範本", "success");
-                    window.location.reload();
-                } else {
-                    throw new Error(res.message || "無法新增範本");
-                }
-            })
-            .catch((err) => {
-                showToast("無法新增範本：" + err.message, "danger");
-                console.error("Error creating template:", err);
-            });
+        try {
+            const options = getOptions();
+            asyncPost(vm_template_api.convertVMtoTemplate, formData, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("成功將機器轉換成範本", "success");
+                        window.location.reload();
+                    } else {
+                        throw new Error(res.message || "無法新增範本");
+                    }
+                })
+                .catch((err) => {
+                    showToast("無法新增範本：" + err.message, "danger");
+                    console.error("Error creating template:", err);
+                });
+        } catch (error) {
+            showToast(`無法新增範本：${error}`, "danger");
+            console.error("Error creating template:", error);
+            return;
+        }
     };
 
     const renderTooltip = (props: any) => (

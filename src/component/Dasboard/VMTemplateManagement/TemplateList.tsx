@@ -6,6 +6,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { VM_Template_Info } from "../../../interface/VM/VM_Template";
 import { MBtoGB } from "../../../utils/StorageUnitsConverter";
 import UpdateTemplate from "./UpdateTemplate";
+import { getOptions } from "../../../utils/token";
 
 interface VMTemplateListProps {
     isSelectMode: boolean;
@@ -24,40 +25,36 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
     const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
     const [editingTemplate, setEditingTemplate] = useState<VM_Template_Info | null>(null);
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-    const options = {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    };
-
     useEffect(() => {
-        asyncGet(vm_template_api.getAccessibleTemplates, options)
-            .then(response => {
-                if (response.code === 200) {
-                    const own: VM_Template_Info[] = [];
-                    const publicT: VM_Template_Info[] = [];
-                    response.body.forEach((template: VM_Template_Info) => {
-                        if (!template.is_public) {
-                            own.push(template);
-                        } else {
-                            publicT.push(template);
-                        }
-                    });
-                    setOwnTemplates(own);
-                    setPublicTemplates(publicT);
-                } else {
-                    throw new Error(response.message || "無法取得範本");
-                }
-            })
-            .catch(error => {
-                showToast("無法取得範本：" + error.message, "danger");
-                console.error("Error fetching templates:", error);
-            });
+        try {
+            const options = getOptions();
+            asyncGet(vm_template_api.getAccessibleTemplates, options)
+                .then(response => {
+                    if (response.code === 200) {
+                        const own: VM_Template_Info[] = [];
+                        const publicT: VM_Template_Info[] = [];
+                        response.body.forEach((template: VM_Template_Info) => {
+                            if (!template.is_public) {
+                                own.push(template);
+                            } else {
+                                publicT.push(template);
+                            }
+                        });
+                        setOwnTemplates(own);
+                        setPublicTemplates(publicT);
+                    } else {
+                        throw new Error(response.message || "無法取得範本");
+                    }
+                })
+                .catch(error => {
+                    showToast("無法取得範本：" + error.message, "danger");
+                    console.error("Error fetching templates:", error);
+                });
+        } catch (error: any) {
+            showToast(`無法取得範本：${error.message}`, "danger");
+            console.error("Error fetching templates:", error);
+            return;
+        }
     }, []);
 
     // 處理點擊外部關閉的邏輯
@@ -106,37 +103,52 @@ export default function VMTemplateList({ isSelectMode, handleSelect }: VMTemplat
     }
 
     const handleDelete = (templateId: string) => {
-        const confirmDelete = window.confirm("確定要刪除這個範本嗎？此操作無法復原。");
-        if (confirmDelete) {
-            asyncDelete(vm_template_manage_api.delete, { template_id: templateId }, options)
-                .then((res) => {
-                    if (res.code === 200) {
-                        showToast("範本刪除成功", "success");
-                        // 刪除後從列表中移除該範本
-                        setOwnTemplates(prev => prev.filter(t => t._id !== templateId));
-                        setPublicTemplates(prev => prev.filter(t => t._id !== templateId));
-                    } else {
-                        throw new Error(res.message || "無法刪除範本");
-                    }
-                })
-                .catch((err) => {
-                    showToast("範本刪除失敗：" + err.message, "danger");
-                });
+        try {
+            const options = getOptions();
+            const confirmDelete = window.confirm("確定要刪除這個範本嗎？此操作無法復原。");
+            if (confirmDelete) {
+                asyncDelete(vm_template_manage_api.delete, { template_id: templateId }, options)
+                    .then((res) => {
+                        if (res.code === 200) {
+                            showToast("範本刪除成功", "success");
+                            // 刪除後從列表中移除該範本
+                            setOwnTemplates(prev => prev.filter(t => t._id !== templateId));
+                            setPublicTemplates(prev => prev.filter(t => t._id !== templateId));
+                        } else {
+                            throw new Error(res.message || "無法刪除範本");
+                        }
+                    })
+                    .catch((err) => {
+                        showToast("範本刪除失敗：" + err.message, "danger");
+                    });
+            }
+
+        } catch (error: any) {
+            showToast(`刪除範本失敗：${error.message}`, "danger");
+            console.error("刪除範本時發生錯誤：", error);
+            return;
         }
     };
 
     const handleSubmit = (templateId: string) => {
-        asyncPost(vm_template_api.submitTemplate, { template_id: templateId }, options)
-            .then((res) => {
-                if (res.code === 200) {
-                    showToast("範本提交成功", "success");
-                } else {
-                    throw new Error(res.message || "無法提交範本");
-                }
-            })
-            .catch((err) => {
-                showToast("範本提交失敗：" + err.message, "danger");
-            });
+        try {
+            const options = getOptions();
+            asyncPost(vm_template_api.submitTemplate, { template_id: templateId }, options)
+                .then((res) => {
+                    if (res.code === 200) {
+                        showToast("範本提交成功", "success");
+                    } else {
+                        throw new Error(res.message || "無法提交範本");
+                    }
+                })
+                .catch((err) => {
+                    showToast("範本提交失敗：" + err.message, "danger");
+                });
+        } catch (error) {
+            showToast(`無法提交範本：${error}`, "danger");
+            console.error("Error submitting template:", error);
+            return;
+        }
     };
 
     function createList(templates: VM_Template_Info[]) {

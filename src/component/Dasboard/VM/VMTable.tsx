@@ -6,7 +6,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { pve_api, vm_manage_api } from "../../../enum/api";
 import { useNavigate } from "react-router-dom";
 import UpdateVMModal from "./UpdateVMModal";
-import { getAuthStatus } from "../../../utils/token";
+import { getAuthStatus, getOptions } from "../../../utils/token";
 
 interface TableContentProps {
     VMs: VMDetailWithBasicConfig[];
@@ -27,35 +27,36 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
     const { showToast } = useToast();
     const navigater = useNavigate();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        showToast("請先登入", "danger");
-        return;
-    }
-    const options = { headers: { "Authorization": `Bearer ${token}` } };
+
 
     const role = getAuthStatus();
 
     // get node info (name)
     useEffect(() => {
-        const promises = VMs.map(vm =>
-            asyncGet(`${pve_api.getQemuConfig}?id=${vm._id}`, options)
-                .then(res => {
-                    if (res.code === 200) {
-                        return { ...vm, pve_name: res.body.name };
-                    }
-                    // 如果失敗，也回傳原始的 vm 物件，避免資料遺失
-                    return vm;
-                })
-                .catch(err => {
-                    console.error(`Error fetching name for ${vm._id}:`, err);
-                    return vm; // 發生錯誤時也回傳原始 vm
-                })
-        );
+        try {
+            const options = getOptions();
+            const promises = VMs.map(vm =>
+                asyncGet(`${pve_api.getQemuConfig}?id=${vm._id}`, options)
+                    .then(res => {
+                        if (res.code === 200) {
+                            return { ...vm, pve_name: res.body.name };
+                        }
+                        // 如果失敗，也回傳原始的 vm 物件，避免資料遺失
+                        return vm;
+                    })
+                    .catch(err => {
+                        console.error(`Error fetching name for ${vm._id}:`, err);
+                        return vm; // 發生錯誤時也回傳原始 vm
+                    })
+            );
 
-        Promise.all(promises).then(updatedVMs => {
-            setVmsWithNames(updatedVMs);
-        });
+            Promise.all(promises).then(updatedVMs => {
+                setVmsWithNames(updatedVMs);
+            });
+        } catch (error: any) {
+            showToast(`無法取得節點資訊：${error.message}`, "danger");
+            console.error("獲取節點資訊時發生錯誤：", error);
+        }
 
     }, [VMs]);
 
@@ -108,19 +109,26 @@ export function VMTable({ VMs, isSelectMode, handleSelectedVM }: TableContentPro
     }
 
     function handleDelete(vm_id: string): void {
-        const confirmed = confirm("確定要刪除這個虛擬機器嗎？該操作無法復原！");
-        if (!confirmed) return;
+        try {
+            const options = getOptions();
+            const confirmed = confirm("確定要刪除這個虛擬機器嗎？該操作無法復原！");
+            if (!confirmed) return;
 
-        showToast(`正在刪除中...`, "info");
-        asyncDelete(vm_manage_api.deleteVM, { vm_id }, options)
-            .then(res => {
-                if (res.code === 200) {
-                    showToast("刪除成功", "success");
-                    setVmsWithNames(prev => prev.filter(vm => vm._id !== vm_id));
-                } else if (res.code !== 200) {
-                    showToast(`刪除失敗：${res.message || "非預期錯誤"}`, "danger");
-                }
-            });
+            showToast(`正在刪除中...`, "info");
+            asyncDelete(vm_manage_api.deleteVM, { vm_id }, options)
+                .then(res => {
+                    if (res.code === 200) {
+                        showToast("刪除成功", "success");
+                        setVmsWithNames(prev => prev.filter(vm => vm._id !== vm_id));
+                    } else if (res.code !== 200) {
+                        showToast(`刪除失敗：${res.message || "非預期錯誤"}`, "danger");
+                    }
+                });
+        } catch (error) {
+            showToast("無法刪除虛擬機器，請稍後再試", "danger");
+            console.error("Error deleting VM:", error);
+            return;
+        }
     }
 
     const handleCloseModal = () => {
