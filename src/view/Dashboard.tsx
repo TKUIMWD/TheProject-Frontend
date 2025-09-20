@@ -42,14 +42,14 @@ export default function Dashboard() {
             items: [
                 { key: "ComputeResources", label: "計算資源", component: <ComputeResources />, roles: ["user", "admin", "superadmin"] },
                 { key: "VMList", label: "我的機器", component: <VMList />, roles: ["user", "admin", "superadmin"] },
-                { key: "CreateVM", label: "新增機器", component: <CreateVM isUpdateMode={false} />, roles: ["admin", "superadmin"] }
+                { key: "CreateVM", label: "新增機器", component: <CreateVM isUpdateMode={false} />, roles: ["user", "admin", "superadmin"] }
             ]
         },
         {
             title: "範本管理",
             items: [
-                { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false} />, roles: ["admin", "superadmin"] },
-                { key: "AddTemplate", label: "新增範本", component: <CreateTemplate />, roles: ["admin", "superadmin"] },
+                { key: "TemplateList", label: "範本列表", component: <TemplateList isSelectMode={false} />, roles: ["user", "admin", "superadmin"] },
+                { key: "AddTemplate", label: "新增範本", component: <CreateTemplate />, roles: ["user", "admin", "superadmin"] },
             ]
         },
         {

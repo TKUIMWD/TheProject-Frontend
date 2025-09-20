@@ -4,6 +4,7 @@ import { SubmittedBoxStatus } from "../../../interface/VM/SubmittedBox";
 import { useState } from "react";
 import RejectModal from "../Modal/RejectModal";
 import { VM_Box_Info } from "../../../interface/VM/VM_Box";
+import { useNavigate } from "react-router-dom";
 
 interface BoxListProps {
     isAuditMode: boolean;
@@ -15,6 +16,7 @@ interface BoxListProps {
 export default function BoxList({ boxes, handleAudit, isAuditMode, showRejectReason }: BoxListProps) {
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [BoxId, setBoxId] = useState<string>("");
+    const navigate = useNavigate();
 
     const handleApproved = (box_id: string) => {
         handleAudit(box_id, SubmittedBoxStatus.approved);
@@ -22,6 +24,11 @@ export default function BoxList({ boxes, handleAudit, isAuditMode, showRejectRea
 
     const handleReject = (box_id: string, reason: string) => {
         handleAudit(box_id, SubmittedBoxStatus.rejected, reason);
+    }
+
+    const handleNavigate = (box: VM_Box_Info) => {
+        console.log("Navigating to box:", box._id);
+        navigate(`/box/${box._id}`, { state: { box: box } });
     }
 
     return (
@@ -40,7 +47,7 @@ export default function BoxList({ boxes, handleAudit, isAuditMode, showRejectRea
                 </thead>
                 <tbody>
                     {boxes.map((box, index) => (
-                        <tr key={box._id} className="text-center align-middle">
+                        <tr key={box._id} className="text-center align-middle" onClick={() => handleNavigate(box)} style={{ cursor: 'pointer' }}>
                             <td>{index + 1}</td>
                             <td>{box.name}</td>
                             <td className="text-start">{box.description}</td>
@@ -48,7 +55,7 @@ export default function BoxList({ boxes, handleAudit, isAuditMode, showRejectRea
                             {showRejectReason && <td>{box.reject_reason}</td>}
                             <td>{box.submitted_date ? formatISOString(box.submitted_date) : 'N/A'}</td>
                             {isAuditMode &&
-                                <td >
+                                <td onClick={(e) => e.stopPropagation()}>
                                     <div className="d-flex gap-2 justify-content-center align-items-center">
                                         <Button variant="outline-success" onClick={() => handleApproved(box._id)}>核准</Button>
                                         <Button variant="outline-danger" onClick={() => {

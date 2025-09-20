@@ -15,12 +15,11 @@ export default function BoxAudit() {
     const [rejectedboxes, setRejectedboxes] = useState<VM_Box_Info[]>([]);
     const { showToast } = useToast();
 
-    // 4. 大幅簡化 fetchAllData 函式
     const fetchAllData = () => {
         const options = getOptions();
         if (!options) return;
 
-        // 現在只需要並行獲取兩個 API
+        // 並行獲取兩個 API
         Promise.all([
             asyncGet(box_api.getSubmittedBoxes, options),
             asyncGet(box_api.getPendingBoxes, options)
@@ -33,10 +32,10 @@ export default function BoxAudit() {
             }
 
            if (submittedRes.code === 200) {
-                // 2. 讓 TypeScript 知道 API 回傳的物件是 VM_Box_Info 加上 status
+                // API 回傳的物件是 VM_Box_Info 加上 status
                 const allSubmittedBoxes: (VM_Box_Info & { status: SubmittedBoxStatus })[] = submittedRes.body || [];
 
-                // 3. 核心修正：在 filter 後鏈接 map 來移除 status 屬性
+                // 後鏈接 map 來移除 status 屬性
                 const approved = allSubmittedBoxes
                     .filter(box => box.status === SubmittedBoxStatus.approved)
                     .map(({ status, ...rest }) => rest); // 解構物件，移除 status，只保留其餘部分

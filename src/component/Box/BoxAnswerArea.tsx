@@ -8,7 +8,7 @@ import { useToast } from "../../context/ToastProvider";
 
 export default function BoxAnswerArea({ box }: { box: VM_Box_Info }) {
     const [flagValues, setFlagValues] = useState<{ [key: string]: string }>({});
-    const {showToast} = useToast();
+    const { showToast } = useToast();
 
     const handleInputChange = (flagName: string, value: string) => {
         setFlagValues(prev => ({
@@ -17,7 +17,6 @@ export default function BoxAnswerArea({ box }: { box: VM_Box_Info }) {
         }));
     };
 
-    // 1. 建立一個處理單一 flag 提交的新函式
     const handleSingleSubmit = (flagName: string) => {
         const valueToSubmit = flagValues[flagName];
         if (!valueToSubmit) {
@@ -25,21 +24,26 @@ export default function BoxAnswerArea({ box }: { box: VM_Box_Info }) {
             showToast(`您的答案是空值`, "danger");
             return;
         }
-        // todo
-        // const options = getOptions();
-        // const body = {
-        //     vm_id: vm_id,
-        //     flag_name: flagName,
-        //     flag_value: valueToSubmit
+        // try {
+
+        //     const options = getOptions();
+        //     const body = {
+        //         vm_id: vm_id,
+        //         flag_name: flagName,
+        //         flag_value: valueToSubmit
+        //     }
+        //     asyncPost(box_api.subitBoxAnswer, body, options)
+        //         .then((res) => {
+        //             if (res.code === 200) {
+        //                 showToast(`Flag ${flagName} 提交成功`, "success");
+        //             } else {
+        //                 throw new Error(res.message || `Flag ${flagName} 提交失敗`);
+        //             }
+        //         })
+        // } catch (error: any) {
+        //     showToast(error.message, "danger");
+        //     console.error("提交 Flag 時發生錯誤：", error);
         // }
-        // asyncPost(box_api.subitBoxAnswer, body, options)
-        //     .then((res) => {
-        //         if (res.code === 200) {
-        //             showToast(`Flag ${flagName} 提交成功`, "success");
-        //         } else {
-        //             throw new Error(res.message || `Flag ${flagName} 提交失敗`);
-        //         }
-        //     })
     };
 
     const flagsToRender = Array.from({ length: box.flag_count || 0 }, (_, i) => i + 1);

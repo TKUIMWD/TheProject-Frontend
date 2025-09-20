@@ -6,6 +6,7 @@ import { useToast } from "../../context/ToastProvider";
 import { useNavigate } from "react-router-dom";
 import { CourseInfo } from "../../interface/Course/Course";
 import '../../style/courseResource/CourseResource.css';
+import IMAGE_PATH from "/src/assets/images/Dashboard/course_image.jpg";
 
 interface CourseResourceProps {
     courses: CourseInfo[] | null;
@@ -14,7 +15,6 @@ interface CourseResourceProps {
 }
 
 export default function Cards({ courses, userCourses, loading }: CourseResourceProps) {
-    const IMAGE_PATH = "/src/assets/images/Dashboard/course_image.jpg";
     const userCourseIds = new Set(userCourses?.map(c => c._id) || []);
     const { showToast } = useToast();
     const navigate = useNavigate();

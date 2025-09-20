@@ -259,7 +259,9 @@ export default function BoxReviews({ box }: { box: VM_Box_Info }) {
             asyncGet(`${box_api.getBoxReviews}?box_id=${box._id}`, options)
                 .then((res) => {
                     if (res.code !== 200) {
-                        throw new Error(res.message || "取得 Box 評論失敗");
+                        // throw new Error(res.message || "取得 Box 評論失敗");
+                        setReviews([]);
+                        return;
                     }
                     setReviews(res.body.reviews || []);
                 })
