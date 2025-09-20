@@ -191,7 +191,7 @@ export default function SuperAdminDashboard() {
                     }
                 };
                 (SakanaWidget as any).registerCharacter('custom', custom);
-                widget = new (SakanaWidget)({ character: 'custom', size: minSide, controls: false, rod: false, draggable: false, autoFit: false });
+                widget = new (SakanaWidget)({ character: 'custom', size: minSide, controls: false, rod: false, draggable: true, autoFit: false });
             } else {
                 widget = new (SakanaWidget)();
             }
