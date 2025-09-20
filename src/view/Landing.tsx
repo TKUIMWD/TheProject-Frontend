@@ -23,7 +23,7 @@ export default function Landing() {
         // 判斷：如果角色存在，就進行重導向
         if (role && role === 'superadmin') {
             // 如果是 superadmin，導向 superadmin 的儀表板
-            navigate('/dashboard', { replace: true });
+            navigate('/superadmin/dashboard', { replace: true });
         }
         // 如果 role 不存在 (未登入)，則不執行任何操作，繼續顯示 Landing 頁面
     }, [navigate]);

@@ -60,7 +60,7 @@ export default function AllMechine() {
             clearInterval(intervalId);
         };
 
-    }, [showToast])
+    }, [])
 
     const uptimeFormat = (time: number | undefined): { hour: number, min: number, sec: number } => {
         if ((time && time < 0) || time === undefined) {

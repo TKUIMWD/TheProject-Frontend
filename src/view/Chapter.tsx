@@ -50,14 +50,16 @@ export default function Chapter() {
                 const chapterApiUrl = chapter_api.getChapterById(chapterId);
                 const chapterRes = await asyncGet(chapterApiUrl, options);
 
-                if (chapterRes.code === 200) {
-                    setIsEnrolled(true);
-                } else if (chapterRes.code === 403) {
-                    setIsEnrolled(false);
-                } else {
-                    throw new Error(chapterRes.message || "載入章節資料失敗");
+                if (chapterRes.code !== 200) {
+                    if (chapterRes.code === 403) {
+                        setIsEnrolled(false);
+                    } else {
+                        throw new Error(chapterRes.message || "載入章節資料失敗");
+                    }
+                    return;
                 }
 
+                setIsEnrolled(true);
                 const chapterData = chapterRes.body;
                 setChapter(chapterData);
 
