@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card } from 'react-bootstrap';
-import '../../style/aiAssistant/AIAssistantMessage.css';
+import '../../style/AIAssistant/AIAssistantMessage.css';
 
 interface AIAssistantMessageProps {
     messages?: string[];
