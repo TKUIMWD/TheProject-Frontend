@@ -155,7 +155,8 @@ export default function SubmitBox() {
                 ...(Object.keys(flagAnswersObject).length > 0 && { flag_answers: flagAnswersObject })
             };
 
-            console.log("Submitting Box with body:", body);
+            // console.log("Submitting Box with body:", body);
+            // console.log("flag_answers object:", flagAnswersObject);
 
             asyncPost(box_api.submitBox, body, options)
                 .then((res) => {

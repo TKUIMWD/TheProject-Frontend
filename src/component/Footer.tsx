@@ -8,10 +8,16 @@ export default function Footer() {
                 <Row className="justify-content-center mt-2">
                     <Col md={6} className="text-center">
                         <span className="footer-powered">
-                            TheProject is powered by{' '}
-                            <a href="https://github.com/TKUIMWD" target="_blank" rel="noopener noreferrer">
-                                TKUIMWD
-                            </a>{' '}
+                            <span className='footer-highlight footer-light-blue'>
+                                CS
+                            </span>
+                            <span className='footer-highlight footer-light-gray'>
+                                TG{' '}    
+                            </span> 
+                            is powered by{' '}
+                            <span className='footer-highlight footer-light-blue'>
+                                WD Team
+                            </span>{' '}
                             {new Date().getFullYear()}
                         </span>
                     </Col>

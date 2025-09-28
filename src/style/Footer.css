@@ -19,16 +19,21 @@
   letter-spacing: 0.5px;
 }
 
-.footer-section a {
-  color: #1ecb8b;
+.footer-section span {
   text-decoration: none;
   border-bottom: .5px solid transparent;
   transition: color 0.2s, border-bottom 0.2s;
 }
 
-.footer-section a:hover,
-.footer-section a:focus {
-  color: #0e7c5b;
-  border-bottom: 1.5px solid #1ecb8b;
-  text-decoration: none;
+.footer-highlight {
+  font-weight: 600;
 }
+
+.footer-light-blue {
+  color: #77AAAD;
+}
+
+.footer-light-gray {
+  color: #6E7783;
+}
+
