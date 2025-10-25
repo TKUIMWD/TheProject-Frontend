@@ -1,18 +1,29 @@
 import { Breadcrumb, Container, Tab, Tabs } from "react-bootstrap";
 import VMInfo from "./VMInfo";
 import { VMDetailProvider, useVMDetail } from "../../../context/VMDetailContext"; // 引入 Provider
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VMConsole from "./VMConsole";
 import Loading from "../../Loading";
+import VMDrawer from "../../VMDrawer/VMDrawer";
+import { addVMToHistory } from "../../../utils/vmHistory";
 
 function VMDetailContent() {
     const context = useVMDetail();
     const [activeTab, setActiveTab] = useState('about');
+    
     if (!context) {
         return <div>Loading...</div>;
     }
 
     const { vmDetail } = context;
+    
+    // 當 vmDetail 載入完成後,添加到訪問歷史
+    useEffect(() => {
+        if (vmDetail && vmDetail._id) {
+            addVMToHistory(vmDetail._id, vmDetail.pve_name || vmDetail.pve_vmid);
+        }
+    }, [vmDetail]);
+    
     if (!vmDetail) {
         return (
             <Loading />
@@ -20,25 +31,28 @@ function VMDetailContent() {
     }
 
     return (
-        <Container className="mt-4">
-            <Breadcrumb>
-                <Breadcrumb.Item href="/superadmin/dashboard?tab=MachineManagement">機器總覽</Breadcrumb.Item>
-                <Breadcrumb.Item active>虛擬機資訊（{vmDetail.pve_name}）</Breadcrumb.Item>
-            </Breadcrumb>
+        <>
+            <VMDrawer />
+            <Container className="mt-4">
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/superadmin/dashboard?tab=MachineManagement">機器總覽</Breadcrumb.Item>
+                    <Breadcrumb.Item active>虛擬機資訊（{vmDetail.pve_name}）</Breadcrumb.Item>
+                </Breadcrumb>
 
-            <Tabs
-                activeKey={activeTab}
-                onSelect={(k) => setActiveTab(k || 'about')}
-                className="mb-3"
-            >
-                <Tab eventKey="about" title="關於">
-                    <VMInfo VM_name={vmDetail.pve_vmid} VM_pve_node={vmDetail.pve_node} isActive={activeTab === 'about'} />
-                </Tab>
-                <Tab eventKey="console" title="終端">
-                    <VMConsole />
-                </Tab>
-            </Tabs>
-        </Container>
+                <Tabs
+                    activeKey={activeTab}
+                    onSelect={(k) => setActiveTab(k || 'about')}
+                    className="mb-3"
+                >
+                    <Tab eventKey="about" title="關於">
+                        <VMInfo VM_name={vmDetail.pve_vmid} VM_pve_node={vmDetail.pve_node} isActive={activeTab === 'about'} />
+                    </Tab>
+                    <Tab eventKey="console" title="終端">
+                        <VMConsole />
+                    </Tab>
+                </Tabs>
+            </Container>
+        </>
     );
 }
 

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { pve_api } from "../../../enum/api"
 import { asyncGet } from "../../../utils/fetch"
 import VMConsole from "../../SuperAdminDashboard/VM/VMConsole"
+import VMDrawer from "../../VMDrawer/VMDrawer"
+import { addVMToHistory } from "../../../utils/vmHistory"
 import "../../../style/dashboard/VM/UserVMConsole.css"
 
 export default function UserVMConsole() {
@@ -22,7 +24,12 @@ export default function UserVMConsole() {
         asyncGet(`${pve_api.getQemuConfig}?id=${vmId}`, options)
             .then((res) => {
                 if (res.code === 200) {
-                    setVMName(res.body.name);
+                    const vmName = res.body.name;
+                    setVMName(vmName);
+                    // 添加到訪問歷史
+                    if (vmId) {
+                        addVMToHistory(vmId, vmName);
+                    }
                 } else {
                     throw new Error(res.message || "無法取得虛擬機名稱");
                 }
@@ -33,16 +40,19 @@ export default function UserVMConsole() {
     }, [vmId])
 
     return (
-        <div className="user-vm-console">
-            <Container>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="/dashboard?tab=VMList">Dashboard</Breadcrumb.Item>
-                    <Breadcrumb.Item active>虛擬機終端（{VMName}）</Breadcrumb.Item>
-                </Breadcrumb>
-                <h3>虛擬機終端（{VMName}）</h3>
-                <hr />
-                <VMConsole />
-            </Container>
-        </div>
+        <>
+            <VMDrawer />
+            <div className="user-vm-console">
+                <Container>
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="/dashboard?tab=VMList">Dashboard</Breadcrumb.Item>
+                        <Breadcrumb.Item active>虛擬機終端（{VMName}）</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <h3>虛擬機終端（{VMName}）</h3>
+                    <hr />
+                    <VMConsole />
+                </Container>
+            </div>
+        </>
     )
 }
