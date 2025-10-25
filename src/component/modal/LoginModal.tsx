@@ -47,10 +47,19 @@ export default function LoginModal({ show, onHide, handleShowRegister, onLoginSu
             setEmail('');
             setPassword('');
             setShowPassword(false);
-            if (onLoginSuccess) {
-                if (role === "superadmin") {
-                    navigate("/superadmin/dashboard");
-                } else {
+            
+            // 關閉 modal
+            onHide();
+            
+            if (role === "superadmin") {
+                // SuperAdmin 導航到專屬儀表板並重新載入頁面以更新狀態
+                navigate("/superadmin/dashboard");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 100);
+            } else {
+                // 一般用戶和管理員調用 onLoginSuccess 更新 NavBar
+                if (onLoginSuccess) {
                     onLoginSuccess(uname);
                 }
             }
