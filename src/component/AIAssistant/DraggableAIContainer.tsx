@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import AIAssistantMessage from './AIAssistantMessage';
+import AIChatDialog from './AIChatDialog';
+import AIAssistantImage from '../../assets/AI_assitant.png';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '../../style/AIAssistant/DraggableAIContainer.css';
 
@@ -7,12 +8,9 @@ export default function DraggableAIContainer() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [position, setPosition] = useState({ x: window.innerWidth - 360, y: window.innerHeight - 360 });
-
-    // 測試用：確認元件有渲染
-    useEffect(() => {
-        console.log('DraggableAIContainer mounted');
-    }, []);
+    const [position, setPosition] = useState({ x: window.innerWidth - 240, y: window.innerHeight - 360 });
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const mouseDownPos = useRef({ x: 0, y: 0 });
 
     // 從 localStorage 載入位置
     useEffect(() => {
@@ -40,16 +38,8 @@ export default function DraggableAIContainer() {
     const handleMouseDown = (e: React.MouseEvent) => {
         if (!containerRef.current) return;
 
-        // 檢查是否點擊在特定互動元素上
-        const target = e.target as HTMLElement;
-
-        // 只有點擊在訊息框的實際內容或 widget 的 canvas 上才不拖動
-        const isInteractiveElement = target.closest('.ai-assistant-message') ||
-            target.tagName === 'CANVAS' ||
-            target.tagName === 'BUTTON' ||
-            target.tagName === 'A';
-
-        if (isInteractiveElement) return;
+        // 記錄起始位置
+        mouseDownPos.current = { x: e.clientX, y: e.clientY };
 
         const rect = containerRef.current.getBoundingClientRect();
         setDragOffset({
@@ -72,21 +62,35 @@ export default function DraggableAIContainer() {
             const newY = e.clientY - dragOffset.y;
 
             // 確保容器不會拖出視窗範圍
-            const containerWidth = 320; // 容器寬度
-            const containerHeight = 320; // 容器高度
-            const maxX = window.innerWidth - containerWidth;
-            const maxY = window.innerHeight - containerHeight;
+            const containerWidth = 240; // 容器寬度（根據 CSS）
+            const containerHeight = 360; // 容器高度
+            const padding = 0; // 邊界 padding
+            const maxX = window.innerWidth - containerWidth - padding;
+            const maxY = window.innerHeight - containerHeight - padding;
 
             const clampedPosition = {
-                x: Math.max(0, Math.min(maxX, newX)),
-                y: Math.max(0, Math.min(maxY, newY))
+                x: Math.max(padding, Math.min(maxX, newX)),
+                y: Math.max(padding, Math.min(maxY, newY))
             };
 
             setPosition(clampedPosition);
         };
 
-        const handleMouseUp = () => {
+        const handleMouseUp = (e: MouseEvent) => {
             if (isDragging) {
+                // 檢查是否為點擊（移動距離很小）
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - mouseDownPos.current.x, 2) + 
+                    Math.pow(e.clientY - mouseDownPos.current.y, 2)
+                );
+                
+                console.log('移動距離:', distance);
+                
+                if (distance < 10) {
+                    console.log('單擊 AI 助理，開啟對話框');
+                    setIsChatOpen(true);
+                }
+                
                 setIsDragging(false);
                 savePosition(position);
             }
@@ -107,58 +111,30 @@ export default function DraggableAIContainer() {
         };
     }, [isDragging, dragOffset, position]);
 
-    // 監聽並移動 sakana-widget 到容器內
-    useEffect(() => {
-        const moveSakanaWidget = () => {
-            const sakanaContainer = document.getElementById('sakana-widget-superadmin');
-            const targetContainer = document.getElementById('sakana-widget-target');
-
-            if (sakanaContainer && targetContainer && !targetContainer.contains(sakanaContainer)) {
-                // 調整 sakana-widget 的樣式
-                sakanaContainer.style.position = 'absolute';
-                sakanaContainer.style.right = '0px';
-                sakanaContainer.style.bottom = '0px';
-                sakanaContainer.style.transform = 'none';
-                sakanaContainer.style.zIndex = '1';
-
-                // 移動到容器內
-                targetContainer.appendChild(sakanaContainer);
-            }
-        };
-
-        // 定期檢查並移動 sakana widget
-        const interval = setInterval(moveSakanaWidget, 500);
-
-        // 立即執行一次
-        setTimeout(moveSakanaWidget, 100);
-
-        return () => clearInterval(interval);
-    }, []);
-
     return (
-        <div
-            ref={containerRef}
-            className={`draggable-ai-container ${isDragging ? 'dragging' : ''}`}
-            style={{
-                transform: `translate(${position.x}px, ${position.y}px)`
-            }}
-            onMouseDown={handleMouseDown}
-        >
-            {/* 拖動手柄 */}
-            <div className="drag-handle">
-                <i className="bi bi-arrows-move"></i>
-            </div>
-
-            {/* 訊息框 */}
-            <div className="message-wrapper">
-                <AIAssistantMessage />
-            </div>
-
-            {/* Sakana Widget 目標位置 */}
+        <>
             <div
-                className="sakana-widget-target"
-                id="sakana-widget-target"
+                ref={containerRef}
+                className={`draggable-ai-container ${isDragging ? 'dragging' : ''}`}
+                style={{
+                    transform: `translate(${position.x}px, ${position.y}px)`
+                }}
+                onMouseDown={handleMouseDown}
+            >
+                {/* AI 助理圖片 */}
+                <img 
+                    src={AIAssistantImage} 
+                    alt="AI Assistant" 
+                    className="ai-assistant-avatar"
+                    draggable={false}
+                />
+            </div>
+
+            {/* AI 聊天對話框 */}
+            <AIChatDialog 
+                isOpen={isChatOpen} 
+                onClose={() => setIsChatOpen(false)} 
             />
-        </div>
+        </>
     );
 }

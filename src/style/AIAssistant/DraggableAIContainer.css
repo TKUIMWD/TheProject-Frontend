@@ -4,12 +4,17 @@
     left: 0;
     top: 0;
     z-index: 9999;
-    width: 320px;
-    height: 320px;
+    width: 240px;
+    height: 360px;
     background: transparent;
-    border-radius: 15px;
+    border-radius: 50%;
     user-select: none;
-    cursor: grab;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.draggable-ai-container:hover:not(.dragging) {
+    filter: drop-shadow(0 4px 12px rgba(119, 170, 173, 0.6));
 }
 
 .draggable-ai-container:active,
@@ -18,54 +23,14 @@
     z-index: 10000;
 }
 
-/* 拖動手柄 - 隱藏 */
-.drag-handle {
-    display: none;
-}
-
-/* 訊息框包裝器 */
-.message-wrapper {
-    position: absolute;
-    top: 125px;
-    left: 25px;
-    z-index: 10;
-    pointer-events: none; /* 讓訊息框區域不阻擋拖動 */
-    transform: scale(0.9); /* 縮小訊息框 */
-    transform-origin: left top; /* 縮放起點設在左上角 */
-}
-
-/* 重置訊息框的位置樣式 */
-.message-wrapper .ai-assistant-message {
-    position: relative !important;
-    right: auto !important;
-    bottom: auto !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    pointer-events: auto; /* 只有訊息框內容可以互動 */
-}
-
-/* Sakana Widget 目標位置 - 置於容器中央 */
-.sakana-widget-target {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    pointer-events: none; /* 讓 widget 區域不阻擋拖動 */
-    border-radius: 10px;
-}
-
-/* 確保 sakana widget 在容器內的樣式 */
-.sakana-widget-target #sakana-widget-superadmin {
-    position: relative !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    transform: none !important;
-    pointer-events: auto; /* 只有 widget 本身可以互動 */
+/* AI 助理圖片 */
+.ai-assistant-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    pointer-events: none;
+    user-select: none;
 }
 
 /* 響應式調整 */
@@ -74,33 +39,11 @@
         width: 280px;
         height: 280px;
     }
-    
-    .sakana-widget-target {
-        width: 160px;
-        height: 160px;
-    }
-    
-    .message-wrapper {
-        top: 50px;
-        left: 18px;
-        transform: scale(0.75);
-    }
 }
 
 @media (max-width: 480px) {
     .draggable-ai-container {
-        width: 240px;
-        height: 240px;
-    }
-    
-    .sakana-widget-target {
-        width: 140px;
-        height: 140px;
-    }
-    
-    .message-wrapper {
-        top: 45px;
-        left: 15px;
-        transform: scale(0.7);
+        width: 200px;
+        height: 200px;
     }
 }
