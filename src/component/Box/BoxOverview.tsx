@@ -36,10 +36,10 @@ export default function BoxOverview({box}: {box: VM_Box_Info}) {
                         <h5><b>範本描述</b></h5>
                         <Markdown>{box.description}</Markdown>
                     </div>
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <h5><b>Box資訊與設定說明</b></h5>
                         <Markdown>{box.box_setup_description}</Markdown>
-                    </div>
+                    </div> */}
                     <div className="mb-4">
                         <h5><b>系統規格</b></h5>
                         <Row>
