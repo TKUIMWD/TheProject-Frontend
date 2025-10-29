@@ -89,7 +89,7 @@ export default function TemplateList({ templates, handleDelete }: TemplateCardPr
                         >
                             <td>{index + 1}</td>
                             <td className="text-start">{template.name}</td>
-                            <td className="text-start">{template.description}</td>
+                            <td className="text-start">{template.description.length < 150 ? template.description : `${template.description.slice(0, 150)}...`}</td>
                             <td>{ownerNames[template.owner] || '讀取中...'}</td>
                             <td>{template.submitted_date ? formatISOString(template.submitted_date) : ''}</td>
                             <td onClick={(e) => e.stopPropagation()}>

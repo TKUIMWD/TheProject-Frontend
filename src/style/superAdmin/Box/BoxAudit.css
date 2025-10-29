@@ -1,0 +1,18 @@
+.box-audit-container {
+    max-width: 1400px; /* 設定最大寬度，您可以根據需求調整 */
+    margin: 0 auto; /* 置中顯示 */
+    padding: 0 1rem; /* 左右留一些間距 */
+}
+
+/* 當螢幕寬度較小時，使用更小的最大寬度 */
+@media (max-width: 1600px) {
+    .box-audit-container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .box-audit-container {
+        max-width: 100%;
+    }
+}

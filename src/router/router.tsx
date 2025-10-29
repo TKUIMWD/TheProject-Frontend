@@ -12,6 +12,7 @@ import BoxResources from "../view/BoxResources";
 import Box from "../view/Box";
 import Layout from "../component/Layout";
 import SuperAdminDashboard from "../view/SuperAdminDashboard";
+import DraggableAIContainer from "../component/AIAssistant/DraggableAIContainer";
 
 
 export const router = createBrowserRouter([
@@ -131,16 +132,13 @@ export const router = createBrowserRouter([
     },
     {
         path: '/superadmin/dashboard',
-        element: <Layout />,
-        children: [
-            {
-                index: true,
-                element: (
-                    <ProtectedRoute allowedRoles={['superadmin']}>
-                        <SuperAdminDashboard />
-                    </ProtectedRoute>
-                )
-            }
-        ]
+        element: (
+            <ProtectedRoute allowedRoles={['superadmin']}>
+                <>
+                    <DraggableAIContainer />
+                    <SuperAdminDashboard />
+                </>
+            </ProtectedRoute>
+        )
     }
 ]);

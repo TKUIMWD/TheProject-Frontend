@@ -7,6 +7,7 @@ import { SubmittedBoxStatus } from "../../../interface/VM/SubmittedBox";
 import { Tab, Tabs } from "react-bootstrap";
 import { getOptions } from "../../../utils/token";
 import { VM_Box_Info } from "../../../interface/VM/VM_Box";
+import "../../../style/superAdmin/Box/BoxAudit.css";
 
 export default function BoxAudit() {
     const [key, setKey] = useState<string>(SubmittedBoxStatus.not_approved);

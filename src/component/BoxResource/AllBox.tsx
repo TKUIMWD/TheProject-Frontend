@@ -27,7 +27,7 @@ function BoxItem({ box, handleRowClick }: BoxItemProps) {
                 </Col>
                 <Col lg={10}>
                     <h5 className="mb-1">{box.name}</h5>
-                    <p className="text-muted mb-0">{box.description}</p>
+                    <p className="text-muted mb-0">{box.description.length > 65 ? box.description.substring(0, 65) + "..." : box.description}</p>
                 </Col>
             </Row>
         </Container>
