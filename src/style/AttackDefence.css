@@ -1,0 +1,316 @@
+/* ========== 主頁面樣式 ========== */
+.attack-defence-page {
+    min-height: calc(100vh - 76px);
+    padding: 2rem 0;
+}
+
+.page-title {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* ========== 統計卡片 ========== */
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card .card-body {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.stat-content h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.stat-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* 統計卡片顏色變體 */
+.stat-card-active .stat-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.stat-card-teams .stat-icon {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.stat-card-flags .stat-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.stat-card-score .stat-icon {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+/* ========== 場景標籤頁 ========== */
+.scenario-tabs {
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.scenario-tabs .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.scenario-tabs .nav-link:hover {
+    color: #77AAAD;
+    border-bottom-color: #77AAAD;
+}
+
+.scenario-tabs .nav-link.active {
+    color: #77AAAD;
+    background-color: transparent;
+    border-bottom-color: #77AAAD;
+}
+
+/* ========== 難度篩選 ========== */
+.difficulty-filter {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.difficulty-filter:focus {
+    border-color: #77AAAD;
+    box-shadow: 0 0 0 0.2rem rgba(119, 170, 173, 0.25);
+}
+
+/* ========== 場景卡片 ========== */
+.scenario-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.scenario-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.scenario-card .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.scenario-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.scenario-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ========== 場景元資料 ========== */
+.scenario-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.meta-item i {
+    color: #77AAAD;
+}
+
+.difficulty-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    font-weight: 600;
+}
+
+/* ========== 時間資訊 ========== */
+.time-info {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+}
+
+.active-time {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.active-time i {
+    color: #28a745;
+}
+
+.upcoming-time {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.upcoming-time i {
+    color: #17a2b8;
+}
+
+/* ========== 按鈕樣式覆寫 ========== */
+.attack-defence-page .btn-light-blue {
+    background-color: #77AAAD;
+    border-color: #77AAAD;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.attack-defence-page .btn-light-blue:hover {
+    background-color: #6a999c;
+    border-color: #6a999c;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(119, 170, 173, 0.3);
+}
+
+.attack-defence-page .btn-outline-light-blue {
+    border-color: #77AAAD;
+    color: #77AAAD;
+    background-color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.attack-defence-page .btn-outline-light-blue:hover {
+    background-color: #77AAAD;
+    border-color: #77AAAD;
+    color: white;
+}
+
+/* ========== 空狀態 ========== */
+.attack-defence-page .card.text-center {
+    border: 2px dashed #dee2e6;
+    background-color: #fafafa;
+}
+
+/* ========== 響應式設計 ========== */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .stat-card .card-body {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stat-icon {
+        margin-right: 0;
+        margin-bottom: 0.75rem;
+    }
+
+    .scenario-tabs .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .scenario-card .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .scenario-card .d-flex.gap-2 .btn {
+        width: 100%;
+    }
+}
+
+/* ========== 動畫效果 ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scenario-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.stat-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 為每張卡片添加延遲動畫 */
+.scenario-card:nth-child(1) { animation-delay: 0.1s; }
+.scenario-card:nth-child(2) { animation-delay: 0.2s; }
+.scenario-card:nth-child(3) { animation-delay: 0.3s; }
+.scenario-card:nth-child(4) { animation-delay: 0.4s; }
+.scenario-card:nth-child(5) { animation-delay: 0.5s; }
+.scenario-card:nth-child(6) { animation-delay: 0.6s; }

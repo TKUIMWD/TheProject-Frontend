@@ -13,6 +13,10 @@ import Box from "../view/Box";
 import Layout from "../component/Layout";
 import SuperAdminDashboard from "../view/SuperAdminDashboard";
 import DraggableAIContainer from "../component/AIAssistant/DraggableAIContainer";
+import AttackAndDefence from "../view/AttackandDefence";
+import ScenarioDetail from "../view/ScenarioDetail";
+import JoinScenario from "../view/JoinScenario";
+import CreateScenario from "../view/CreateScenario";
 
 
 export const router = createBrowserRouter([
@@ -140,5 +144,44 @@ export const router = createBrowserRouter([
                 </>
             </ProtectedRoute>
         )
+    },
+    {
+        path: '/attackAndDefence',
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <AttackAndDefence />
+                    </ProtectedRoute>
+                )
+
+            },
+            {
+                path: 'scenarios/:scenarioId',
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <ScenarioDetail />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'scenarios/:scenarioId/join',
+                element: (
+                    <ProtectedRoute allowedRoles={['user', 'admin', 'superadmin']}>
+                        <JoinScenario />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'create',
+                element: (
+                    <ProtectedRoute allowedRoles={['admin', 'superadmin']}>
+                        <CreateScenario />
+                    </ProtectedRoute>
+                )
+            }
+        ],
     }
 ]);

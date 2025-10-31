@@ -53,6 +53,7 @@ export default function NavBar() {
                                     <Nav.Link href="/" className="fw-bold">平台首頁</Nav.Link>
                                     <Nav.Link href="/boxResources" className="fw-bold">Box資源</Nav.Link>
                                     <Nav.Link href="/courseResources" className="fw-bold">課程資源</Nav.Link>
+                                    <Nav.Link href="/attackAndDefence" className="fw-bold">攻防演練</Nav.Link>
                                 </Nav>
                             </div>
                         )}
